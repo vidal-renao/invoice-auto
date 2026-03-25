@@ -1,0 +1,111 @@
+{
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your account",
+      "email": "Email address",
+      "password": "Password",
+      "submit": "Sign in",
+      "loading": "Signing in…",
+      "noAccount": "Don't have an account?",
+      "register": "Sign up",
+      "forgotPassword": "Forgot your password?",
+      "errors": {
+        "invalidCredentials": "Invalid email or password.",
+        "generic": "Something went wrong. Please try again."
+      }
+    },
+    "register": {
+      "title": "Create an account",
+      "subtitle": "Start managing your invoices",
+      "fullName": "Full name",
+      "email": "Email address",
+      "password": "Password",
+      "passwordHint": "Minimum 8 characters",
+      "submit": "Create account",
+      "loading": "Creating account…",
+      "hasAccount": "Already have an account?",
+      "login": "Sign in",
+      "errors": {
+        "emailTaken": "This email is already registered.",
+        "weakPassword": "Password is too weak.",
+        "generic": "Something went wrong. Please try again."
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Hello, {name}",
+    "stats": {
+      "totalInvoices": "Total invoices",
+      "pending": "Pending collection",
+      "paid": "Paid this month",
+      "overdue": "Overdue"
+    },
+    "recentInvoices": "Recent invoices",
+    "newInvoice": "New invoice",
+    "empty": {
+      "title": "No invoices yet",
+      "description": "Create your first invoice to get started.",
+      "cta": "Create invoice"
+    }
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "invoices": "Invoices",
+    "clients": "Clients",
+    "settings": "Settings",
+    "logout": "Sign out"
+  },
+  "scan": {
+    "cta": "Scan Receipt",
+    "uploading": "Uploading…",
+    "inputLabel": "Select receipt image or PDF",
+    "hint": "Photo, screenshot or PDF · max 10 MB",
+    "uploadError": "Upload failed. Please try again.",
+    "sizeError": "File exceeds 10 MB. Please choose a smaller file.",
+    "analyzing": "Analysing…",
+    "analyzingHint": "Claude Vision is extracting the data from your receipt."
+  },
+  "invoice": {
+    "title": "Invoice",
+    "backToDashboard": "Back to dashboard",
+    "receiptPreview": "Attached receipt",
+    "viewPDF": "View PDF",
+    "noReceipt": "No file attached",
+    "processingTitle": "Analysing receipt",
+    "processingDesc": "We are extracting the data automatically. This will only take a moment.",
+    "extractedData": "Extracted data",
+    "dataNotYetAvailable": "Data will appear once analysis is complete.",
+    "noDataExtracted": "No data could be extracted from this receipt.",
+    "details": {
+      "vendor": "Vendor",
+      "vendorTaxId": "Vendor tax ID",
+      "invoiceNumber": "Invoice no.",
+      "date": "Date",
+      "subtotal": "Subtotal",
+      "tax": "Tax",
+      "total": "Total",
+      "confidence": "AI confidence"
+    },
+    "status": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "review_needed": "Needs review",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    }
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "Error",
+    "retry": "Try again",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "notes": "Notes",
+    "appName": "Invoice Auto"
+  }
+}

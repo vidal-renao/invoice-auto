@@ -1,0 +1,111 @@
+{
+  "auth": {
+    "login": {
+      "title": "Willkommen zurück",
+      "subtitle": "Melde dich in deinem Konto an",
+      "email": "E-Mail-Adresse",
+      "password": "Passwort",
+      "submit": "Anmelden",
+      "loading": "Anmeldung läuft…",
+      "noAccount": "Noch kein Konto?",
+      "register": "Registrieren",
+      "forgotPassword": "Passwort vergessen?",
+      "errors": {
+        "invalidCredentials": "E-Mail oder Passwort ist falsch.",
+        "generic": "Etwas ist schiefgelaufen. Bitte erneut versuchen."
+      }
+    },
+    "register": {
+      "title": "Konto erstellen",
+      "subtitle": "Starte mit der Rechnungsverwaltung",
+      "fullName": "Vollständiger Name",
+      "email": "E-Mail-Adresse",
+      "password": "Passwort",
+      "passwordHint": "Mindestens 8 Zeichen",
+      "submit": "Konto erstellen",
+      "loading": "Konto wird erstellt…",
+      "hasAccount": "Bereits ein Konto?",
+      "login": "Anmelden",
+      "errors": {
+        "emailTaken": "Diese E-Mail ist bereits registriert.",
+        "weakPassword": "Das Passwort ist zu schwach.",
+        "generic": "Etwas ist schiefgelaufen. Bitte erneut versuchen."
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Hallo, {name}",
+    "stats": {
+      "totalInvoices": "Rechnungen gesamt",
+      "pending": "Ausstehend",
+      "paid": "Bezahlt diesen Monat",
+      "overdue": "Überfällig"
+    },
+    "recentInvoices": "Aktuelle Rechnungen",
+    "newInvoice": "Neue Rechnung",
+    "empty": {
+      "title": "Noch keine Rechnungen",
+      "description": "Erstelle deine erste Rechnung, um loszulegen.",
+      "cta": "Rechnung erstellen"
+    }
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "invoices": "Rechnungen",
+    "clients": "Kunden",
+    "settings": "Einstellungen",
+    "logout": "Abmelden"
+  },
+  "scan": {
+    "cta": "Beleg scannen",
+    "uploading": "Wird hochgeladen…",
+    "inputLabel": "Bild oder PDF des Belegs auswählen",
+    "hint": "Foto, Screenshot oder PDF · max. 10 MB",
+    "uploadError": "Upload fehlgeschlagen. Bitte erneut versuchen.",
+    "sizeError": "Datei überschreitet 10 MB. Bitte eine kleinere Datei wählen.",
+    "analyzing": "Wird analysiert…",
+    "analyzingHint": "Claude Vision extrahiert die Daten aus deinem Beleg."
+  },
+  "invoice": {
+    "title": "Rechnung",
+    "backToDashboard": "Zurück zum Dashboard",
+    "receiptPreview": "Anhang",
+    "viewPDF": "PDF anzeigen",
+    "noReceipt": "Kein Anhang",
+    "processingTitle": "Beleg wird analysiert",
+    "processingDesc": "Die Daten werden automatisch extrahiert. Das dauert nur einen Moment.",
+    "extractedData": "Extrahierte Daten",
+    "dataNotYetAvailable": "Die Daten werden angezeigt, sobald die Analyse abgeschlossen ist.",
+    "noDataExtracted": "Aus diesem Beleg konnten keine Daten extrahiert werden.",
+    "details": {
+      "vendor": "Anbieter",
+      "vendorTaxId": "Steuer-ID Anbieter",
+      "invoiceNumber": "Rechnungsnr.",
+      "date": "Datum",
+      "subtotal": "Nettobetrag",
+      "tax": "MwSt.",
+      "total": "Gesamt",
+      "confidence": "KI-Konfidenz"
+    },
+    "status": {
+      "pending": "Ausstehend",
+      "processing": "Wird verarbeitet",
+      "review_needed": "Prüfung erforderlich",
+      "approved": "Genehmigt",
+      "rejected": "Abgelehnt"
+    }
+  },
+  "common": {
+    "loading": "Laden…",
+    "error": "Fehler",
+    "retry": "Erneut versuchen",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "back": "Zurück",
+    "notes": "Notizen",
+    "appName": "Invoice Auto"
+  }
+}

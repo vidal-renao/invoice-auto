@@ -1,0 +1,111 @@
+{
+  "auth": {
+    "login": {
+      "title": "Bienvenido de nuevo",
+      "subtitle": "Inicia sesión en tu cuenta",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "submit": "Iniciar sesión",
+      "loading": "Iniciando sesión…",
+      "noAccount": "¿No tienes cuenta?",
+      "register": "Regístrate",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "errors": {
+        "invalidCredentials": "Correo o contraseña incorrectos.",
+        "generic": "Algo salió mal. Inténtalo de nuevo."
+      }
+    },
+    "register": {
+      "title": "Crear cuenta",
+      "subtitle": "Empieza a gestionar tus facturas",
+      "fullName": "Nombre completo",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "passwordHint": "Mínimo 8 caracteres",
+      "submit": "Crear cuenta",
+      "loading": "Creando cuenta…",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "login": "Inicia sesión",
+      "errors": {
+        "emailTaken": "Este correo ya está registrado.",
+        "weakPassword": "La contraseña es demasiado débil.",
+        "generic": "Algo salió mal. Inténtalo de nuevo."
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Panel",
+    "welcome": "Hola, {name}",
+    "stats": {
+      "totalInvoices": "Facturas totales",
+      "pending": "Pendiente de cobro",
+      "paid": "Cobrado este mes",
+      "overdue": "Vencidas"
+    },
+    "recentInvoices": "Facturas recientes",
+    "newInvoice": "Nueva factura",
+    "empty": {
+      "title": "Sin facturas todavía",
+      "description": "Crea tu primera factura para empezar.",
+      "cta": "Crear factura"
+    }
+  },
+  "nav": {
+    "dashboard": "Panel",
+    "invoices": "Facturas",
+    "clients": "Clientes",
+    "settings": "Configuración",
+    "logout": "Cerrar sesión"
+  },
+  "scan": {
+    "cta": "Escanear Ticket",
+    "uploading": "Subiendo…",
+    "inputLabel": "Seleccionar imagen o PDF del ticket",
+    "hint": "Foto, captura de pantalla o PDF · máx. 10 MB",
+    "uploadError": "Error al subir el archivo. Inténtalo de nuevo.",
+    "sizeError": "El archivo supera los 10 MB. Elige uno más pequeño.",
+    "analyzing": "Analizando…",
+    "analyzingHint": "Claude Vision está extrayendo los datos del ticket."
+  },
+  "invoice": {
+    "title": "Factura",
+    "backToDashboard": "Volver al panel",
+    "receiptPreview": "Ticket adjunto",
+    "viewPDF": "Ver PDF",
+    "noReceipt": "Sin archivo adjunto",
+    "processingTitle": "Analizando el ticket",
+    "processingDesc": "Estamos extrayendo los datos automáticamente. Solo tardará un momento.",
+    "extractedData": "Datos extraídos",
+    "dataNotYetAvailable": "Los datos se mostrarán cuando el análisis finalice.",
+    "noDataExtracted": "No se pudieron extraer datos de este ticket.",
+    "details": {
+      "vendor": "Proveedor",
+      "vendorTaxId": "NIF / CIF proveedor",
+      "invoiceNumber": "Nº factura",
+      "date": "Fecha",
+      "subtotal": "Base imponible",
+      "tax": "IVA",
+      "total": "Total",
+      "confidence": "Confianza IA"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "processing": "Procesando",
+      "review_needed": "Requiere revisión",
+      "approved": "Aprobada",
+      "rejected": "Rechazada"
+    }
+  },
+  "common": {
+    "loading": "Cargando…",
+    "error": "Error",
+    "retry": "Reintentar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "back": "Volver",
+    "notes": "Notas",
+    "appName": "Invoice Auto"
+  }
+}
