@@ -142,6 +142,8 @@ export interface Database {
           is_reverse_charge: boolean
           /** Result of VAT math validation against legal rates */
           tax_validation_status: TaxValidationStatus
+          /** Why AI analysis failed: not_invoice | image_unclear | timeout_8s | parsing_failed | handwritten_only. Null on success. */
+          failure_reason: string | null
           created_at: string
           updated_at: string
         }
@@ -165,6 +167,7 @@ export interface Database {
           country_code?: string | null
           is_reverse_charge?: boolean
           tax_validation_status?: TaxValidationStatus
+          failure_reason?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -186,6 +189,7 @@ export interface Database {
           country_code?: string | null
           is_reverse_charge?: boolean
           tax_validation_status?: TaxValidationStatus
+          failure_reason?: string | null
           updated_at?: string
         }
         Relationships: [

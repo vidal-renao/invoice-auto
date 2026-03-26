@@ -100,7 +100,7 @@
   },
   "invoice": {
     "title": "Rechnung",
-    "backToDashboard": "Zurück zum Dashboard",
+    "backToInvoices": "Zurück zu Rechnungen",
     "receiptPreview": "Anhang",
     "viewPDF": "PDF anzeigen",
     "noReceipt": "Kein Anhang",
@@ -109,6 +109,21 @@
     "extractedData": "Extrahierte Daten",
     "dataNotYetAvailable": "Die Daten werden angezeigt, sobald die Analyse abgeschlossen ist.",
     "noDataExtracted": "Aus diesem Beleg konnten keine Daten extrahiert werden.",
+    "delete": "Löschen",
+    "deleteConfirmTitle": "Rechnung löschen?",
+    "deleteConfirmBtn": "Ja, löschen",
+    "cancelDelete": "Abbrechen",
+    "deleteError": "Löschen fehlgeschlagen. Bitte erneut versuchen.",
+    "zoomImage": "Bild vergrößern",
+    "closeZoom": "Schließen",
+    "failureReason": {
+      "title": "Ursache des Analysefehlers",
+      "not_invoice": "Das Dokument scheint keine Rechnung oder Quittung zu sein",
+      "image_unclear": "Das Bild ist unscharf oder unleserlich",
+      "timeout_8s": "Zeitüberschreitung (8 Sek.)",
+      "parsing_failed": "KI-Antwort konnte nicht verarbeitet werden",
+      "handwritten_only": "Handgeschriebenes Dokument — automatische Extraktion nicht verfügbar"
+    },
     "details": {
       "vendor": "Anbieter",
       "vendorTaxId": "Steuer-ID Anbieter",
@@ -131,7 +146,11 @@
     "title": "Rechnungen",
     "status": "Status",
     "unknownVendor": "Unbekannter Anbieter",
-    "export": "CSV exportieren",
+    "export": "Exportieren",
+    "exportCsv": "Als CSV exportieren",
+    "exportXlsx": "Als Excel exportieren",
+    "exportPdf": "Als PDF exportieren",
+    "exportSoon": "Demnächst",
     "rowCount": "{count, plural, one {# Rechnung} other {# Rechnungen}}",
     "empty": {
       "title": "Noch keine Rechnungen",

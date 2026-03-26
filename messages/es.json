@@ -100,7 +100,7 @@
   },
   "invoice": {
     "title": "Factura",
-    "backToDashboard": "Volver al panel",
+    "backToInvoices": "Volver a facturas",
     "receiptPreview": "Ticket adjunto",
     "viewPDF": "Ver PDF",
     "noReceipt": "Sin archivo adjunto",
@@ -109,6 +109,21 @@
     "extractedData": "Datos extraídos",
     "dataNotYetAvailable": "Los datos se mostrarán cuando el análisis finalice.",
     "noDataExtracted": "No se pudieron extraer datos de este ticket.",
+    "delete": "Eliminar",
+    "deleteConfirmTitle": "¿Eliminar esta factura?",
+    "deleteConfirmBtn": "Sí, eliminar",
+    "cancelDelete": "Cancelar",
+    "deleteError": "Error al eliminar. Inténtalo de nuevo.",
+    "zoomImage": "Ampliar imagen",
+    "closeZoom": "Cerrar",
+    "failureReason": {
+      "title": "Motivo del fallo de análisis",
+      "not_invoice": "El documento no parece ser una factura o recibo",
+      "image_unclear": "La imagen es borrosa o ilegible",
+      "timeout_8s": "Tiempo de espera agotado (8 s)",
+      "parsing_failed": "No se pudo interpretar la respuesta de la IA",
+      "handwritten_only": "Documento manuscrito — extracción automática no disponible"
+    },
     "details": {
       "vendor": "Proveedor",
       "vendorTaxId": "NIF / CIF proveedor",
@@ -131,7 +146,11 @@
     "title": "Facturas",
     "status": "Estado",
     "unknownVendor": "Proveedor desconocido",
-    "export": "Exportar CSV",
+    "export": "Exportar",
+    "exportCsv": "Exportar como CSV",
+    "exportXlsx": "Exportar como Excel",
+    "exportPdf": "Exportar como PDF",
+    "exportSoon": "Próximamente",
     "rowCount": "{count, plural, one {# factura} other {# facturas}}",
     "empty": {
       "title": "Sin facturas todavía",

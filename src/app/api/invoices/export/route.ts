@@ -5,11 +5,31 @@ import type { Invoice } from '@/types/database'
 /**
  * GET /api/invoices/export
  *
- * Returns a UTF-8 CSV of the current user's invoices.
- * Accepts the same query params as the invoices list page:
+ * Exports the current user's invoices in the requested format.
+ * Accepts the same filter params as the invoices list page:
  *   vendor, status, currency, dateFrom, dateTo
+ *
+ * format=csv  (default) — UTF-8 CSV with BOM for Excel compatibility
+ * format=xlsx — prepared slot; returns 501 until exceljs is added
+ * format=pdf  — prepared slot; returns 501 until pdfmake/pdf-lib is added
+ *
+ * Export never triggers AI analysis — it is a pure SELECT operation.
  */
 export async function GET(request: NextRequest) {
+  const { searchParams } = request.nextUrl
+  const format = searchParams.get('format') ?? 'csv'
+
+  // Stub future formats — architecture is in place, deps are pending
+  if (format === 'xlsx' || format === 'pdf') {
+    return NextResponse.json(
+      {
+        error: `${format.toUpperCase()} export is not yet implemented. Use format=csv.`,
+        format,
+        status: 501,
+      },
+      { status: 501 }
+    )
+  }
   const supabase = await createClient()
   const {
     data: { user },
@@ -19,7 +39,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { searchParams } = request.nextUrl
   const vendor = searchParams.get('vendor') ?? ''
   const status = searchParams.get('status') ?? ''
   const currency = searchParams.get('currency') ?? ''

@@ -68,6 +68,20 @@ const ExtractedInvoiceSchema = z.object({
     .describe(
       'True if the invoice explicitly mentions "Reverse Charge", "Inversión del Sujeto Pasivo", or equivalent in any language, or if the tax amount is 0 for an intra-community B2B supply.'
     ),
+  is_invoice: z
+    .boolean()
+    .nullable()
+    .describe(
+      'True if this document is an invoice, receipt, or expense document. False if it is a photo, ID card, contract, screenshot, or any other type of document that is NOT a financial receipt.'
+    ),
+  failure_reason: z
+    .string()
+    .nullable()
+    .describe(
+      'Only set when is_invoice is false or key fields are completely unreadable. ' +
+      'Use exactly one of: "not_invoice" (wrong document type), "image_unclear" (too blurry/dark), ' +
+      '"handwritten_only" (fully handwritten, no machine text). Leave null if extraction succeeded or partially succeeded.'
+    ),
 })
 
 // ── Action ────────────────────────────────────────────────────────────────────
@@ -230,6 +244,18 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
 
     const extracted = response.parsed_output
 
+    // ── Guard: document is not an invoice ─────────────────────────────────
+    if (extracted && extracted.is_invoice === false) {
+      const reason = extracted.failure_reason ?? 'not_invoice'
+      console.warn(`[analyzeReceipt] Document is not an invoice — failure_reason=${reason}`)
+      const { error: notInvErr } = await typedFrom<Invoice, InvoiceInsert>(supabase, 'invoices')
+        .update({ status: 'review_needed', failure_reason: reason, updated_at: new Date().toISOString() })
+        .eq('id', invoiceId)
+        .eq('user_id', user.id)
+      if (notInvErr) console.error('[analyzeReceipt] not_invoice UPDATE failed:', notInvErr.message)
+      return
+    }
+
     // ── Tax Intelligence Engine ────────────────────────────────────────────
     if (extracted) {
       // 1. Determine country: trust AI first, fall back to Tax ID detection
@@ -285,6 +311,7 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
           is_reverse_charge: isReverseCharge ?? false,
           tax_validation_status: taxValidationStatus,
           status: 'review_needed',
+          failure_reason: null,
           updated_at: new Date().toISOString(),
         })
         .eq('id', invoiceId)
@@ -302,7 +329,7 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
         supabase,
         'invoices'
       )
-        .update({ status: 'review_needed', updated_at: new Date().toISOString() })
+        .update({ status: 'review_needed', failure_reason: 'parsing_failed', updated_at: new Date().toISOString() })
         .eq('id', invoiceId)
         .eq('user_id', user.id)
 
@@ -325,7 +352,7 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
         supabase,
         'invoices'
       )
-        .update({ status: 'review_needed', updated_at: new Date().toISOString() })
+        .update({ status: 'review_needed', failure_reason: 'timeout_8s', updated_at: new Date().toISOString() })
         .eq('id', invoiceId)
         .eq('user_id', user.id)
 
@@ -345,7 +372,7 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
       supabase,
       'invoices'
     )
-      .update({ status: 'review_needed', updated_at: new Date().toISOString() })
+      .update({ status: 'review_needed', failure_reason: message.slice(0, 200), updated_at: new Date().toISOString() })
       .eq('id', invoiceId)
       .eq('user_id', user.id)
 

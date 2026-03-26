@@ -44,6 +44,8 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
 
   if (!user) redirect(`/${locale}/login`)
 
+  const tInvoice = await getTranslations('invoice')
+
   const [profileResult, stats, recentInvoices, vatBreakdown] = await Promise.all([
     supabase
       .from('profiles')
@@ -171,7 +173,9 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
                             </span>
                           )}
                           {invoice.vendor_name ?? (
-                            <span className="text-[#555]">—</span>
+                            <span className="font-mono text-[#555]">
+                              {invoice.id.slice(0, 8)}…
+                            </span>
                           )}
                         </Link>
                         <p className="mt-0.5 text-xs text-[#555]">
@@ -208,14 +212,16 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
                               ⚠
                             </span>
                           )}
-                          <span
-                            className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium ${STATUS_STYLES[invoice.status]}`}
+                          {/* Status badge — link to invoice so review_needed is actionable */}
+                          <Link
+                            href={`/${locale}/invoices/${invoice.id}`}
+                            className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium transition-opacity hover:opacity-80 ${STATUS_STYLES[invoice.status]}`}
                           >
-                            {invoice.status === 'pending' || invoice.status === 'processing'
-                              ? <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-current" aria-hidden="true" />
-                              : null}
-                            {invoice.status}
-                          </span>
+                            {(invoice.status === 'pending' || invoice.status === 'processing') && (
+                              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-current" aria-hidden="true" />
+                            )}
+                            {tInvoice(`status.${invoice.status}`)}
+                          </Link>
                         </div>
                       </td>
                     </tr>

@@ -6,7 +6,17 @@ import { getTranslations } from 'next-intl/server'
 import { getInvoice } from '@/lib/actions/invoices'
 import { formatCurrency, formatDate } from '@/lib/utils'
 import { InvoicePoller } from '@/components/invoice/InvoicePoller'
+import { InvoiceActions } from '@/components/invoice/InvoiceActions'
 import type { InvoiceStatus, Currency } from '@/types/database'
+
+// ── Known failure reason codes (maps to translation keys) ─────────────────────
+const KNOWN_FAILURE_CODES = new Set([
+  'not_invoice',
+  'image_unclear',
+  'timeout_8s',
+  'parsing_failed',
+  'handwritten_only',
+])
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('invoice')
@@ -83,6 +93,13 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
   const currency = invoice.currency as Currency
   const statusLabel = t(`status.${invoice.status}`)
 
+  // Resolve failure reason label (translate known codes, show raw otherwise)
+  const failureLabel = invoice.failure_reason
+    ? KNOWN_FAILURE_CODES.has(invoice.failure_reason)
+      ? t(`failureReason.${invoice.failure_reason}` as Parameters<typeof t>[0])
+      : invoice.failure_reason
+    : null
+
   return (
     <div className="space-y-6">
       {/* Auto-refresh while AI analysis is in progress */}
@@ -91,7 +108,7 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
       {/* ── Back + header ──────────────────────────────────────── */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <Link
-          href={`/${locale}/dashboard`}
+          href={`/${locale}/invoices`}
           className="inline-flex items-center gap-1.5 text-sm text-[#888] transition-colors hover:text-[#ededed]"
         >
           <svg
@@ -106,10 +123,17 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
           >
             <path d="M15 18l-6-6 6-6" />
           </svg>
-          {t('backToDashboard')}
+          {t('backToInvoices')}
         </Link>
 
-        <StatusBadge status={invoice.status} label={statusLabel} />
+        <div className="flex items-center gap-3">
+          <StatusBadge status={invoice.status} label={statusLabel} />
+          <InvoiceActions
+            invoiceId={invoice.id}
+            receiptUrl={receiptUrl}
+            isPDF={isPDF}
+          />
+        </div>
       </div>
 
       <div>
@@ -280,6 +304,16 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
                 {tCommon('notes')}
               </p>
               <p className="text-sm text-[#ededed]">{invoice.notes}</p>
+            </div>
+          )}
+
+          {/* Failure reason — shown when AI analysis flagged a problem */}
+          {failureLabel && (
+            <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 px-4 py-3">
+              <p className="mb-0.5 text-xs font-medium text-amber-400">
+                {t('failureReason.title')}
+              </p>
+              <p className="text-sm text-[#888]">{failureLabel}</p>
             </div>
           )}
         </div>

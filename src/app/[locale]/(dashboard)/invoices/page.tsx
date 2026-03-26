@@ -6,6 +6,7 @@ import { listInvoices } from '@/lib/actions/invoices'
 import type { InvoiceFilters } from '@/lib/actions/invoices'
 import { ScanTicketButton } from '@/components/dashboard/ScanTicketButton'
 import { InvoicesFilters } from '@/components/invoices/InvoicesFilters'
+import { ExportMenu } from '@/components/invoices/ExportMenu'
 import { formatCurrency, formatDate } from '@/lib/utils'
 import type { InvoiceStatus, Currency } from '@/types/database'
 
@@ -63,30 +64,9 @@ export default async function InvoicesPage({ params, searchParams }: InvoicesPag
       <div className="flex items-center justify-between gap-4">
         <h1 className="text-2xl font-semibold text-[#ededed]">{t('title')}</h1>
         <div className="flex items-center gap-2">
-          {/* CSV export — only shown when there are invoices */}
+          {/* Export dropdown — only shown when there are invoices */}
           {invoices.length > 0 && (
-            <a
-              href={exportHref}
-              download
-              className="inline-flex h-9 items-center gap-1.5 rounded-md border border-[#2a2a2a] px-3 text-sm text-[#888] transition-colors hover:border-[#444] hover:text-[#ededed]"
-              aria-label={t('export')}
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-4 w-4"
-                aria-hidden="true"
-              >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-              </svg>
-              {t('export')}
-            </a>
+            <ExportMenu exportHref={exportHref} />
           )}
           <ScanTicketButton variant="header" />
         </div>

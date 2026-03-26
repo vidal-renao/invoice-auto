@@ -1,9 +1,56 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { typedFrom } from '@/lib/supabase/builder'
 import type { Invoice, InvoiceInsert } from '@/types/database'
 import { COUNTRY_TAX_CONFIG } from '@/lib/tax/config'
+
+// ── Delete ────────────────────────────────────────────────────────────────────
+
+/**
+ * Delete an invoice record and its associated Storage file.
+ *
+ * Storage deletion is best-effort — if the file is already gone the DB record
+ * is still deleted. Returns { error } on auth or DB failure.
+ */
+export async function deleteInvoice(
+  invoiceId: string
+): Promise<{ error?: string }> {
+  const supabase = await createClient()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) return { error: 'auth' }
+
+  // Fetch receipt_path before deleting so we can clean up Storage
+  const { data: row } = await supabase
+    .from('invoices')
+    .select('receipt_path')
+    .eq('id', invoiceId)
+    .eq('user_id', user.id)
+    .single()
+
+  const { error: dbError } = await supabase
+    .from('invoices')
+    .delete()
+    .eq('id', invoiceId)
+    .eq('user_id', user.id)
+
+  if (dbError) {
+    console.error('[deleteInvoice] DB delete failed:', dbError.message)
+    return { error: 'db' }
+  }
+
+  // Best-effort: remove the file from Storage (ignore errors)
+  if (row?.receipt_path) {
+    await supabase.storage.from('invoices').remove([row.receipt_path])
+  }
+
+  revalidatePath('/', 'layout')
+  return {}
+}
 
 // ── Filter types ──────────────────────────────────────────────────────────────
 

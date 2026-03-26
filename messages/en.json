@@ -100,7 +100,7 @@
   },
   "invoice": {
     "title": "Invoice",
-    "backToDashboard": "Back to dashboard",
+    "backToInvoices": "Back to invoices",
     "receiptPreview": "Attached receipt",
     "viewPDF": "View PDF",
     "noReceipt": "No file attached",
@@ -109,6 +109,21 @@
     "extractedData": "Extracted data",
     "dataNotYetAvailable": "Data will appear once analysis is complete.",
     "noDataExtracted": "No data could be extracted from this receipt.",
+    "delete": "Delete",
+    "deleteConfirmTitle": "Delete this invoice?",
+    "deleteConfirmBtn": "Yes, delete",
+    "cancelDelete": "Cancel",
+    "deleteError": "Failed to delete. Please try again.",
+    "zoomImage": "Zoom image",
+    "closeZoom": "Close",
+    "failureReason": {
+      "title": "Analysis failure reason",
+      "not_invoice": "The document does not appear to be an invoice or receipt",
+      "image_unclear": "The image is blurry or unreadable",
+      "timeout_8s": "Request timed out (8 s)",
+      "parsing_failed": "Could not parse the AI response",
+      "handwritten_only": "Handwritten document — automatic extraction not available"
+    },
     "details": {
       "vendor": "Vendor",
       "vendorTaxId": "Vendor tax ID",
@@ -131,7 +146,11 @@
     "title": "Invoices",
     "status": "Status",
     "unknownVendor": "Unknown vendor",
-    "export": "Export CSV",
+    "export": "Export",
+    "exportCsv": "Export as CSV",
+    "exportXlsx": "Export as Excel",
+    "exportPdf": "Export as PDF",
+    "exportSoon": "Coming soon",
     "rowCount": "{count, plural, one {# invoice} other {# invoices}}",
     "empty": {
       "title": "No invoices yet",
