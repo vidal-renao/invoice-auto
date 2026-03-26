@@ -178,7 +178,7 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
 
     const response = await anthropic.messages.parse(
       {
-        model: 'claude-opus-4-6',
+        model: 'claude-sonnet-4-6',
         max_tokens: 1024,
         output_config: {
           format: zodOutputFormat(ExtractedInvoiceSchema),
@@ -338,17 +338,19 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
     const message = err instanceof Error ? err.message : String(err)
     console.error(`[analyzeReceipt] Unexpected error for invoice ${invoiceId}:`, message)
 
-    // Revert to pending so the user can retry
+    // Set review_needed (NOT pending) — reverting to pending would cause an
+    // infinite retry loop in the client if analysis is re-triggered automatically,
+    // burning API credits on each cycle.
     const { error: revertErr } = await typedFrom<Invoice, InvoiceInsert>(
       supabase,
       'invoices'
     )
-      .update({ status: 'pending', updated_at: new Date().toISOString() })
+      .update({ status: 'review_needed', updated_at: new Date().toISOString() })
       .eq('id', invoiceId)
       .eq('user_id', user.id)
 
     if (revertErr) {
-      console.error('[analyzeReceipt] Revert-to-pending UPDATE failed:', revertErr.message)
+      console.error('[analyzeReceipt] Error recovery UPDATE failed:', revertErr.message)
     }
   }
 }
