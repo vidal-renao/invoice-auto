@@ -65,7 +65,8 @@
     "uploadError": "Upload fehlgeschlagen. Bitte erneut versuchen.",
     "sizeError": "Datei überschreitet 10 MB. Bitte eine kleinere Datei wählen.",
     "analyzing": "Wird analysiert…",
-    "analyzingHint": "Claude Vision extrahiert die Daten aus deinem Beleg."
+    "analyzingHint": "Claude Vision extrahiert die Daten aus deinem Beleg.",
+    "authError": "Sitzung abgelaufen. Bitte lade die Seite neu und versuche es erneut."
   },
   "invoice": {
     "title": "Rechnung",

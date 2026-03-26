@@ -65,7 +65,8 @@
     "uploadError": "Upload failed. Please try again.",
     "sizeError": "File exceeds 10 MB. Please choose a smaller file.",
     "analyzing": "Analysing…",
-    "analyzingHint": "Claude Vision is extracting the data from your receipt."
+    "analyzingHint": "Claude Vision is extracting the data from your receipt.",
+    "authError": "Session expired. Please reload the page and try again."
   },
   "invoice": {
     "title": "Invoice",

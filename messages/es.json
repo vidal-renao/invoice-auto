@@ -65,7 +65,8 @@
     "uploadError": "Error al subir el archivo. Inténtalo de nuevo.",
     "sizeError": "El archivo supera los 10 MB. Elige uno más pequeño.",
     "analyzing": "Analizando…",
-    "analyzingHint": "Claude Vision está extrayendo los datos del ticket."
+    "analyzingHint": "Claude Vision está extrayendo los datos del ticket.",
+    "authError": "Sesión expirada. Recarga la página e intenta de nuevo."
   },
   "invoice": {
     "title": "Factura",

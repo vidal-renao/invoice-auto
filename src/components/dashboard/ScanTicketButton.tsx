@@ -8,7 +8,7 @@ import { createInvoiceRecord } from '@/lib/actions/invoices'
 import { analyzeReceipt } from '@/lib/actions/ai'
 import { cn } from '@/lib/utils'
 
-type UploadStatus = 'idle' | 'uploading' | 'analyzing' | 'error' | 'sizeError'
+type UploadStatus = 'idle' | 'uploading' | 'analyzing' | 'error' | 'sizeError' | 'authError'
 
 const ACCEPTED = 'image/jpeg,image/png,image/webp,image/heic,image/heif,application/pdf'
 const MAX_BYTES = 10 * 1024 * 1024 // 10 MB
@@ -118,7 +118,7 @@ export function ScanTicketButton({ variant = 'hero' }: ScanTicketButtonProps) {
 
     if (!user) {
       console.error('[ScanTicket] getUser() returned null — upload aborted')
-      setStatus('error')
+      setStatus('authError')
       return
     }
 
@@ -131,8 +131,8 @@ export function ScanTicketButton({ variant = 'hero' }: ScanTicketButtonProps) {
       .upload(path, file, { contentType: file.type, upsert: false })
 
     if (uploadError) {
-      console.error('[ScanTicket] Upload failed:')
-      console.dir(uploadError, { depth: null })
+      // Surface the raw message in the console for debugging
+      console.error('[ScanTicket] Upload failed:', uploadError.message, uploadError)
       setStatus('error')
       if (inputRef.current) inputRef.current.value = ''
       return
@@ -220,6 +220,9 @@ export function ScanTicketButton({ variant = 'hero' }: ScanTicketButtonProps) {
         {status === 'sizeError' && (
           <p role="alert" className="text-xs text-red-400">{t('sizeError')}</p>
         )}
+        {status === 'authError' && (
+          <p role="alert" className="text-xs text-red-400">{t('authError')}</p>
+        )}
       </div>
     )
   }
@@ -276,6 +279,9 @@ export function ScanTicketButton({ variant = 'hero' }: ScanTicketButtonProps) {
       )}
       {status === 'sizeError' && (
         <p role="alert" className="text-xs text-red-400">{t('sizeError')}</p>
+      )}
+      {status === 'authError' && (
+        <p role="alert" className="text-xs text-red-400">{t('authError')}</p>
       )}
     </div>
   )
