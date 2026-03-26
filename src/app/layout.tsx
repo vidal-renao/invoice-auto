@@ -12,6 +12,10 @@ export const metadata: Metadata = {
   },
   description: 'Gestión automatizada de facturas con inteligencia artificial.',
   manifest: '/manifest.json',
+  icons: {
+    icon: '/invoice.png',
+    apple: '/invoice.png',
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
