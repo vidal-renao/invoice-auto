@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
-import { notFound, redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import { getInvoice } from '@/lib/actions/invoices'
 import { formatCurrency, formatDate } from '@/lib/utils'
+import { InvoicePoller } from '@/components/invoice/InvoicePoller'
 import type { InvoiceStatus, Currency } from '@/types/database'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -84,6 +85,9 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
 
   return (
     <div className="space-y-6">
+      {/* Auto-refresh while AI analysis is in progress */}
+      <InvoicePoller isPending={isPending} />
+
       {/* ── Back + header ──────────────────────────────────────── */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <Link

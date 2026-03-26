@@ -1,8 +1,11 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { Suspense } from 'react'
 import { getTranslations } from 'next-intl/server'
 import { listInvoices } from '@/lib/actions/invoices'
+import type { InvoiceFilters } from '@/lib/actions/invoices'
 import { ScanTicketButton } from '@/components/dashboard/ScanTicketButton'
+import { InvoicesFilters } from '@/components/invoices/InvoicesFilters'
 import { formatCurrency, formatDate } from '@/lib/utils'
 import type { InvoiceStatus, Currency } from '@/types/database'
 
@@ -13,6 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 interface InvoicesPageProps {
   params: Promise<{ locale: string }>
+  searchParams: Promise<Record<string, string | string[] | undefined>>
 }
 
 const STATUS_STYLES: Record<InvoiceStatus, string> = {
@@ -23,19 +27,75 @@ const STATUS_STYLES: Record<InvoiceStatus, string> = {
   rejected:      'bg-red-500/15 text-red-400 border-red-500/30',
 }
 
-export default async function InvoicesPage({ params }: InvoicesPageProps) {
+function str(val: string | string[] | undefined): string | undefined {
+  return typeof val === 'string' && val.length > 0 ? val : undefined
+}
+
+export default async function InvoicesPage({ params, searchParams }: InvoicesPageProps) {
   const { locale } = await params
+  const sp = await searchParams
   const t = await getTranslations('invoices')
   const tInvoice = await getTranslations('invoice')
-  const invoices = await listInvoices()
+
+  const filters: InvoiceFilters = {
+    vendor: str(sp.vendor),
+    status: str(sp.status),
+    currency: str(sp.currency),
+    dateFrom: str(sp.dateFrom),
+    dateTo: str(sp.dateTo),
+  }
+
+  const invoices = await listInvoices(filters)
+  const hasFilters = Object.values(filters).some(Boolean)
+
+  // Build export URL preserving current filters
+  const exportParams = new URLSearchParams()
+  if (filters.vendor) exportParams.set('vendor', filters.vendor)
+  if (filters.status) exportParams.set('status', filters.status)
+  if (filters.currency) exportParams.set('currency', filters.currency)
+  if (filters.dateFrom) exportParams.set('dateFrom', filters.dateFrom)
+  if (filters.dateTo) exportParams.set('dateTo', filters.dateTo)
+  const exportHref = `/api/invoices/export${exportParams.size > 0 ? `?${exportParams.toString()}` : ''}`
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* ── Header ───────────────────────────────────────────────── */}
       <div className="flex items-center justify-between gap-4">
         <h1 className="text-2xl font-semibold text-[#ededed]">{t('title')}</h1>
-        <ScanTicketButton variant="header" />
+        <div className="flex items-center gap-2">
+          {/* CSV export — only shown when there are invoices */}
+          {invoices.length > 0 && (
+            <a
+              href={exportHref}
+              download
+              className="inline-flex h-9 items-center gap-1.5 rounded-md border border-[#2a2a2a] px-3 text-sm text-[#888] transition-colors hover:border-[#444] hover:text-[#ededed]"
+              aria-label={t('export')}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-4 w-4"
+                aria-hidden="true"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              {t('export')}
+            </a>
+          )}
+          <ScanTicketButton variant="header" />
+        </div>
       </div>
+
+      {/* ── Filters ──────────────────────────────────────────────── */}
+      <Suspense fallback={null}>
+        <InvoicesFilters />
+      </Suspense>
 
       {/* ── List ─────────────────────────────────────────────────── */}
       {invoices.length === 0 ? (
@@ -57,10 +117,14 @@ export default async function InvoicesPage({ params }: InvoicesPageProps) {
             <path d="M8 13h8M8 17h5" />
           </svg>
           <p className="text-sm font-medium text-[#ededed]">{t('empty.title')}</p>
-          <p className="mt-1 text-xs text-[#888]">{t('empty.description')}</p>
-          <div className="mt-8">
-            <ScanTicketButton variant="hero" />
-          </div>
+          <p className="mt-1 text-xs text-[#888]">
+            {hasFilters ? t('empty.noResults') : t('empty.description')}
+          </p>
+          {!hasFilters && (
+            <div className="mt-8">
+              <ScanTicketButton variant="hero" />
+            </div>
+          )}
         </div>
       ) : (
         <div className="overflow-hidden rounded-xl border border-[#2a2a2a] bg-[#111]">
@@ -131,6 +195,13 @@ export default async function InvoicesPage({ params }: InvoicesPageProps) {
               ))}
             </tbody>
           </table>
+
+          {/* Row count */}
+          <div className="border-t border-[#1e1e1e] px-4 py-2.5">
+            <p className="text-xs text-[#555]">
+              {t('rowCount', { count: invoices.length })}
+            </p>
+          </div>
         </div>
       )}
     </div>

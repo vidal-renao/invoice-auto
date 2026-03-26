@@ -3,6 +3,17 @@
 import { createClient } from '@/lib/supabase/server'
 import { typedFrom } from '@/lib/supabase/builder'
 import type { Invoice, InvoiceInsert } from '@/types/database'
+import { COUNTRY_TAX_CONFIG } from '@/lib/tax/config'
+
+// ── Filter types ──────────────────────────────────────────────────────────────
+
+export interface InvoiceFilters {
+  vendor?: string
+  status?: string
+  currency?: string
+  dateFrom?: string
+  dateTo?: string
+}
 
 /**
  * Create an invoice record after a receipt has been uploaded to Storage.
@@ -76,9 +87,10 @@ export async function getInvoice(
 
 /**
  * Fetch all invoices for the current user, ordered by creation date descending.
+ * Accepts optional filters for vendor search, status, currency, and date range.
  * Returns an empty array if unauthenticated or on DB error.
  */
-export async function listInvoices(): Promise<Invoice[]> {
+export async function listInvoices(filters?: InvoiceFilters): Promise<Invoice[]> {
   const supabase = await createClient()
 
   const {
@@ -87,14 +99,21 @@ export async function listInvoices(): Promise<Invoice[]> {
 
   if (!user) return []
 
-  const qb = typedFrom<Invoice, InvoiceInsert>(supabase, 'invoices')
-  const { data, error } = await qb
-    .select('*')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
+  // Use a typed helper when no filters; fall back to flexible any-typed chaining
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let q: any = supabase.from('invoices').select('*').eq('user_id', user.id)
 
+  if (filters?.status) q = q.eq('status', filters.status)
+  if (filters?.currency) q = q.eq('currency', filters.currency)
+  if (filters?.vendor) q = q.ilike('vendor_name', `%${filters.vendor}%`)
+  if (filters?.dateFrom) q = q.gte('invoice_date', filters.dateFrom)
+  if (filters?.dateTo) q = q.lte('invoice_date', filters.dateTo)
+
+  q = q.order('created_at', { ascending: false })
+
+  const { data, error } = await q
   if (error || !data) return []
-  return data
+  return data as Invoice[]
 }
 
 /**
@@ -162,4 +181,92 @@ export async function getDashboardStats(): Promise<{
     paidThisMonthCents,
     overdue: overdueRes.count ?? 0,
   }
+}
+
+// ── VAT Breakdown ─────────────────────────────────────────────────────────────
+
+export interface VatBreakdownRow {
+  countryCode: string
+  countryName: string
+  flag: string
+  quarter: string  // e.g. 'Q1 2025'
+  year: number
+  quarterNumber: 1 | 2 | 3 | 4
+  taxCents: number
+  subtotalCents: number
+  invoiceCount: number
+}
+
+/**
+ * Returns IVA Soportado (input VAT) broken down by country and quarter.
+ * Only includes approved invoices with known country_code and tax_cents > 0.
+ *
+ * Used by the CFO Dashboard to generate quarterly tax declarations.
+ */
+export async function getVatBreakdown(): Promise<VatBreakdownRow[]> {
+  const supabase = await createClient()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) return []
+
+  const { data, error } = await supabase
+    .from('invoices')
+    .select('country_code, invoice_date, tax_cents, subtotal_cents')
+    .eq('user_id', user.id)
+    .eq('status', 'approved')
+    .not('country_code', 'is', null)
+    .not('tax_cents', 'is', null)
+    .gt('tax_cents', 0)
+    .order('invoice_date', { ascending: true })
+
+  if (error || !data) return []
+
+  // Group by country + quarter
+  const grouped = new Map<string, VatBreakdownRow>()
+
+  for (const row of data as Array<{
+    country_code: string | null
+    invoice_date: string | null
+    tax_cents: number | null
+    subtotal_cents: number | null
+  }>) {
+    if (!row.country_code || !row.invoice_date || row.tax_cents == null) continue
+
+    const date = new Date(row.invoice_date)
+    const year = date.getFullYear()
+    const quarterNumber = (Math.floor(date.getMonth() / 3) + 1) as 1 | 2 | 3 | 4
+    const quarter = `Q${quarterNumber} ${year}`
+    const key = `${row.country_code}__${quarter}`
+
+    const config = COUNTRY_TAX_CONFIG[row.country_code]
+    const existing = grouped.get(key)
+
+    if (existing) {
+      existing.taxCents += row.tax_cents
+      existing.subtotalCents += row.subtotal_cents ?? 0
+      existing.invoiceCount += 1
+    } else {
+      grouped.set(key, {
+        countryCode: row.country_code,
+        countryName: config?.nameEs ?? row.country_code,
+        flag: config?.flag ?? '🏳️',
+        quarter,
+        year,
+        quarterNumber,
+        taxCents: row.tax_cents,
+        subtotalCents: row.subtotal_cents ?? 0,
+        invoiceCount: 1,
+      })
+    }
+  }
+
+  // Sort by year desc, quarter desc, then by tax amount desc
+  return Array.from(grouped.values()).sort((a, b) => {
+    if (b.year !== a.year) return b.year - a.year
+    if (b.quarterNumber !== a.quarterNumber) return b.quarterNumber - a.quarterNumber
+    return b.taxCents - a.taxCents
+  })
 }

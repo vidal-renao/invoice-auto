@@ -40,14 +40,41 @@
       "totalInvoices": "Rechnungen gesamt",
       "pending": "Ausstehend",
       "paid": "Bezahlt diesen Monat",
-      "overdue": "Überfällig"
+      "overdue": "Überfällig",
+      "vatDiscrepancy": "MwSt. entspricht keinem gesetzlichen Steuersatz"
     },
     "recentInvoices": "Aktuelle Rechnungen",
     "newInvoice": "Neue Rechnung",
+    "viewAllInvoices": "Alle Rechnungen anzeigen",
     "empty": {
       "title": "Noch keine Rechnungen",
       "description": "Erstelle deine erste Rechnung, um loszulegen.",
       "cta": "Rechnung erstellen"
+    },
+    "vatBreakdown": {
+      "title": "Vorsteuer nach Land",
+      "subtitle": "Quartalsübersicht für Steuererklärungen",
+      "empty": "Keine genehmigten Rechnungen mit erfasster MwSt.",
+      "base": "Nettobetrag",
+      "vat": "MwSt.",
+      "invoice": "Rechnung",
+      "invoices": "Rechnungen",
+      "moreQuarters": "und {count} weitere Quartale"
+    },
+    "fiscalValidation": {
+      "trigger": "Steuer-Validierung",
+      "title": "Steuer-ID Prüfung",
+      "description": "Gib eine NIF, CIF, UID oder Umsatzsteuer-ID ein, um das Format zu prüfen und die geltenden MwSt.-Sätze abzurufen.",
+      "placeholder": "z.B. ESB12345678 · DE123456789 · CHE-123.456.789",
+      "inputLabel": "Steueridentifikationsnummer",
+      "check": "Prüfen",
+      "checking": "Wird geprüft…",
+      "close": "Schließen",
+      "formatValid": "Format gültig",
+      "formatInvalid": "Format ungültig",
+      "legalRates": "Gesetzliche MwSt.-Sätze",
+      "unknownCountry": "Land nicht erkannt — Präfix prüfen",
+      "error": "Validierung fehlgeschlagen. Bitte erneut versuchen."
     }
   },
   "nav": {
@@ -66,7 +93,10 @@
     "sizeError": "Datei überschreitet 10 MB. Bitte eine kleinere Datei wählen.",
     "analyzing": "Wird analysiert…",
     "analyzingHint": "Claude Vision extrahiert die Daten aus deinem Beleg.",
-    "authError": "Sitzung abgelaufen. Bitte lade die Seite neu und versuche es erneut."
+    "authError": "Sitzung abgelaufen. Bitte lade die Seite neu und versuche es erneut.",
+    "step1": "Hochladen",
+    "step2": "Erfassen",
+    "step3": "KI-Analyse"
   },
   "invoice": {
     "title": "Rechnung",
@@ -101,9 +131,20 @@
     "title": "Rechnungen",
     "status": "Status",
     "unknownVendor": "Unbekannter Anbieter",
+    "export": "CSV exportieren",
+    "rowCount": "{count, plural, one {# Rechnung} other {# Rechnungen}}",
     "empty": {
       "title": "Noch keine Rechnungen",
-      "description": "Lade deinen ersten Beleg hoch, um loszulegen."
+      "description": "Lade deinen ersten Beleg hoch, um loszulegen.",
+      "noResults": "Keine Rechnungen entsprechen den angewandten Filtern."
+    },
+    "filters": {
+      "vendorPlaceholder": "Anbieter suchen…",
+      "allStatuses": "Alle Status",
+      "allCurrencies": "Alle Währungen",
+      "dateFrom": "Von",
+      "dateTo": "Bis",
+      "clear": "Filter zurücksetzen"
     }
   },
   "clients": {

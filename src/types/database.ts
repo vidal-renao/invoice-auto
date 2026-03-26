@@ -19,6 +19,8 @@ export type InvoiceStatus =
   | 'approved'
   | 'rejected'
 
+export type TaxValidationStatus = 'valid' | 'discrepancy' | 'unknown'
+
 export interface Database {
   public: {
     Tables: {
@@ -78,6 +80,12 @@ export interface Database {
           ai_confidence: number | null
           ai_raw_response: Json | null
           notes: string | null
+          /** ISO 3166-1 alpha-2 country code inferred from vendor Tax ID */
+          country_code: string | null
+          /** True when Reverse Charge / Inversión del Sujeto Pasivo applies */
+          is_reverse_charge: boolean
+          /** Result of VAT math validation against legal rates */
+          tax_validation_status: TaxValidationStatus
           created_at: string
           updated_at: string
         }
@@ -98,6 +106,9 @@ export interface Database {
           ai_confidence?: number | null
           ai_raw_response?: Json | null
           notes?: string | null
+          country_code?: string | null
+          is_reverse_charge?: boolean
+          tax_validation_status?: TaxValidationStatus
           created_at?: string
           updated_at?: string
         }
@@ -116,6 +127,9 @@ export interface Database {
           ai_confidence?: number | null
           ai_raw_response?: Json | null
           notes?: string | null
+          country_code?: string | null
+          is_reverse_charge?: boolean
+          tax_validation_status?: TaxValidationStatus
           updated_at?: string
         }
         Relationships: [

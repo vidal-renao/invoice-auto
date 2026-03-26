@@ -40,14 +40,41 @@
       "totalInvoices": "Facturas totales",
       "pending": "Pendiente de cobro",
       "paid": "Cobrado este mes",
-      "overdue": "Vencidas"
+      "overdue": "Vencidas",
+      "vatDiscrepancy": "El IVA no coincide con ningún tipo legal"
     },
     "recentInvoices": "Facturas recientes",
     "newInvoice": "Nueva factura",
+    "viewAllInvoices": "Ver todas las facturas",
     "empty": {
       "title": "Sin facturas todavía",
       "description": "Crea tu primera factura para empezar.",
       "cta": "Crear factura"
+    },
+    "vatBreakdown": {
+      "title": "IVA Soportado por país",
+      "subtitle": "Desglose trimestral para declaraciones fiscales",
+      "empty": "No hay facturas aprobadas con IVA registrado.",
+      "base": "Base imponible",
+      "vat": "IVA",
+      "invoice": "factura",
+      "invoices": "facturas",
+      "moreQuarters": "y {count} trimestres más"
+    },
+    "fiscalValidation": {
+      "trigger": "Validación Fiscal",
+      "title": "Validación de NIF / CIF",
+      "description": "Introduce cualquier NIF, CIF, UID o número VAT para verificar su formato y consultar los tipos de IVA aplicables.",
+      "placeholder": "Ej: ESB12345678 · DE123456789 · CHE-123.456.789",
+      "inputLabel": "Número de identificación fiscal",
+      "check": "Verificar",
+      "checking": "Verificando…",
+      "close": "Cerrar",
+      "formatValid": "Formato correcto",
+      "formatInvalid": "Formato incorrecto",
+      "legalRates": "Tipos de IVA vigentes",
+      "unknownCountry": "País no reconocido — verifica el prefijo",
+      "error": "Error al validar. Inténtalo de nuevo."
     }
   },
   "nav": {
@@ -66,7 +93,10 @@
     "sizeError": "El archivo supera los 10 MB. Elige uno más pequeño.",
     "analyzing": "Analizando…",
     "analyzingHint": "Claude Vision está extrayendo los datos del ticket.",
-    "authError": "Sesión expirada. Recarga la página e intenta de nuevo."
+    "authError": "Sesión expirada. Recarga la página e intenta de nuevo.",
+    "step1": "Subiendo",
+    "step2": "Registrando",
+    "step3": "Analizando con IA"
   },
   "invoice": {
     "title": "Factura",
@@ -101,9 +131,20 @@
     "title": "Facturas",
     "status": "Estado",
     "unknownVendor": "Proveedor desconocido",
+    "export": "Exportar CSV",
+    "rowCount": "{count, plural, one {# factura} other {# facturas}}",
     "empty": {
       "title": "Sin facturas todavía",
-      "description": "Sube tu primer ticket para empezar."
+      "description": "Sube tu primer ticket para empezar.",
+      "noResults": "Ninguna factura coincide con los filtros aplicados."
+    },
+    "filters": {
+      "vendorPlaceholder": "Buscar proveedor…",
+      "allStatuses": "Todos los estados",
+      "allCurrencies": "Todas las monedas",
+      "dateFrom": "Desde",
+      "dateTo": "Hasta",
+      "clear": "Limpiar filtros"
     }
   },
   "clients": {

@@ -13,7 +13,9 @@ export interface SelectBuilder<TRow> {
   eq(col: string, val: unknown): SelectBuilder<TRow>
   in(col: string, vals: unknown[]): SelectBuilder<TRow>
   gte(col: string, val: unknown): SelectBuilder<TRow>
+  lte(col: string, val: unknown): SelectBuilder<TRow>
   lt(col: string, val: unknown): SelectBuilder<TRow>
+  ilike(col: string, pattern: string): SelectBuilder<TRow>
   order(col: string, opts?: { ascending: boolean }): SelectBuilder<TRow>
   select(cols: string, opts?: { count: 'exact'; head: boolean }): SelectBuilder<TRow>
   single(): Promise<{ data: TRow | null; error: { message: string } | null }>

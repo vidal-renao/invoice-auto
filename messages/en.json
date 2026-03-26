@@ -40,14 +40,41 @@
       "totalInvoices": "Total invoices",
       "pending": "Pending collection",
       "paid": "Paid this month",
-      "overdue": "Overdue"
+      "overdue": "Overdue",
+      "vatDiscrepancy": "VAT does not match any legal rate"
     },
     "recentInvoices": "Recent invoices",
     "newInvoice": "New invoice",
+    "viewAllInvoices": "View all invoices",
     "empty": {
       "title": "No invoices yet",
       "description": "Create your first invoice to get started.",
       "cta": "Create invoice"
+    },
+    "vatBreakdown": {
+      "title": "Input VAT by country",
+      "subtitle": "Quarterly breakdown for tax declarations",
+      "empty": "No approved invoices with VAT recorded.",
+      "base": "Net amount",
+      "vat": "VAT",
+      "invoice": "invoice",
+      "invoices": "invoices",
+      "moreQuarters": "and {count} more quarters"
+    },
+    "fiscalValidation": {
+      "trigger": "Fiscal Validation",
+      "title": "Tax ID Validation",
+      "description": "Enter any NIF, CIF, UID or VAT number to verify its format and view the applicable VAT rates.",
+      "placeholder": "e.g. ESB12345678 · DE123456789 · CHE-123.456.789",
+      "inputLabel": "Tax identification number",
+      "check": "Verify",
+      "checking": "Verifying…",
+      "close": "Close",
+      "formatValid": "Valid format",
+      "formatInvalid": "Invalid format",
+      "legalRates": "Legal VAT rates",
+      "unknownCountry": "Country not recognised — check the prefix",
+      "error": "Validation failed. Please try again."
     }
   },
   "nav": {
@@ -66,7 +93,10 @@
     "sizeError": "File exceeds 10 MB. Please choose a smaller file.",
     "analyzing": "Analysing…",
     "analyzingHint": "Claude Vision is extracting the data from your receipt.",
-    "authError": "Session expired. Please reload the page and try again."
+    "authError": "Session expired. Please reload the page and try again.",
+    "step1": "Uploading",
+    "step2": "Recording",
+    "step3": "AI analysis"
   },
   "invoice": {
     "title": "Invoice",
@@ -101,9 +131,20 @@
     "title": "Invoices",
     "status": "Status",
     "unknownVendor": "Unknown vendor",
+    "export": "Export CSV",
+    "rowCount": "{count, plural, one {# invoice} other {# invoices}}",
     "empty": {
       "title": "No invoices yet",
-      "description": "Upload your first receipt to get started."
+      "description": "Upload your first receipt to get started.",
+      "noResults": "No invoices match the applied filters."
+    },
+    "filters": {
+      "vendorPlaceholder": "Search vendor…",
+      "allStatuses": "All statuses",
+      "allCurrencies": "All currencies",
+      "dateFrom": "From",
+      "dateTo": "To",
+      "clear": "Clear filters"
     }
   },
   "clients": {
