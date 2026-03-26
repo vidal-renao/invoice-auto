@@ -29,7 +29,11 @@ export async function createInvoiceRecord(
     .select('id')
     .single()
 
-  if (error || !data) return null
+  if (error || !data) {
+    // This error appears in Vercel → Deployments → Functions → Logs
+    console.error('[createInvoiceRecord] DB insert failed:', error?.message, error)
+    return null
+  }
   return data.id
 }
 
