@@ -72,7 +72,12 @@ const ExtractedInvoiceSchema = z.object({
 
 // ── Action ────────────────────────────────────────────────────────────────────
 
-const AI_TIMEOUT_MS = 15_000
+/**
+ * Hard timeout for the Anthropic API call.
+ * Must be comfortably below Vercel's serverless function limit (10s Hobby / 60s Pro).
+ * Set conservatively so the catch block always runs before Vercel kills the process.
+ */
+const AI_TIMEOUT_MS = 8_000
 
 /**
  * Analyse a receipt with Claude Vision, extract all fiscal fields, and run the
@@ -80,10 +85,16 @@ const AI_TIMEOUT_MS = 15_000
  *
  * Status flow:  pending → processing → review_needed (success) | pending (error)
  *
- * Called from ScanTicketButton after the file has been uploaded.
- * The Anthropic API key never touches the client.
+ * Key design decisions:
+ *  - Uses AbortController to *actually* cancel the Anthropic HTTP request on timeout.
+ *    Without this, Promise.race fires but the Node.js HTTP connection stays open,
+ *    keeping the serverless function alive and leaving the client awaiting forever.
+ *  - maxRetries: 0 prevents the SDK from retrying (which would multiply the timeout).
+ *  - Every DB operation's error is logged explicitly — no silent failures.
  */
 export async function analyzeReceipt(invoiceId: string): Promise<void> {
+  console.log(`[analyzeReceipt] --- INICIANDO ANÁLISIS --- invoiceId=${invoiceId}`)
+
   if (!process.env.ANTHROPIC_API_KEY) {
     console.warn('[analyzeReceipt] ANTHROPIC_API_KEY not set — skipping analysis')
     return
@@ -94,7 +105,12 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) return
+  if (!user) {
+    console.warn('[analyzeReceipt] No authenticated user — aborting')
+    return
+  }
+
+  console.log(`[analyzeReceipt] user=${user.id} — fetching invoice + profile`)
 
   // Fetch the invoice row + user profile (for reverse-charge country comparison)
   const [invoiceRes, profileRes] = await Promise.all([
@@ -107,15 +123,40 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
   ])
 
   const invoice = invoiceRes.data
-  if (!invoice?.receipt_path) return
+  if (invoiceRes.error) {
+    console.error('[analyzeReceipt] Failed to fetch invoice:', invoiceRes.error.message)
+  }
+  if (!invoice?.receipt_path) {
+    console.warn('[analyzeReceipt] Invoice not found or missing receipt_path — aborting')
+    return
+  }
 
-  const userCountry = (profileRes.data as { country: string } | null)?.country ?? null
+  const userCountry =
+    (profileRes.data as { country: string } | null)?.country ?? null
 
   // ── Mark as processing ─────────────────────────────────────────────────────
-  await typedFrom<Invoice, InvoiceInsert>(supabase, 'invoices')
+  const { error: processingErr } = await typedFrom<Invoice, InvoiceInsert>(
+    supabase,
+    'invoices'
+  )
     .update({ status: 'processing', updated_at: new Date().toISOString() })
     .eq('id', invoiceId)
     .eq('user_id', user.id)
+
+  if (processingErr) {
+    console.error('[analyzeReceipt] Failed to mark as processing:', processingErr.message)
+  }
+
+  console.log(`[analyzeReceipt] Marked as processing — calling Claude Vision`)
+
+  // ── AbortController — cancels the actual HTTP connection on timeout ────────
+  // Unlike Promise.race alone, this ensures Node.js releases the socket so the
+  // serverless function can complete and return a response to the client.
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => {
+    console.warn(`[analyzeReceipt] Aborting after ${AI_TIMEOUT_MS / 1000}s`)
+    controller.abort()
+  }, AI_TIMEOUT_MS)
 
   try {
     // Generate a signed URL (1 h) so Claude can fetch the file
@@ -127,58 +168,66 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
 
     const isPDF = invoice.receipt_path.toLowerCase().endsWith('.pdf')
 
-    // ── Call Claude Vision with 15 s hard timeout ──────────────────────────
-    const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-
-    const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error('AI_TIMEOUT')), AI_TIMEOUT_MS)
-    )
-
-    const parsePromise = anthropic.messages.parse({
-      model: 'claude-opus-4-6',
-      max_tokens: 1024,
-      output_config: {
-        format: zodOutputFormat(ExtractedInvoiceSchema),
-      },
-      messages: [
-        {
-          role: 'user',
-          content: [
-            ...(isPDF
-              ? [
-                  {
-                    type: 'document' as const,
-                    source: { type: 'url' as const, url: signed.signedUrl },
-                  },
-                ]
-              : [
-                  {
-                    type: 'image' as const,
-                    source: { type: 'url' as const, url: signed.signedUrl },
-                  },
-                ]),
-            {
-              type: 'text' as const,
-              text: [
-                'Extract all invoice/receipt data from this document.',
-                'Convert every monetary amount to integer cents (e.g. €12.50 → 1250, CHF 8.00 → 800).',
-                'Dates must be formatted as YYYY-MM-DD.',
-                'For currency use the ISO 4217 code (EUR, CHF, GBP, USD, SEK, DKK, NOK, PLN).',
-                'For country_code use ISO 3166-1 alpha-2 (ES, DE, CH, FR, IT, GB, NL, …).',
-                'Infer the country from the Tax ID prefix, address, document language, or currency.',
-                'For vendor_tax_id include the country prefix if visible (e.g. ESB12345678).',
-                'Set is_reverse_charge to true if the document mentions "Reverse Charge",',
-                '"Inversión del Sujeto Pasivo", "Steuerschuldnerschaft des Leistungsempfängers",',
-                '"autoliquidación", or if the VAT amount is 0 for a cross-border B2B supply.',
-                'Return null for any field you cannot determine with confidence.',
-              ].join(' '),
-            },
-          ],
-        },
-      ],
+    // ── Call Claude Vision ─────────────────────────────────────────────────
+    // maxRetries: 0 prevents the SDK from issuing silent retries that would
+    // each consume up to AI_TIMEOUT_MS, blowing past the Vercel function limit.
+    const anthropic = new Anthropic({
+      apiKey: process.env.ANTHROPIC_API_KEY,
+      maxRetries: 0,
     })
 
-    const response = await Promise.race([parsePromise, timeoutPromise])
+    const response = await anthropic.messages.parse(
+      {
+        model: 'claude-opus-4-6',
+        max_tokens: 1024,
+        output_config: {
+          format: zodOutputFormat(ExtractedInvoiceSchema),
+        },
+        messages: [
+          {
+            role: 'user',
+            content: [
+              ...(isPDF
+                ? [
+                    {
+                      type: 'document' as const,
+                      source: { type: 'url' as const, url: signed.signedUrl },
+                    },
+                  ]
+                : [
+                    {
+                      type: 'image' as const,
+                      source: { type: 'url' as const, url: signed.signedUrl },
+                    },
+                  ]),
+              {
+                type: 'text' as const,
+                text: [
+                  'Extract all invoice/receipt data from this document.',
+                  'Convert every monetary amount to integer cents (e.g. €12.50 → 1250, CHF 8.00 → 800).',
+                  'Dates must be formatted as YYYY-MM-DD.',
+                  'For currency use the ISO 4217 code (EUR, CHF, GBP, USD, SEK, DKK, NOK, PLN).',
+                  'For country_code use ISO 3166-1 alpha-2 (ES, DE, CH, FR, IT, GB, NL, …).',
+                  'Infer the country from the Tax ID prefix, address, document language, or currency.',
+                  'For vendor_tax_id include the country prefix if visible (e.g. ESB12345678).',
+                  'Set is_reverse_charge to true if the document mentions "Reverse Charge",',
+                  '"Inversión del Sujeto Pasivo", "Steuerschuldnerschaft des Leistungsempfängers",',
+                  '"autoliquidación", or if the VAT amount is 0 for a cross-border B2B supply.',
+                  'Return null for any field you cannot determine with confidence.',
+                ].join(' '),
+              },
+            ],
+          },
+        ],
+      },
+      // Pass the abort signal so the HTTP connection is cancelled when the
+      // AbortController fires — this allows the serverless function to exit cleanly.
+      { signal: controller.signal }
+    )
+
+    clearTimeout(timeoutId)
+    console.log(`[analyzeReceipt] Claude responded — stop_reason=${response.stop_reason}`)
+
     const extracted = response.parsed_output
 
     // ── Tax Intelligence Engine ────────────────────────────────────────────
@@ -207,14 +256,21 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
           JSON.stringify(response)
         )
 
-      // 4. Map extracted currency (schema now allows more codes, DB only stores EUR/CHF)
+      // 4. Map extracted currency (schema allows more codes; DB only stores EUR/CHF)
       const currency =
         extracted.currency === 'EUR' || extracted.currency === 'CHF'
           ? extracted.currency
           : invoice.currency
 
+      console.log(
+        `[analyzeReceipt] Extracted: country=${countryCode} vatStatus=${taxValidationStatus} rc=${isReverseCharge}`
+      )
+
       // 5. Persist all fields
-      await typedFrom<Invoice, InvoiceInsert>(supabase, 'invoices')
+      const { error: updateErr } = await typedFrom<Invoice, InvoiceInsert>(
+        supabase,
+        'invoices'
+      )
         .update({
           vendor_name: extracted.vendor_name,
           vendor_tax_id: extracted.vendor_tax_id,
@@ -233,31 +289,66 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
         })
         .eq('id', invoiceId)
         .eq('user_id', user.id)
+
+      if (updateErr) {
+        console.error('[analyzeReceipt] Final UPDATE failed:', updateErr.message)
+      } else {
+        console.log(`[analyzeReceipt] ✓ Invoice ${invoiceId} → review_needed`)
+      }
     } else {
       // Claude responded but structured output parsing failed
-      await typedFrom<Invoice, InvoiceInsert>(supabase, 'invoices')
+      console.warn('[analyzeReceipt] parsed_output is null — setting review_needed with no data')
+      const { error: updateErr } = await typedFrom<Invoice, InvoiceInsert>(
+        supabase,
+        'invoices'
+      )
         .update({ status: 'review_needed', updated_at: new Date().toISOString() })
         .eq('id', invoiceId)
         .eq('user_id', user.id)
+
+      if (updateErr) {
+        console.error('[analyzeReceipt] review_needed UPDATE failed:', updateErr.message)
+      }
     }
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err)
+    clearTimeout(timeoutId)
 
-    if (message === 'AI_TIMEOUT') {
+    const isAbort =
+      err instanceof Error &&
+      (err.name === 'AbortError' || err.message.includes('abort'))
+
+    if (isAbort) {
       console.warn(
-        `[analyzeReceipt] Timed out after ${AI_TIMEOUT_MS / 1000}s for invoice ${invoiceId}`
+        `[analyzeReceipt] Request aborted after ${AI_TIMEOUT_MS / 1000}s for invoice ${invoiceId} — setting review_needed`
       )
-      await typedFrom<Invoice, InvoiceInsert>(supabase, 'invoices')
+      const { error: updateErr } = await typedFrom<Invoice, InvoiceInsert>(
+        supabase,
+        'invoices'
+      )
         .update({ status: 'review_needed', updated_at: new Date().toISOString() })
         .eq('id', invoiceId)
         .eq('user_id', user.id)
+
+      if (updateErr) {
+        console.error('[analyzeReceipt] Abort recovery UPDATE failed:', updateErr.message)
+      }
       return
     }
 
-    console.error('[analyzeReceipt] Error:', message)
-    await typedFrom<Invoice, InvoiceInsert>(supabase, 'invoices')
+    const message = err instanceof Error ? err.message : String(err)
+    console.error(`[analyzeReceipt] Unexpected error for invoice ${invoiceId}:`, message)
+
+    // Revert to pending so the user can retry
+    const { error: revertErr } = await typedFrom<Invoice, InvoiceInsert>(
+      supabase,
+      'invoices'
+    )
       .update({ status: 'pending', updated_at: new Date().toISOString() })
       .eq('id', invoiceId)
       .eq('user_id', user.id)
+
+    if (revertErr) {
+      console.error('[analyzeReceipt] Revert-to-pending UPDATE failed:', revertErr.message)
+    }
   }
 }
