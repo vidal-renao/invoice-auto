@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import { getInvoice } from '@/lib/actions/invoices'
 import { formatCurrency, formatDate } from '@/lib/utils'
-import { InvoicePoller } from '@/components/invoice/InvoicePoller'
+import { AnalysisStatusWrapper } from '@/components/invoice/AnalysisStatusWrapper'
 import { InvoiceActions } from '@/components/invoice/InvoiceActions'
 import type { InvoiceStatus, Currency } from '@/types/database'
 
@@ -87,11 +87,12 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
 
   const { invoice, receiptUrl } = result
   const isPDF = invoice.receipt_path?.toLowerCase().endsWith('.pdf') ?? false
-  const isPending =
-    invoice.status === 'pending' || invoice.status === 'processing'
 
   const currency = invoice.currency as Currency
   const statusLabel = t(`status.${invoice.status}`)
+  // Used only for the "data not yet available" placeholder — not for the spinner
+  const isAnalyzingOnLoad =
+    invoice.status === 'pending' || invoice.status === 'processing'
 
   // Resolve failure reason label (translate known codes, show raw otherwise)
   const failureLabel = invoice.failure_reason
@@ -102,8 +103,16 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
 
   return (
     <div className="space-y-6">
-      {/* Auto-refresh while AI analysis is in progress */}
-      <InvoicePoller isPending={isPending} />
+      {/*
+        AnalysisStatusWrapper — isolated client component.
+        Polls getInvoiceStatus() (lightweight Server Action) instead of
+        router.refresh(), so the spinner is NEVER re-mounted during polling.
+        Triggers ONE router.refresh() only when analysis completes.
+      */}
+      <AnalysisStatusWrapper
+        invoiceId={invoice.id}
+        initialStatus={invoice.status}
+      />
 
       {/* ── Back + header ──────────────────────────────────────── */}
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -197,41 +206,6 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
 
         {/* ── Details panel ──────────────────────────── (3/5) */}
         <div className="space-y-4 md:col-span-3">
-          {/* Processing notice */}
-          {isPending && (
-            <div className="flex items-start gap-3 rounded-xl border border-violet-500/20 bg-violet-500/5 px-4 py-4">
-              <svg
-                className="mt-0.5 h-5 w-5 shrink-0 animate-spin text-violet-400"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                />
-              </svg>
-              <div>
-                <p className="text-sm font-medium text-violet-300">
-                  {t('processingTitle')}
-                </p>
-                <p className="mt-0.5 text-xs text-[#888]">
-                  {t('processingDesc')}
-                </p>
-              </div>
-            </div>
-          )}
-
           {/* Extracted data card */}
           <div className="rounded-xl border border-[#2a2a2a] bg-[#111]">
             <div className="border-b border-[#2a2a2a] px-4 py-3">
@@ -292,7 +266,7 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
               !invoice.total_cents &&
               !invoice.invoice_number && (
                 <div className="px-4 py-6 text-center text-sm text-[#555]">
-                  {isPending ? t('dataNotYetAvailable') : t('noDataExtracted')}
+                  {isAnalyzingOnLoad ? t('dataNotYetAvailable') : t('noDataExtracted')}
                 </div>
               )}
           </div>

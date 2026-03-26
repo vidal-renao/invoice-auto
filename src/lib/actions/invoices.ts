@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { typedFrom } from '@/lib/supabase/builder'
-import type { Invoice, InvoiceInsert } from '@/types/database'
+import type { Invoice, InvoiceInsert, InvoiceStatus } from '@/types/database'
 import { COUNTRY_TAX_CONFIG } from '@/lib/tax/config'
 
 // ── Delete ────────────────────────────────────────────────────────────────────
@@ -50,6 +50,35 @@ export async function deleteInvoice(
 
   revalidatePath('/', 'layout')
   return {}
+}
+
+// ── Status-only poll ──────────────────────────────────────────────────────────
+
+/**
+ * Fetch ONLY the status of a single invoice (lightweight poll).
+ *
+ * Called by AnalysisStatusWrapper every 3 s to avoid full page re-renders
+ * during AI processing. Returns null on auth failure or not found.
+ */
+export async function getInvoiceStatus(id: string): Promise<InvoiceStatus | null> {
+  const supabase = await createClient()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) return null
+
+  const { data, error } = await supabase
+    .from('invoices')
+    .select('status')
+    .eq('id', id)
+    .eq('user_id', user.id)
+    .single()
+
+  if (error || !data) return null
+
+  console.log(`[getInvoiceStatus] id=${id} status=${(data as { status: InvoiceStatus }).status}`)
+  return (data as { status: InvoiceStatus }).status
 }
 
 // ── Filter types ──────────────────────────────────────────────────────────────
