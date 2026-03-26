@@ -148,12 +148,66 @@
     }
   },
   "clients": {
-    "title": "Kunden",
-    "comingSoon": "Demnächst verfügbar"
+    "title": "Lieferanten",
+    "rowCount": "{count, plural, one {# Lieferant} other {# Lieferanten}}",
+    "table": {
+      "name": "Name",
+      "taxId": "Steuer-ID",
+      "country": "Land",
+      "category": "Kategorie",
+      "invoiceCount": "Rechnungen"
+    },
+    "category": {
+      "software": "Software",
+      "utilities": "Dienstleistungen",
+      "travel": "Reisen",
+      "marketing": "Marketing",
+      "professional": "Fachdienstleistungen",
+      "office": "Büro",
+      "other": "Sonstiges",
+      "none": "Ohne Kategorie"
+    },
+    "empty": {
+      "title": "Noch keine Lieferanten",
+      "description": "Lieferanten werden automatisch erkannt, wenn du Rechnungen mit KI analysierst."
+    },
+    "unknownCountry": "—"
   },
   "settings": {
     "title": "Einstellungen",
-    "comingSoon": "Demnächst verfügbar"
+    "saved": "Änderungen erfolgreich gespeichert",
+    "saveError": "Speichern fehlgeschlagen. Bitte erneut versuchen.",
+    "save": "Änderungen speichern",
+    "saving": "Wird gespeichert…",
+    "profile": {
+      "sectionTitle": "Unternehmensprofil",
+      "sectionDesc": "Identifikationsdaten deines Unternehmens oder Gewerbes",
+      "fullName": "Vollständiger Name",
+      "fullNamePlaceholder": "z.B. Max Mustermann",
+      "companyName": "Firmenname",
+      "companyNameHint": "Offizieller Name des Unternehmens oder Gewerbes (optional)",
+      "companyNamePlaceholder": "z.B. Mustermann GmbH",
+      "taxId": "Steuer-ID / USt-IdNr.",
+      "taxIdHint": "Steueridentifikationsnummer als Rechnungsaussteller",
+      "taxIdPlaceholder": "z.B. DE123456789"
+    },
+    "fiscal": {
+      "sectionTitle": "Steuereinstellungen",
+      "sectionDesc": "Lege dein Steuerland und die Oberflächensprache fest",
+      "country": "Steuerland",
+      "locale": "Sprache der Oberfläche",
+      "currencyNote": "Die Basiswährung wird automatisch anhand des Steuerlandes bestimmt."
+    },
+    "countries": {
+      "ES": "Spanien — EUR",
+      "CH": "Schweiz — CHF",
+      "DE": "Deutschland — EUR"
+    },
+    "locales": {
+      "es": "Spanisch",
+      "en": "Englisch",
+      "de": "Deutsch"
+    }
   },
   "common": {
     "loading": "Laden…",

@@ -148,12 +148,66 @@
     }
   },
   "clients": {
-    "title": "Clientes",
-    "comingSoon": "Próximamente"
+    "title": "Proveedores",
+    "rowCount": "{count, plural, one {# proveedor} other {# proveedores}}",
+    "table": {
+      "name": "Nombre",
+      "taxId": "NIF / CIF",
+      "country": "País",
+      "category": "Categoría",
+      "invoiceCount": "Facturas"
+    },
+    "category": {
+      "software": "Software",
+      "utilities": "Servicios",
+      "travel": "Viajes",
+      "marketing": "Marketing",
+      "professional": "Serv. Profesionales",
+      "office": "Oficina",
+      "other": "Otros",
+      "none": "Sin categoría"
+    },
+    "empty": {
+      "title": "Sin proveedores todavía",
+      "description": "Los proveedores se detectan automáticamente al analizar tus facturas con IA."
+    },
+    "unknownCountry": "—"
   },
   "settings": {
     "title": "Configuración",
-    "comingSoon": "Próximamente"
+    "saved": "Cambios guardados correctamente",
+    "saveError": "Error al guardar. Inténtalo de nuevo.",
+    "save": "Guardar cambios",
+    "saving": "Guardando…",
+    "profile": {
+      "sectionTitle": "Perfil de Empresa",
+      "sectionDesc": "Datos identificativos de tu empresa o actividad profesional",
+      "fullName": "Nombre completo",
+      "fullNamePlaceholder": "Ej: María García López",
+      "companyName": "Razón social",
+      "companyNameHint": "Nombre legal de la empresa o actividad (opcional)",
+      "companyNamePlaceholder": "Ej: Soluciones Digitales SL",
+      "taxId": "NIF / CIF",
+      "taxIdHint": "Número de identificación fiscal del emisor de facturas",
+      "taxIdPlaceholder": "Ej: B12345678 · 12345678A"
+    },
+    "fiscal": {
+      "sectionTitle": "Configuración Fiscal",
+      "sectionDesc": "Define tu país fiscal y preferencias de la interfaz",
+      "country": "País fiscal",
+      "locale": "Idioma de la interfaz",
+      "currencyNote": "La moneda base se determina automáticamente según el país fiscal seleccionado."
+    },
+    "countries": {
+      "ES": "España — EUR",
+      "CH": "Suiza — CHF",
+      "DE": "Alemania — EUR"
+    },
+    "locales": {
+      "es": "Español",
+      "en": "English",
+      "de": "Deutsch"
+    }
   },
   "common": {
     "loading": "Cargando…",

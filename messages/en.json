@@ -148,12 +148,66 @@
     }
   },
   "clients": {
-    "title": "Clients",
-    "comingSoon": "Coming soon"
+    "title": "Vendors",
+    "rowCount": "{count, plural, one {# vendor} other {# vendors}}",
+    "table": {
+      "name": "Name",
+      "taxId": "Tax ID",
+      "country": "Country",
+      "category": "Category",
+      "invoiceCount": "Invoices"
+    },
+    "category": {
+      "software": "Software",
+      "utilities": "Utilities",
+      "travel": "Travel",
+      "marketing": "Marketing",
+      "professional": "Professional Svcs",
+      "office": "Office",
+      "other": "Other",
+      "none": "Uncategorised"
+    },
+    "empty": {
+      "title": "No vendors yet",
+      "description": "Vendors are detected automatically when you analyse your invoices with AI."
+    },
+    "unknownCountry": "—"
   },
   "settings": {
     "title": "Settings",
-    "comingSoon": "Coming soon"
+    "saved": "Changes saved successfully",
+    "saveError": "Failed to save. Please try again.",
+    "save": "Save changes",
+    "saving": "Saving…",
+    "profile": {
+      "sectionTitle": "Company Profile",
+      "sectionDesc": "Identifying details for your company or professional activity",
+      "fullName": "Full name",
+      "fullNamePlaceholder": "e.g. María García López",
+      "companyName": "Company name",
+      "companyNameHint": "Legal name of the company or business (optional)",
+      "companyNamePlaceholder": "e.g. Digital Solutions Ltd",
+      "taxId": "Tax ID / VAT number",
+      "taxIdHint": "Your tax identification number as invoice issuer",
+      "taxIdPlaceholder": "e.g. B12345678 · DE123456789"
+    },
+    "fiscal": {
+      "sectionTitle": "Fiscal Settings",
+      "sectionDesc": "Set your fiscal country and interface preferences",
+      "country": "Fiscal country",
+      "locale": "Interface language",
+      "currencyNote": "Base currency is determined automatically from your fiscal country."
+    },
+    "countries": {
+      "ES": "Spain — EUR",
+      "CH": "Switzerland — CHF",
+      "DE": "Germany — EUR"
+    },
+    "locales": {
+      "es": "Spanish",
+      "en": "English",
+      "de": "German"
+    }
   },
   "common": {
     "loading": "Loading…",

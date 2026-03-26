@@ -21,9 +21,65 @@ export type InvoiceStatus =
 
 export type TaxValidationStatus = 'valid' | 'discrepancy' | 'unknown'
 
+export type VendorCategory =
+  | 'software'
+  | 'utilities'
+  | 'travel'
+  | 'marketing'
+  | 'professional'
+  | 'office'
+  | 'other'
+
 export interface Database {
   public: {
     Tables: {
+      vendors: {
+        Row: {
+          id: string
+          user_id: string
+          name: string
+          tax_id: string | null
+          country_code: string | null
+          category: VendorCategory | null
+          email: string | null
+          website: string | null
+          notes: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          name: string
+          tax_id?: string | null
+          country_code?: string | null
+          category?: VendorCategory | null
+          email?: string | null
+          website?: string | null
+          notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          name?: string
+          tax_id?: string | null
+          country_code?: string | null
+          category?: VendorCategory | null
+          email?: string | null
+          website?: string | null
+          notes?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'vendors_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          }
+        ]
+      }
       profiles: {
         Row: {
           id: string
@@ -157,3 +213,7 @@ export type ProfileUpdate = Database['public']['Tables']['profiles']['Update']
 export type Invoice = Database['public']['Tables']['invoices']['Row']
 export type InvoiceInsert = Database['public']['Tables']['invoices']['Insert']
 export type InvoiceUpdate = Database['public']['Tables']['invoices']['Update']
+
+export type Vendor = Database['public']['Tables']['vendors']['Row']
+export type VendorInsert = Database['public']['Tables']['vendors']['Insert']
+export type VendorUpdate = Database['public']['Tables']['vendors']['Update']
