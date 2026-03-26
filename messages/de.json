@@ -96,6 +96,23 @@
       "rejected": "Abgelehnt"
     }
   },
+  "invoices": {
+    "title": "Rechnungen",
+    "status": "Status",
+    "unknownVendor": "Unbekannter Anbieter",
+    "empty": {
+      "title": "Noch keine Rechnungen",
+      "description": "Lade deinen ersten Beleg hoch, um loszulegen."
+    }
+  },
+  "clients": {
+    "title": "Kunden",
+    "comingSoon": "Demnächst verfügbar"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "comingSoon": "Demnächst verfügbar"
+  },
   "common": {
     "loading": "Laden…",
     "error": "Fehler",

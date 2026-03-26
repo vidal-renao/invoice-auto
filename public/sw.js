@@ -9,12 +9,12 @@
 
 const CACHE_VERSION = 'v1'
 const STATIC_CACHE = `invoice-auto-static-${CACHE_VERSION}`
-const OFFLINE_URL = '/offline'
 
-// Assets to pre-cache on install
+// Assets to pre-cache on install.
+// NOTE: Do NOT include navigation URLs (e.g. '/offline') — they are handled by
+// the App Router and return HTML that may redirect. Caching them here would
+// cause cache.addAll() to fail if the route is redirected or not yet rendered.
 const PRECACHE_ASSETS = [
-  '/',
-  '/offline',
   '/manifest.json',
   '/icon-192.png',
   '/icon-512.png',
@@ -85,13 +85,11 @@ self.addEventListener('fetch', (event) => {
     return
   }
 
-  // Navigation — Network-first, offline fallback
+  // Navigation — Network-first, no offline fallback (app requires connectivity)
   if (request.mode === 'navigate') {
     event.respondWith(
-      fetch(request).catch(() =>
-        caches.match(OFFLINE_URL).then(
-          (cached) => cached ?? new Response('Offline', { status: 503 })
-        )
+      fetch(request).catch(
+        () => new Response('Offline', { status: 503, statusText: 'Service Unavailable' })
       )
     )
   }

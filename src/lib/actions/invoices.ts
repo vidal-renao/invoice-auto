@@ -71,6 +71,29 @@ export async function getInvoice(
 }
 
 /**
+ * Fetch all invoices for the current user, ordered by creation date descending.
+ * Returns an empty array if unauthenticated or on DB error.
+ */
+export async function listInvoices(): Promise<Invoice[]> {
+  const supabase = await createClient()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) return []
+
+  const qb = typedFrom<Invoice, InvoiceInsert>(supabase, 'invoices')
+  const { data, error } = await qb
+    .select('*')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
+
+  if (error || !data) return []
+  return data
+}
+
+/**
  * Fetch dashboard aggregate stats for the current user.
  * All monetary values returned in cents (integer).
  */

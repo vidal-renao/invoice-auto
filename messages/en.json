@@ -96,6 +96,23 @@
       "rejected": "Rejected"
     }
   },
+  "invoices": {
+    "title": "Invoices",
+    "status": "Status",
+    "unknownVendor": "Unknown vendor",
+    "empty": {
+      "title": "No invoices yet",
+      "description": "Upload your first receipt to get started."
+    }
+  },
+  "clients": {
+    "title": "Clients",
+    "comingSoon": "Coming soon"
+  },
+  "settings": {
+    "title": "Settings",
+    "comingSoon": "Coming soon"
+  },
   "common": {
     "loading": "Loading…",
     "error": "Error",

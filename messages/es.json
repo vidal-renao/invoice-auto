@@ -96,6 +96,23 @@
       "rejected": "Rechazada"
     }
   },
+  "invoices": {
+    "title": "Facturas",
+    "status": "Estado",
+    "unknownVendor": "Proveedor desconocido",
+    "empty": {
+      "title": "Sin facturas todavía",
+      "description": "Sube tu primer ticket para empezar."
+    }
+  },
+  "clients": {
+    "title": "Clientes",
+    "comingSoon": "Próximamente"
+  },
+  "settings": {
+    "title": "Configuración",
+    "comingSoon": "Próximamente"
+  },
   "common": {
     "loading": "Cargando…",
     "error": "Error",
