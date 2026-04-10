@@ -228,6 +228,52 @@
       "de": "Deutsch"
     }
   },
+  "landing": {
+    "nav": {
+      "signin": "Anmelden",
+      "getStarted": "Kostenlos starten"
+    },
+    "hero": {
+      "badge": "Powered by Claude Vision AI",
+      "headline": "Beleg rein. Rechnung raus. Steuern erledigt.",
+      "subline": "Lade beliebige Belege oder Rechnungen hoch — Claude Vision extrahiert Lieferant, Beträge und Mehrwertsteuer automatisch. Deine Buchhaltung auf Autopilot.",
+      "cta": "Kostenlos starten",
+      "signin": "Anmelden",
+      "stat1Value": "< 10s",
+      "stat1Label": "Durchschn. Extraktionszeit",
+      "stat2Value": "16",
+      "stat2Label": "Steuerregionen abgedeckt",
+      "stat3Value": "100%",
+      "stat3Label": "KI-extrahierte Daten"
+    },
+    "how": {
+      "label": "So funktioniert es",
+      "title": "Drei Schritte zur sauberen Rechnung",
+      "step1Title": "Beleg hochladen",
+      "step1Desc": "Foto, Screenshot oder PDF — beliebiges Format, beliebige Sprache, beliebiges Land.",
+      "step2Title": "KI extrahiert die Daten",
+      "step2Desc": "Claude Vision liest Lieferantenname, Rechnungsnummer, Datum, Nettobetrag, MwSt. und Gesamtbetrag. Ohne manuelle Eingabe.",
+      "step3Title": "Prüfen & freigeben",
+      "step3Desc": "Extrahierte Daten mit einem Klick bestätigen. Rechnungen werden gespeichert, gefiltert und exportiert."
+    },
+    "features": {
+      "label": "Funktionen",
+      "title": "Für Freelancer und Kleinunternehmen gebaut",
+      "feat1Title": "Claude Vision OCR",
+      "feat1Desc": "Versteht Handschrift, mehrsprachige Belege und Fotos schlechter Qualität mit hoher Genauigkeit.",
+      "feat2Title": "Steuerintelligenz-Engine",
+      "feat2Desc": "Deckt 16 Länder ab — Spanien, Schweiz, Deutschland und mehr. MwSt.-Validierung und Reverse-Charge integriert.",
+      "feat3Title": "Mehrwährung",
+      "feat3Desc": "EUR, CHF, USD und mehr. Beträge in ganzzahligen Cents — null Rundungsfehler, garantiert.",
+      "feat4Title": "PWA — offline nutzbar",
+      "feat4Desc": "Wie eine native App auf jedem Gerät installierbar. Belege mit dem Handy scannen, am Desktop prüfen."
+    },
+    "cta": {
+      "title": "Schluss mit manueller Rechnungseingabe",
+      "subtitle": "Nutze Invoice Auto und lass die KI den Papierkram erledigen, während du dich auf dein Business konzentrierst.",
+      "button": "Kostenloses Konto erstellen"
+    }
+  },
   "common": {
     "loading": "Laden…",
     "error": "Fehler",

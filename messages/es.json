@@ -228,6 +228,52 @@
       "de": "Deutsch"
     }
   },
+  "landing": {
+    "nav": {
+      "signin": "Iniciar sesión",
+      "getStarted": "Empezar gratis"
+    },
+    "hero": {
+      "badge": "Impulsado por Claude Vision AI",
+      "headline": "Ticket dentro. Factura fuera. IVA resuelto.",
+      "subline": "Sube cualquier ticket o factura — Claude Vision extrae proveedor, importes e IVA automáticamente. Tu contabilidad, en piloto automático.",
+      "cta": "Empezar gratis",
+      "signin": "Iniciar sesión",
+      "stat1Value": "< 10s",
+      "stat1Label": "Tiempo medio de extracción",
+      "stat2Value": "16",
+      "stat2Label": "Jurisdicciones fiscales cubiertas",
+      "stat3Value": "100%",
+      "stat3Label": "Datos extraídos por IA"
+    },
+    "how": {
+      "label": "Cómo funciona",
+      "title": "Tres pasos hacia una factura limpia",
+      "step1Title": "Sube tu ticket",
+      "step1Desc": "Foto, captura de pantalla o PDF — cualquier formato, idioma y país.",
+      "step2Title": "La IA extrae los datos",
+      "step2Desc": "Claude Vision lee proveedor, número de factura, fecha, base imponible, IVA e importe total. Sin introducción manual.",
+      "step3Title": "Revisa y aprueba",
+      "step3Desc": "Confirma los datos extraídos en un clic. Facturas almacenadas, filtrables y listas para exportar."
+    },
+    "features": {
+      "label": "Funcionalidades",
+      "title": "Diseñado para autónomos y pequeñas empresas",
+      "feat1Title": "OCR con Claude Vision",
+      "feat1Desc": "Entiende escritura a mano, tickets en varios idiomas e imágenes de baja calidad con alta precisión.",
+      "feat2Title": "Motor de Inteligencia Fiscal",
+      "feat2Desc": "Cubre 16 países — España, Suiza, Alemania y más. Validación de IVA e inversión del sujeto pasivo integradas.",
+      "feat3Title": "Multidivisa",
+      "feat3Desc": "EUR, CHF, USD y más. Importes en céntimos enteros — sin errores de redondeo, nunca.",
+      "feat4Title": "PWA — funciona sin conexión",
+      "feat4Desc": "Instálala como una app nativa en cualquier dispositivo. Escanea tickets desde el móvil, revisa en escritorio."
+    },
+    "cta": {
+      "title": "Deja de introducir facturas a mano",
+      "subtitle": "Únete a Invoice Auto y deja que la IA gestione el papeleo mientras tú te centras en tu negocio.",
+      "button": "Crear cuenta gratis"
+    }
+  },
   "common": {
     "loading": "Cargando…",
     "error": "Error",

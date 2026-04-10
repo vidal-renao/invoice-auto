@@ -228,6 +228,52 @@
       "de": "German"
     }
   },
+  "landing": {
+    "nav": {
+      "signin": "Sign in",
+      "getStarted": "Get started free"
+    },
+    "hero": {
+      "badge": "Powered by Claude Vision AI",
+      "headline": "Receipt in. Invoice out. Taxes handled.",
+      "subline": "Upload any receipt or bill — Claude Vision extracts vendor, amounts and VAT automatically. Your bookkeeping, on autopilot.",
+      "cta": "Start for free",
+      "signin": "Sign in",
+      "stat1Value": "< 10s",
+      "stat1Label": "Average extraction time",
+      "stat2Value": "16",
+      "stat2Label": "Tax jurisdictions supported",
+      "stat3Value": "100%",
+      "stat3Label": "AI-extracted data"
+    },
+    "how": {
+      "label": "How it works",
+      "title": "Three steps to a clean invoice",
+      "step1Title": "Upload your receipt",
+      "step1Desc": "Drop a photo, screenshot or PDF — any format, any language, any country.",
+      "step2Title": "AI extracts the data",
+      "step2Desc": "Claude Vision reads vendor name, invoice number, date, subtotal, VAT and total. No manual entry.",
+      "step3Title": "Review & approve",
+      "step3Desc": "Confirm the extracted data in one click. Invoices are stored, filterable and ready to export."
+    },
+    "features": {
+      "label": "Features",
+      "title": "Built for freelancers and small businesses",
+      "feat1Title": "Claude Vision OCR",
+      "feat1Desc": "Understands handwriting, multi-language receipts and low-quality photos with high accuracy.",
+      "feat2Title": "Tax Intelligence Engine",
+      "feat2Desc": "Covers 16 countries — Spain, Switzerland, Germany and more. VAT validation and reverse-charge detection built in.",
+      "feat3Title": "Multi-currency",
+      "feat3Desc": "EUR, CHF, USD and more. Amounts stored in integer cents — zero rounding errors, ever.",
+      "feat4Title": "PWA — works offline",
+      "feat4Desc": "Install it like a native app on any device. Scan receipts from your phone, review on desktop."
+    },
+    "cta": {
+      "title": "Stop entering invoices by hand",
+      "subtitle": "Join Invoice Auto and let AI handle the paperwork while you focus on your business.",
+      "button": "Create your free account"
+    }
+  },
   "common": {
     "loading": "Loading…",
     "error": "Error",
