@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import Link from 'next/link'
+import type { AuthError } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -18,6 +19,26 @@ const registerSchema = z.object({
 })
 
 type RegisterValues = z.infer<typeof registerSchema>
+
+function classifyRegisterError(error: AuthError): 'emailTaken' | 'weakPassword' | 'tooManyRequests' | 'generic' {
+  const msg = error.message.toLowerCase()
+  if (error.status === 429 || msg.includes('too many') || msg.includes('rate limit') || msg.includes('email rate')) {
+    return 'tooManyRequests'
+  }
+  if (
+    msg.includes('already registered') ||
+    msg.includes('already exists') ||
+    msg.includes('user already') ||
+    msg.includes('duplicate') ||
+    error.status === 422
+  ) {
+    return 'emailTaken'
+  }
+  if (msg.includes('weak') || msg.includes('password') || msg.includes('least 6')) {
+    return 'weakPassword'
+  }
+  return 'generic'
+}
 
 export function RegisterForm() {
   const t = useTranslations('auth.register')
@@ -43,15 +64,11 @@ export function RegisterForm() {
     })
 
     if (error) {
-      const msg =
-        error.message.includes('already registered')
-          ? t('errors.emailTaken')
-          : t('errors.generic')
-      setServerError(msg)
+      const key = classifyRegisterError(error)
+      setServerError(t(`errors.${key}`))
       return
     }
 
-    // Redirect to dashboard — Supabase auto-confirms in dev without email verification
     router.push(`/${locale}/dashboard`)
     router.refresh()
   }
@@ -84,9 +101,9 @@ export function RegisterForm() {
       />
 
       {serverError && (
-        <p role="alert" className="text-sm text-red-400">
-          {serverError}
-        </p>
+        <div role="alert" className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3">
+          <p className="text-sm text-red-400">{serverError}</p>
+        </div>
       )}
 
       <Button type="submit" loading={isSubmitting} className="w-full">

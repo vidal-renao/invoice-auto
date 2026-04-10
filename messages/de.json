@@ -29,9 +29,10 @@
       "hasAccount": "Bereits ein Konto?",
       "login": "Anmelden",
       "errors": {
-        "emailTaken": "Diese E-Mail ist bereits registriert.",
-        "weakPassword": "Das Passwort ist zu schwach.",
-        "generic": "Etwas ist schiefgelaufen. Bitte erneut versuchen."
+        "emailTaken": "Diese E-Mail ist bereits registriert. Bitte melde dich stattdessen an.",
+        "weakPassword": "Das Passwort ist zu schwach. Mindestens 8 Zeichen mit Buchstaben und Zahlen.",
+        "tooManyRequests": "Zu viele Versuche. Bitte warte einige Minuten.",
+        "generic": "Konto konnte nicht erstellt werden. Überprüfe deine Angaben und versuche es erneut."
       }
     },
     "forgotPassword": {

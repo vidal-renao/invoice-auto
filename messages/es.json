@@ -29,9 +29,10 @@
       "hasAccount": "¿Ya tienes cuenta?",
       "login": "Inicia sesión",
       "errors": {
-        "emailTaken": "Este correo ya está registrado.",
-        "weakPassword": "La contraseña es demasiado débil.",
-        "generic": "Algo salió mal. Inténtalo de nuevo."
+        "emailTaken": "Este correo ya está registrado. Intenta iniciar sesión.",
+        "weakPassword": "La contraseña es demasiado débil. Usa al menos 8 caracteres con letras y números.",
+        "tooManyRequests": "Demasiados intentos. Espera unos minutos antes de intentarlo de nuevo.",
+        "generic": "No se pudo crear la cuenta. Revisa tus datos e inténtalo de nuevo."
       }
     },
     "forgotPassword": {

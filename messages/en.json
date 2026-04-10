@@ -29,9 +29,10 @@
       "hasAccount": "Already have an account?",
       "login": "Sign in",
       "errors": {
-        "emailTaken": "This email is already registered.",
-        "weakPassword": "Password is too weak.",
-        "generic": "Something went wrong. Please try again."
+        "emailTaken": "This email is already registered. Try signing in instead.",
+        "weakPassword": "Password is too weak. Use at least 8 characters with letters and numbers.",
+        "tooManyRequests": "Too many attempts. Please wait a few minutes before trying again.",
+        "generic": "Could not create account. Check your details and try again."
       }
     },
     "forgotPassword": {
