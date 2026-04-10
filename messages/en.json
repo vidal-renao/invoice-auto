@@ -11,8 +11,10 @@
       "register": "Sign up",
       "forgotPassword": "Forgot your password?",
       "errors": {
-        "invalidCredentials": "Invalid email or password.",
-        "generic": "Something went wrong. Please try again."
+        "invalidCredentials": "Incorrect email or password. Double-check your details and try again.",
+        "emailNotConfirmed": "Your email address is not confirmed yet. Check your inbox for a confirmation link.",
+        "tooManyRequests": "Too many failed attempts. Please wait a few minutes before trying again.",
+        "generic": "Sign-in failed. If the problem persists, try resetting your password below."
       }
     },
     "register": {
@@ -30,6 +32,37 @@
         "emailTaken": "This email is already registered.",
         "weakPassword": "Password is too weak.",
         "generic": "Something went wrong. Please try again."
+      }
+    },
+    "forgotPassword": {
+      "title": "Reset your password",
+      "subtitle": "Enter your email and we'll send you a reset link",
+      "email": "Email address",
+      "submit": "Send reset link",
+      "loading": "Sending…",
+      "successTitle": "Check your inbox",
+      "successDesc": "We sent a reset link to {email}. Also check your spam folder.",
+      "backToLogin": "Back to sign in",
+      "errors": {
+        "generic": "Failed to send reset email. Please try again."
+      }
+    },
+    "resetPassword": {
+      "title": "Set new password",
+      "subtitle": "Enter your new password below",
+      "password": "New password",
+      "confirmPassword": "Confirm new password",
+      "passwordHint": "Minimum 8 characters",
+      "submit": "Update password",
+      "loading": "Updating…",
+      "successTitle": "Password updated",
+      "successDesc": "Your password has been changed. You can now sign in.",
+      "invalidLink": "This reset link is invalid or has expired.",
+      "requestNew": "Request a new reset link",
+      "errors": {
+        "passwordMismatch": "Passwords do not match.",
+        "weakPassword": "Password must be at least 8 characters.",
+        "generic": "Failed to update password. Please request a new reset link."
       }
     }
   },
