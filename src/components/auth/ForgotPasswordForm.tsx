@@ -38,6 +38,7 @@ export function ForgotPasswordForm() {
     })
 
     if (error) {
+      console.error('[ForgotPassword] Supabase error:', error.status, error.message)
       setServerError(t('errors.generic'))
       return
     }
