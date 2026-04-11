@@ -95,10 +95,16 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
     invoice.status === 'pending' || invoice.status === 'processing'
 
   // Resolve failure reason label (translate known codes, show raw otherwise)
+  // Static key mapping avoids next-intl runtime errors with dynamic template literals
+  const FAILURE_REASON_LABELS: Record<string, string> = {
+    not_invoice:     t('failureReason.not_invoice'),
+    image_unclear:   t('failureReason.image_unclear'),
+    timeout_8s:      t('failureReason.timeout_8s'),
+    parsing_failed:  t('failureReason.parsing_failed'),
+    handwritten_only: t('failureReason.handwritten_only'),
+  }
   const failureLabel = invoice.failure_reason
-    ? KNOWN_FAILURE_CODES.has(invoice.failure_reason)
-      ? t(`failureReason.${invoice.failure_reason}` as Parameters<typeof t>[0])
-      : invoice.failure_reason
+    ? (FAILURE_REASON_LABELS[invoice.failure_reason] ?? invoice.failure_reason)
     : null
 
   return (
