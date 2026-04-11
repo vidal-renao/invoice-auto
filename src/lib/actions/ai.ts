@@ -1,8 +1,6 @@
 'use server'
 
 import Anthropic from '@anthropic-ai/sdk'
-import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod'
-import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { typedFrom } from '@/lib/supabase/builder'
 import type { Invoice, InvoiceInsert } from '@/types/database'
@@ -12,77 +10,47 @@ import {
   detectReverseCharge,
 } from '@/lib/tax/validation'
 
-// ── Structured-output schema for Claude's extraction ─────────────────────────
+// ── Tool schema for Claude's extraction (plain JSON Schema — no Zod dependency) ─
 
-const ExtractedInvoiceSchema = z.object({
-  vendor_name: z
-    .string()
-    .nullable()
-    .describe('Business name of the vendor or shop'),
-  vendor_tax_id: z
-    .string()
-    .nullable()
-    .describe(
-      'Tax ID / NIF / CIF / UID / VAT number of the vendor, including country prefix if present (e.g. ESB12345678, DE123456789, CHE-123.456.789)'
-    ),
-  invoice_number: z
-    .string()
-    .nullable()
-    .describe('Invoice or receipt reference number'),
-  invoice_date: z
-    .string()
-    .nullable()
-    .describe('Issue date in YYYY-MM-DD format'),
-  subtotal_cents: z
-    .number()
-    .int()
-    .nullable()
-    .describe('Net amount before tax, in integer cents (e.g. €12.50 → 1250)'),
-  tax_cents: z
-    .number()
-    .int()
-    .nullable()
-    .describe('Tax amount in integer cents'),
-  total_cents: z
-    .number()
-    .int()
-    .nullable()
-    .describe('Total including tax in integer cents'),
-  tax_rate: z
-    .number()
-    .nullable()
-    .describe('Tax rate as a decimal fraction (e.g. 0.21 for 21 % IVA)'),
-  currency: z
-    .enum(['EUR', 'CHF', 'GBP', 'USD', 'SEK', 'DKK', 'NOK', 'PLN'])
-    .nullable()
-    .describe('ISO 4217 currency code detected from the document'),
-  country_code: z
-    .string()
-    .nullable()
-    .describe(
-      'ISO 3166-1 alpha-2 country code of the vendor (e.g. ES, DE, CH, FR, IT). Infer from the Tax ID prefix, currency, address, or language of the document.'
-    ),
-  is_reverse_charge: z
-    .boolean()
-    .nullable()
-    .describe(
-      'True if the invoice explicitly mentions "Reverse Charge", "Inversión del Sujeto Pasivo", or equivalent in any language, or if the tax amount is 0 for an intra-community B2B supply.'
-    ),
-  is_invoice: z
-    .boolean()
-    .nullable()
-    .describe(
-      'True if this document is an invoice, receipt, or expense document. False if it is a photo, ID card, contract, screenshot, or any other type of document that is NOT a financial receipt.'
-    ),
-  failure_reason: z
-    .string()
-    .nullable()
-    .describe(
-      'Only set when is_invoice is false or key fields are completely unreadable. ' +
-      'Use exactly one of: "not_invoice" (wrong document type), "image_unclear" (too blurry/dark), ' +
-      '"handwritten_only" (fully handwritten, no machine text). Leave null if extraction succeeded or partially succeeded.'
-    ),
-})
+interface ExtractedInvoice {
+  vendor_name: string | null
+  vendor_tax_id: string | null
+  invoice_number: string | null
+  invoice_date: string | null
+  subtotal_cents: number | null
+  tax_cents: number | null
+  total_cents: number | null
+  tax_rate: number | null
+  currency: 'EUR' | 'CHF' | 'GBP' | 'USD' | 'SEK' | 'DKK' | 'NOK' | 'PLN' | null
+  country_code: string | null
+  is_reverse_charge: boolean | null
+  is_invoice: boolean | null
+  failure_reason: string | null
+}
+
+const EXTRACT_TOOL: Anthropic.Tool = {
+  name: 'extract_invoice',
+  description: 'Extract all fiscal fields from an invoice or receipt document.',
+  input_schema: {
+    type: 'object',
+    properties: {
+      vendor_name: { type: ['string', 'null'], description: 'Business name of the vendor or shop' },
+      vendor_tax_id: { type: ['string', 'null'], description: 'Tax ID / NIF / CIF / UID / VAT number including country prefix (e.g. ESB12345678, DE123456789)' },
+      invoice_number: { type: ['string', 'null'], description: 'Invoice or receipt reference number' },
+      invoice_date: { type: ['string', 'null'], description: 'Issue date in YYYY-MM-DD format' },
+      subtotal_cents: { type: ['integer', 'null'], description: 'Net amount before tax in integer cents (€12.50 → 1250)' },
+      tax_cents: { type: ['integer', 'null'], description: 'Tax amount in integer cents' },
+      total_cents: { type: ['integer', 'null'], description: 'Total including tax in integer cents' },
+      tax_rate: { type: ['number', 'null'], description: 'Tax rate as decimal fraction (0.21 for 21%)' },
+      currency: { type: ['string', 'null'], enum: ['EUR', 'CHF', 'GBP', 'USD', 'SEK', 'DKK', 'NOK', 'PLN', null], description: 'ISO 4217 currency code' },
+      country_code: { type: ['string', 'null'], description: 'ISO 3166-1 alpha-2 country code (ES, DE, CH, FR, IT…)' },
+      is_reverse_charge: { type: ['boolean', 'null'], description: 'True if invoice mentions Reverse Charge or VAT is 0 for cross-border B2B' },
+      is_invoice: { type: ['boolean', 'null'], description: 'True if this is an invoice/receipt/expense document. False for photos, IDs, contracts, etc.' },
+      failure_reason: { type: ['string', 'null'], description: 'Only when is_invoice is false or unreadable: "not_invoice", "image_unclear", or "handwritten_only". Null otherwise.' },
+    },
+    required: ['vendor_name', 'vendor_tax_id', 'invoice_number', 'invoice_date', 'subtotal_cents', 'tax_cents', 'total_cents', 'tax_rate', 'currency', 'country_code', 'is_reverse_charge', 'is_invoice', 'failure_reason'],
+  },
+}
 
 // ── Action ────────────────────────────────────────────────────────────────────
 
@@ -190,13 +158,12 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
       maxRetries: 0,
     })
 
-    const response = await anthropic.messages.parse(
+    const response = await anthropic.messages.create(
       {
         model: 'claude-sonnet-4-6',
         max_tokens: 1024,
-        output_config: {
-          format: zodOutputFormat(ExtractedInvoiceSchema),
-        },
+        tools: [EXTRACT_TOOL],
+        tool_choice: { type: 'tool', name: 'extract_invoice' },
         messages: [
           {
             role: 'user',
@@ -242,7 +209,10 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
     clearTimeout(timeoutId)
     console.log(`[analyzeReceipt] Claude responded — stop_reason=${response.stop_reason}`)
 
-    const extracted = response.parsed_output
+    const toolBlock = response.content.find(
+      (b): b is Anthropic.ToolUseBlock => b.type === 'tool_use' && b.name === 'extract_invoice'
+    )
+    const extracted = toolBlock ? (toolBlock.input as ExtractedInvoice) : null
 
     // ── Guard: document is not an invoice ─────────────────────────────────
     if (extracted && extracted.is_invoice === false) {
