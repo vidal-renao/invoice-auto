@@ -64,6 +64,7 @@ export function RegisterForm() {
     })
 
     if (error) {
+      console.error('[Register] Supabase error:', error.status, error.message, error.name)
       const key = classifyRegisterError(error)
       setServerError(t(`errors.${key}`))
       return
