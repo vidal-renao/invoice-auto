@@ -223,8 +223,9 @@ export function ScanTicketButton({ variant = 'hero' }: ScanTicketButtonProps) {
     // ── Compress image before upload ───────────────────────────────────────
     const fileToUpload = await compressImage(file)
 
-    const ext = fileToUpload.name.split('.').pop() ?? 'jpg'
-    const path = `${user.id}/${crypto.randomUUID()}.${ext}`
+    // Preserve original filename with a UUID prefix to avoid collisions
+    const safeName = fileToUpload.name.replace(/[^a-zA-Z0-9._-]/g, '_').slice(0, 100)
+    const path = `${user.id}/${crypto.randomUUID()}-${safeName}`
 
     // ── Upload ────────────────────────────────────────────────────────────
     const { error: uploadError } = await supabase.storage

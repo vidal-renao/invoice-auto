@@ -52,6 +52,33 @@ export async function deleteInvoice(
   return {}
 }
 
+// ── Update status (approve / reject) ─────────────────────────────────────────
+
+export async function updateInvoiceStatus(
+  invoiceId: string,
+  status: 'approved' | 'rejected'
+): Promise<{ error?: string }> {
+  const supabase = await createClient()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) return { error: 'auth' }
+
+  const { error } = await typedFrom<Invoice, InvoiceInsert>(supabase, 'invoices')
+    .update({ status, updated_at: new Date().toISOString() })
+    .eq('id', invoiceId)
+    .eq('user_id', user.id)
+
+  if (error) {
+    console.error('[updateInvoiceStatus] Failed:', error.message)
+    return { error: 'db' }
+  }
+
+  revalidatePath('/', 'layout')
+  return {}
+}
+
 // ── Status-only poll ──────────────────────────────────────────────────────────
 
 /**

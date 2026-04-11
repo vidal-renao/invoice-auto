@@ -145,6 +145,7 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
           <StatusBadge status={invoice.status} label={statusLabel} />
           <InvoiceActions
             invoiceId={invoice.id}
+            status={invoice.status}
             receiptUrl={receiptUrl}
             isPDF={isPDF}
           />
