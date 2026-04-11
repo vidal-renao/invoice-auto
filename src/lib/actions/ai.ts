@@ -17,6 +17,7 @@ interface ExtractedInvoice {
   vendor_tax_id: string | null
   invoice_number: string | null
   invoice_date: string | null
+  due_date: string | null
   subtotal_cents: number | null
   tax_cents: number | null
   total_cents: number | null
@@ -26,31 +27,50 @@ interface ExtractedInvoice {
   is_reverse_charge: boolean | null
   is_invoice: boolean | null
   failure_reason: string | null
+  confidence: number | null
+  client_name: string | null
+  client_email: string | null
+  client_phone: string | null
+  client_tax_id: string | null
 }
 
 const EXTRACT_TOOL: Anthropic.Tool = {
   name: 'extract_invoice',
-  description: 'Extract all fiscal fields from an invoice or receipt document.',
+  description: 'Extract all fiscal and client fields from an invoice or receipt document.',
   input_schema: {
     type: 'object',
     properties: {
-      vendor_name: { type: ['string', 'null'], description: 'Business name of the vendor or shop' },
-      vendor_tax_id: { type: ['string', 'null'], description: 'Tax ID / NIF / CIF / UID / VAT number including country prefix (e.g. ESB12345678, DE123456789)' },
-      invoice_number: { type: ['string', 'null'], description: 'Invoice or receipt reference number' },
-      invoice_date: { type: ['string', 'null'], description: 'Issue date in YYYY-MM-DD format' },
-      subtotal_cents: { type: ['integer', 'null'], description: 'Net amount before tax in integer cents (€12.50 → 1250)' },
-      tax_cents: { type: ['integer', 'null'], description: 'Tax amount in integer cents' },
-      total_cents: { type: ['integer', 'null'], description: 'Total including tax in integer cents' },
-      tax_rate: { type: ['number', 'null'], description: 'Tax rate as decimal fraction (0.21 for 21%)' },
-      currency: { type: ['string', 'null'], enum: ['EUR', 'CHF', 'GBP', 'USD', 'SEK', 'DKK', 'NOK', 'PLN', null], description: 'ISO 4217 currency code' },
-      country_code: { type: ['string', 'null'], description: 'ISO 3166-1 alpha-2 country code (ES, DE, CH, FR, IT…)' },
-      is_reverse_charge: { type: ['boolean', 'null'], description: 'True if invoice mentions Reverse Charge or VAT is 0 for cross-border B2B' },
-      is_invoice: { type: ['boolean', 'null'], description: 'True if this is an invoice/receipt/expense document. False for photos, IDs, contracts, etc.' },
-      failure_reason: { type: ['string', 'null'], description: 'Only when is_invoice is false or unreadable: "not_invoice", "image_unclear", or "handwritten_only". Null otherwise.' },
+      vendor_name:      { type: ['string', 'null'], description: 'Business name of the vendor/issuer' },
+      vendor_tax_id:    { type: ['string', 'null'], description: 'Tax ID / NIF / CIF / UID / VAT number of the vendor including country prefix (e.g. ESB12345678, DE123456789)' },
+      invoice_number:   { type: ['string', 'null'], description: 'Invoice or receipt reference number' },
+      invoice_date:     { type: ['string', 'null'], description: 'Issue date in YYYY-MM-DD format' },
+      due_date:         { type: ['string', 'null'], description: 'Payment due date in YYYY-MM-DD format. Null if not stated.' },
+      subtotal_cents:   { type: ['integer', 'null'], description: 'Net amount before tax in integer cents (€12.50 → 1250)' },
+      tax_cents:        { type: ['integer', 'null'], description: 'Tax amount in integer cents' },
+      total_cents:      { type: ['integer', 'null'], description: 'Total including tax in integer cents' },
+      tax_rate:         { type: ['number', 'null'], description: 'Tax rate as decimal fraction (0.21 for 21%)' },
+      currency:         { type: ['string', 'null'], enum: ['EUR', 'CHF', 'GBP', 'USD', 'SEK', 'DKK', 'NOK', 'PLN', null], description: 'ISO 4217 currency code' },
+      country_code:     { type: ['string', 'null'], description: 'ISO 3166-1 alpha-2 country code of the vendor (ES, DE, CH, FR, IT…)' },
+      is_reverse_charge:{ type: ['boolean', 'null'], description: 'True if invoice mentions Reverse Charge or VAT is 0 for cross-border B2B' },
+      is_invoice:       { type: ['boolean', 'null'], description: 'True if this is an invoice/receipt/expense document. False for photos, IDs, contracts, etc.' },
+      failure_reason:   { type: ['string', 'null'], description: 'Only when is_invoice is false or unreadable: "not_invoice", "image_unclear", or "handwritten_only". Null otherwise.' },
+      confidence:       { type: ['number', 'null'], description: 'Your overall extraction confidence from 0.0 to 1.0 — 1.0 if all key fields are clearly readable, lower if image is poor or fields are ambiguous.' },
+      client_name:      { type: ['string', 'null'], description: 'Name of the buyer/client (the party being billed). Null if not present.' },
+      client_email:     { type: ['string', 'null'], description: 'Email address of the buyer/client. Null if not present.' },
+      client_phone:     { type: ['string', 'null'], description: 'Phone number of the buyer/client. Null if not present.' },
+      client_tax_id:    { type: ['string', 'null'], description: 'Tax ID / NIF of the buyer/client. Null if not present.' },
     },
-    required: ['vendor_name', 'vendor_tax_id', 'invoice_number', 'invoice_date', 'subtotal_cents', 'tax_cents', 'total_cents', 'tax_rate', 'currency', 'country_code', 'is_reverse_charge', 'is_invoice', 'failure_reason'],
+    required: [
+      'vendor_name', 'vendor_tax_id', 'invoice_number', 'invoice_date', 'due_date',
+      'subtotal_cents', 'tax_cents', 'total_cents', 'tax_rate', 'currency', 'country_code',
+      'is_reverse_charge', 'is_invoice', 'failure_reason', 'confidence',
+      'client_name', 'client_email', 'client_phone', 'client_tax_id',
+    ],
   },
 }
+
+/** Auto-approve threshold: if AI confidence ≥ this AND VAT math is valid, skip manual review */
+const AUTO_APPROVE_CONFIDENCE = 0.85
 
 // ── Action ────────────────────────────────────────────────────────────────────
 
@@ -258,11 +278,19 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
           ? extracted.currency
           : invoice.currency
 
+      const confidence = extracted.confidence ?? 0
+
+      // 5. Decide final status: auto-approve if confidence is high and VAT math checks out
+      const autoApprove =
+        confidence >= AUTO_APPROVE_CONFIDENCE && taxValidationStatus === 'valid'
+      const finalStatus = autoApprove ? 'approved' : 'review_needed'
+
       console.log(
-        `[analyzeReceipt] Extracted: country=${countryCode} vatStatus=${taxValidationStatus} rc=${isReverseCharge}`
+        `[analyzeReceipt] confidence=${confidence} vatStatus=${taxValidationStatus} ` +
+        `rc=${isReverseCharge} country=${countryCode} → ${finalStatus}`
       )
 
-      // 5. Persist all fields
+      // 5. Persist all fields including client info
       const { error: updateErr } = await typedFrom<Invoice, InvoiceInsert>(
         supabase,
         'invoices'
@@ -272,6 +300,7 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
           vendor_tax_id: extracted.vendor_tax_id,
           invoice_number: extracted.invoice_number,
           invoice_date: extracted.invoice_date,
+          due_date: extracted.due_date,
           subtotal_cents: extracted.subtotal_cents,
           tax_cents: extracted.tax_cents,
           total_cents: extracted.total_cents,
@@ -280,8 +309,13 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
           country_code: countryCode,
           is_reverse_charge: isReverseCharge ?? false,
           tax_validation_status: taxValidationStatus,
-          status: 'review_needed',
+          ai_confidence: confidence,
+          status: finalStatus,
           failure_reason: null,
+          client_name: extracted.client_name,
+          client_email: extracted.client_email,
+          client_phone: extracted.client_phone,
+          client_tax_id: extracted.client_tax_id,
           updated_at: new Date().toISOString(),
         })
         .eq('id', invoiceId)
@@ -290,7 +324,7 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
       if (updateErr) {
         console.error('[analyzeReceipt] Final UPDATE failed:', updateErr.message)
       } else {
-        console.log(`[analyzeReceipt] ✓ Invoice ${invoiceId} → review_needed`)
+        console.log(`[analyzeReceipt] ✓ Invoice ${invoiceId} → ${finalStatus}`)
       }
     } else {
       // Claude responded but structured output parsing failed

@@ -42,6 +42,7 @@ export interface Database {
           country_code: string | null
           category: VendorCategory | null
           email: string | null
+          phone: string | null
           website: string | null
           notes: string | null
           created_at: string
@@ -55,6 +56,7 @@ export interface Database {
           country_code?: string | null
           category?: VendorCategory | null
           email?: string | null
+          phone?: string | null
           website?: string | null
           notes?: string | null
           created_at?: string
@@ -66,6 +68,7 @@ export interface Database {
           country_code?: string | null
           category?: VendorCategory | null
           email?: string | null
+          phone?: string | null
           website?: string | null
           notes?: string | null
           updated_at?: string
@@ -126,7 +129,8 @@ export interface Database {
           vendor_name: string | null
           vendor_tax_id: string | null
           invoice_number: string | null
-          invoice_date: string | null      // ISO date string (YYYY-MM-DD)
+          invoice_date: string | null
+          due_date: string | null
           subtotal_cents: number | null
           tax_cents: number | null
           total_cents: number | null
@@ -136,14 +140,15 @@ export interface Database {
           ai_confidence: number | null
           ai_raw_response: Json | null
           notes: string | null
-          /** ISO 3166-1 alpha-2 country code inferred from vendor Tax ID */
           country_code: string | null
-          /** True when Reverse Charge / Inversión del Sujeto Pasivo applies */
           is_reverse_charge: boolean
-          /** Result of VAT math validation against legal rates */
           tax_validation_status: TaxValidationStatus
-          /** Why AI analysis failed: not_invoice | image_unclear | timeout_8s | parsing_failed | handwritten_only. Null on success. */
           failure_reason: string | null
+          /** Client (buyer) info extracted by AI */
+          client_name: string | null
+          client_email: string | null
+          client_phone: string | null
+          client_tax_id: string | null
           created_at: string
           updated_at: string
         }
@@ -155,6 +160,7 @@ export interface Database {
           vendor_tax_id?: string | null
           invoice_number?: string | null
           invoice_date?: string | null
+          due_date?: string | null
           subtotal_cents?: number | null
           tax_cents?: number | null
           total_cents?: number | null
@@ -168,6 +174,10 @@ export interface Database {
           is_reverse_charge?: boolean
           tax_validation_status?: TaxValidationStatus
           failure_reason?: string | null
+          client_name?: string | null
+          client_email?: string | null
+          client_phone?: string | null
+          client_tax_id?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -177,6 +187,7 @@ export interface Database {
           vendor_tax_id?: string | null
           invoice_number?: string | null
           invoice_date?: string | null
+          due_date?: string | null
           subtotal_cents?: number | null
           tax_cents?: number | null
           total_cents?: number | null
@@ -190,6 +201,10 @@ export interface Database {
           is_reverse_charge?: boolean
           tax_validation_status?: TaxValidationStatus
           failure_reason?: string | null
+          client_name?: string | null
+          client_email?: string | null
+          client_phone?: string | null
+          client_tax_id?: string | null
           updated_at?: string
         }
         Relationships: [

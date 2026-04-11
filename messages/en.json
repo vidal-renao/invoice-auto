@@ -167,10 +167,36 @@
       "vendorTaxId": "Vendor tax ID",
       "invoiceNumber": "Invoice no.",
       "date": "Date",
+      "dueDate": "Due date",
       "subtotal": "Subtotal",
       "tax": "Tax",
       "total": "Total",
-      "confidence": "AI confidence"
+      "confidence": "AI confidence",
+      "taxRate": "Tax rate",
+      "reverseCharge": "Reverse charge",
+      "vatStatus": "VAT validation"
+    },
+    "client": {
+      "title": "Client",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "taxId": "Tax ID",
+      "noContact": "No contact info available",
+      "sendEmail": "Send email",
+      "callPhone": "Call",
+      "sendWhatsApp": "WhatsApp",
+      "paymentMessage": "Hi {name}, your invoice {number} for {amount} is due on {date}. Please contact us if you have any questions."
+    },
+    "fiscal": {
+      "title": "Fiscal breakdown",
+      "base": "Taxable base",
+      "taxAmount": "Tax ({rate})",
+      "total": "Total due",
+      "reverseChargeNote": "Reverse charge applies — no VAT invoiced",
+      "validRate": "Rate matches legal schedule",
+      "discrepancyRate": "Rate does not match legal schedule",
+      "autoApproved": "Auto-approved — high confidence extraction"
     },
     "status": {
       "pending": "Pending",
@@ -212,7 +238,8 @@
       "taxId": "Tax ID",
       "country": "Country",
       "category": "Category",
-      "invoiceCount": "Invoices"
+      "invoiceCount": "Invoices",
+      "total": "Total spent"
     },
     "category": {
       "software": "Software",

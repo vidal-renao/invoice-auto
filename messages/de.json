@@ -167,10 +167,36 @@
       "vendorTaxId": "Steuer-ID Anbieter",
       "invoiceNumber": "Rechnungsnr.",
       "date": "Datum",
+      "dueDate": "Fälligkeitsdatum",
       "subtotal": "Nettobetrag",
       "tax": "MwSt.",
       "total": "Gesamt",
-      "confidence": "KI-Konfidenz"
+      "confidence": "KI-Konfidenz",
+      "taxRate": "Steuersatz",
+      "reverseCharge": "Umkehrung der Steuerschuld",
+      "vatStatus": "MwSt.-Validierung"
+    },
+    "client": {
+      "title": "Kunde",
+      "name": "Name",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "taxId": "Steuer-ID",
+      "noContact": "Keine Kontaktdaten vorhanden",
+      "sendEmail": "E-Mail senden",
+      "callPhone": "Anrufen",
+      "sendWhatsApp": "WhatsApp",
+      "paymentMessage": "Hallo {name}, Ihre Rechnung {number} über {amount} ist fällig am {date}. Kontaktieren Sie uns bei Fragen."
+    },
+    "fiscal": {
+      "title": "Steueraufschlüsselung",
+      "base": "Nettobetrag",
+      "taxAmount": "MwSt. ({rate})",
+      "total": "Gesamtbetrag",
+      "reverseChargeNote": "Umkehrung der Steuerschuld — keine MwSt. ausgewiesen",
+      "validRate": "Satz entspricht dem gesetzlichen Tarif",
+      "discrepancyRate": "Satz entspricht nicht dem gesetzlichen Tarif",
+      "autoApproved": "Automatisch genehmigt — hochwertige KI-Extraktion"
     },
     "status": {
       "pending": "Ausstehend",
@@ -212,7 +238,8 @@
       "taxId": "Steuer-ID",
       "country": "Land",
       "category": "Kategorie",
-      "invoiceCount": "Rechnungen"
+      "invoiceCount": "Rechnungen",
+      "total": "Gesamt ausgegeben"
     },
     "category": {
       "software": "Software",

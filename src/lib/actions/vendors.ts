@@ -12,6 +12,8 @@ export interface VendorRow {
   country_code: string | null
   category: VendorCategory | null
   invoice_count: number
+  total_cents: number
+  currency: string
 }
 
 // ── Actions ───────────────────────────────────────────────────────────────────
@@ -35,7 +37,7 @@ export async function listVendors(): Promise<VendorRow[]> {
   const [invoicesRes, vendorsRes] = await Promise.all([
     supabase
       .from('invoices')
-      .select('vendor_name, vendor_tax_id, country_code')
+      .select('vendor_name, vendor_tax_id, country_code, total_cents, currency')
       .eq('user_id', user.id)
       .not('vendor_name', 'is', null),
     supabase
@@ -67,9 +69,13 @@ export async function listVendors(): Promise<VendorRow[]> {
         country_code: row.country_code ?? null,
         category: row.vendor_tax_id ? (categoryMap.get(row.vendor_tax_id) ?? null) : null,
         invoice_count: 0,
+        total_cents: 0,
+        currency: row.currency ?? 'EUR',
       })
     }
-    vendorMap.get(key)!.invoice_count++
+    const v = vendorMap.get(key)!
+    v.invoice_count++
+    v.total_cents += (row as { total_cents: number | null }).total_cents ?? 0
   }
 
   // 4. Sort alphabetically by name

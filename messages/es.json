@@ -167,10 +167,36 @@
       "vendorTaxId": "NIF / CIF proveedor",
       "invoiceNumber": "Nº factura",
       "date": "Fecha",
+      "dueDate": "Vencimiento",
       "subtotal": "Base imponible",
       "tax": "IVA",
       "total": "Total",
-      "confidence": "Confianza IA"
+      "confidence": "Confianza IA",
+      "taxRate": "Tipo impositivo",
+      "reverseCharge": "Inversión sujeto pasivo",
+      "vatStatus": "Validación IVA"
+    },
+    "client": {
+      "title": "Cliente",
+      "name": "Nombre",
+      "email": "Email",
+      "phone": "Teléfono",
+      "taxId": "NIF / CIF",
+      "noContact": "Sin información de contacto",
+      "sendEmail": "Enviar email",
+      "callPhone": "Llamar",
+      "sendWhatsApp": "WhatsApp",
+      "paymentMessage": "Hola {name}, tu factura {number} por {amount} vence el {date}. Contáctanos si tienes alguna pregunta."
+    },
+    "fiscal": {
+      "title": "Desglose fiscal",
+      "base": "Base imponible",
+      "taxAmount": "IVA ({rate})",
+      "total": "Total a pagar",
+      "reverseChargeNote": "Inversión del sujeto pasivo — sin IVA repercutido",
+      "validRate": "Tipo coincide con el cuadro legal",
+      "discrepancyRate": "Tipo no coincide con el cuadro legal",
+      "autoApproved": "Aprobada automáticamente — extracción de alta confianza"
     },
     "status": {
       "pending": "Pendiente",
@@ -212,7 +238,8 @@
       "taxId": "NIF / CIF",
       "country": "País",
       "category": "Categoría",
-      "invoiceCount": "Facturas"
+      "invoiceCount": "Facturas",
+      "total": "Total gastado"
     },
     "category": {
       "software": "Software",
