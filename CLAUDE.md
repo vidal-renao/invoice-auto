@@ -1,144 +1,92 @@
-# CLAUDE.md — Invoice Auto · Autonomous Behavior Guide
+# VIDAL ECOSYSTEM — MASTER ENGINEERING STANDARD
 
-This file governs how Claude Code operates within this repository.
-All rules apply to every session unless the user explicitly overrides them.
+## IDENTIDAD
+**Vidal Reñao** — Senior Engineer & AI-Powered SaaS Architect  
+Ubicación: Basel, Switzerland · Mercado objetivo: Swiss & DACH SMEs  
+Especialización: AI-Powered SaaS Infrastructure · Swiss DSG/nDSG Compliance · Microsoft 365 Enterprise
 
----
+## STACK GLOBAL
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 15+ (App Router, RSC) |
+| Language | TypeScript strict mode |
+| Database | Supabase (PostgreSQL + RLS) |
+| Auth | Supabase Auth + Entra ID (enterprise) |
+| AI | Claude Sonnet 4.6 (Anthropic) |
+| Deployment | Vercel |
+| i18n | next-intl (ES / DE / EN) |
+| Styling | Tailwind CSS v4 |
+| Animation | Framer Motion 12 |
 
-## Tech Stack
+## COMANDOS (TRIGGERS)
+| Comando | Acción |
+|---|---|
+| `/ghost` | Tono ejecutivo / humano — para comunicaciones cliente |
+| `/uda` | Análisis raíz + arquitectura: leer código → diagnosticar → proponer |
+| `/ooda` | Guía técnica paso a paso — orientada a implementación |
+| `L99` | Modo experto senior: sin simplificaciones, edge-cases incluidos |
+| `/godmode` | Profundidad máxima — arquitectura, trade-offs, alternativas |
+| `/audit` | Auditoría de seguridad: OWASP Top 10, RLS, secrets, injection |
 
-| Layer       | Technology                          |
-|-------------|-------------------------------------|
-| Framework   | Next.js 16 (App Router)             |
-| Language    | TypeScript 5 — strict mode          |
-| Styling     | Tailwind CSS v4                     |
-| Backend/DB  | Supabase (Postgres + Auth + Storage)|
-| Deployment  | Vercel                              |
+## REGLAS DE EJECUCIÓN (NO NEGOCIABLES)
+1. **Sin relleno** — directo a la solución. Cero "analizando...", "explorando...", "perfecto!".
+2. **Clean Architecture**: separación de capas, single responsibility, dependency inversion.
+3. **Tipado estricto**: sin `any`, sin `as unknown`, interfaces > types para contratos públicos.
+4. **SOLID en todo**: especialmente Open/Closed en features IA y Single Responsibility en Server Actions.
+5. **Docs estándar suizo**: Mermaid (arquitectura), Shields.io (badges), ADRs (decisiones), SEO estructurado.
+6. **Autonomía**: actualizar README al detectar cambios en APIs, Schema o variables de entorno.
+7. **Seguridad primero**: validar en boundaries (input usuario, APIs externas). No validar código interno.
+8. **No over-engineering**: 0 abstracciones especulativas. Solo la complejidad que la tarea requiere.
 
----
+## COMPLIANCE SWISS DSG / nDSG
+- **RLS obligatorio** en todas las tablas Supabase con datos de usuario
+- **Audit logs inmutables** para operaciones críticas (INSERT-only, sin UPDATE/DELETE)
+- **PII Detection** antes de persistir datos sensibles — usar Claude API si aplica
+- **Retención definida** por proyecto — documentar en ADR
+- **Sin transferencia de datos** fuera de jurisdicción suiza sin consentimiento explícito
+- **Modelo de amenazas** documentado en proyectos con datos de terceros
 
-## Quality Standard
-
-**Target: 100/100 Lighthouse across all four categories.**
-
-- Performance, Accessibility, Best Practices, SEO.
-- Every new page or component must not regress any score.
-- Use `next/image` for all images, `next/font` for typography.
-- Prefer `React.lazy` / dynamic imports for heavy client-side modules.
-- Never ship unused CSS — rely on Tailwind's JIT purging.
-- Add `aria-*` attributes and semantic HTML from the first commit.
-
----
-
-## Golden Rules
-
-### 1. Never assume context — ask first
-If a requirement is ambiguous, stop and ask a focused question before writing code.
-One clarifying question beats one wrong implementation.
-
-### 2. Strict TypeScript — always
-- `tsconfig.json` must have `"strict": true` and `"noUncheckedIndexedAccess": true`.
-- No `any`. Use `unknown` and narrow explicitly.
-- All props, API responses, and Supabase row types must be typed.
-- Generate DB types with `supabase gen types typescript`.
-
-### 3. Dark mode first — Vercel/Linear aesthetic
-- Design tokens and components start from dark backgrounds (`#0a0a0a`, `#111`, `#1a1a1a`).
-- Light mode is a secondary concern; implement it only when explicitly requested.
-- Use `tailwind`'s `dark:` variant for all color utilities.
-- Maintain high contrast ratios (WCAG AA minimum, AAA preferred).
-- Accent color: electric indigo / violet (`violet-500` / `#7c3aed`) or `neutral` grays.
-- Typography: Inter or Geist via `next/font`; tight leading, generous spacing.
-
-### 4. Internationalisation (i18n) from component zero
-- **Supported locales: `es` (default), `de`, `en`.**
-- Use `next-intl` as the i18n library.
-- Every user-facing string must live in `/messages/{locale}.json`.
-- No hardcoded strings anywhere in JSX/TSX.
-- File structure:
-  ```
-  /messages
-    es.json   ← default
-    de.json
-    en.json
-  ```
-- Locale is resolved via Next.js middleware (`/src/middleware.ts`).
-- Date, number, and currency formatting must use `Intl.*` APIs with the active locale.
-
----
-
-## Project Structure (canonical)
-
+## ARQUITECTURA DE REFERENCIA
 ```
-/
-├── src/
-│   ├── app/                  # Next.js App Router pages & layouts
-│   │   └── [locale]/         # Localised route group
-│   ├── components/           # Reusable UI components
-│   │   └── ui/               # Primitives (Button, Input, Card…)
-│   ├── lib/                  # Utilities, Supabase client, helpers
-│   │   └── supabase/
-│   │       ├── client.ts     # Browser client
-│   │       └── server.ts     # Server-side client (cookies)
-│   ├── types/                # Shared TypeScript types & DB types
-│   ├── hooks/                # Custom React hooks
-│   └── middleware.ts         # i18n + auth middleware
-├── messages/                 # i18n translation files
-├── public/                   # Static assets
-├── supabase/                 # Supabase migrations & seed
-├── CLAUDE.md
-├── next.config.ts
-├── tailwind.config.ts
-└── tsconfig.json
+app/
+├── [locale]/           ← next-intl routing
+│   ├── (auth)/         ← auth group
+│   ├── (dashboard)/    ← protected routes
+│   └── layout.tsx      ← locale metadata + OG
+├── api/                ← Route Handlers (edge-compatible)
+│   └── webhooks/       ← external integrations
+components/
+├── ui/                 ← primitives (Button, Card, Input)
+├── sections/           ← page sections (no business logic)
+└── features/           ← domain components con lógica
+lib/
+├── supabase/           ← client + server + middleware
+├── ai/                 ← Claude API wrappers
+└── validations/        ← Zod schemas (single source of truth)
+middleware.ts           ← next-intl + Supabase session refresh
 ```
 
----
+## ESTÁNDARES UI/UX
+- **Dark mode nativo**: background `#060606`, glassmorphism con `rgba(255,255,255,0.04)`
+- **Grid system**: max-w-6xl, px-6, gap-5/gap-6
+- **Animaciones**: Framer Motion `initial/animate/transition` — `once: true` en scroll triggers
+- **Tipografía**: Geist Sans variable, tracking-tight en headings, text-white/50 para muted
+- **Badges Shields.io**: stack, compliance, deployment status en READMEs
+- **Diagramas Mermaid**: arquitectura, flujos de datos, ERD en docs/
 
-## Code Conventions
+## GESTIÓN DEL ECOSISTEMA
+- Al entrar en un subproyecto: leer su `README.md` y estructura antes de actuar
+- Mantener siempre los estándares globales — el contexto específico nunca los anula
+- Propagar cambios de estándar al master (`VIDAL ECOSYSTEM/CLAUDE.md`) primero, luego a subproyectos
+- Cada proyecto tiene su propio ADR para decisiones arquitectónicas locales
 
-### Components
-- One component per file; filename matches export name (PascalCase).
-- Server Components by default; add `'use client'` only when strictly necessary.
-- Props interfaces are defined inline above the component, never in a separate file unless shared.
-
-### Styling
-- Tailwind utility classes only — no inline `style={{}}` except for dynamic values unavailable in Tailwind.
-- Class order: layout → flexbox/grid → sizing → spacing → typography → color → effects.
-- Use `cn()` (clsx + tailwind-merge) for conditional class merging.
-
-### Data fetching
-- Server Components fetch directly from Supabase server client.
-- Client Components use `useSWR` or React Query — never `useEffect` for data fetching.
-- All Supabase queries must handle errors explicitly; never ignore `.error`.
-
-### Naming
-- Variables and functions: `camelCase`.
-- Types and interfaces: `PascalCase`.
-- Constants: `UPPER_SNAKE_CASE`.
-- Files: `kebab-case` (except components which are `PascalCase.tsx`).
-
----
-
-## Security
-
-- Never expose Supabase `service_role` key client-side.
-- Use Row Level Security (RLS) on every table — no exceptions.
-- Validate all user input server-side with `zod` before writing to the DB.
-- Environment variables prefixed `NEXT_PUBLIC_` are intentionally public; treat all others as secrets.
-
----
-
-## Git Discipline
-
-- Commits follow Conventional Commits: `feat:`, `fix:`, `refactor:`, `chore:`, `docs:`.
-- Never commit `.env*` files.
-- Branch naming: `feat/short-description`, `fix/short-description`.
-
----
-
-## Out of Scope (ask before proceeding)
-
-- Changing the database schema without explicit approval.
-- Adding new third-party dependencies without discussion.
-- Modifying Supabase RLS policies.
-- Deploying to production.
+## PROYECTOS ACTIVOS (Abril 2026)
+| Proyecto | Estado | Stack destacado |
+|---|---|---|
+| `limpiezas-najip-maritza` | Producción (dnamar.ch) | Next.js 16, Tailwind 4, Resend |
+| `invoice-auto` | Avanzado | Claude Vision AI, Supabase, PWA |
+| `cv-platform` | Production-ready | Node.js/Express, PostgreSQL, Twilio |
+| `matchpoint-ai` | Fase 3 MVP | Claude Sonnet 4.6, 4D matching |
+| `vidal-pro-portfolio` | Publicado | Next.js 16, next-intl, Framer Motion |
+| `Ticket System` | En desarrollo | Next.js 15, AI Triaging, DSG |
+| `vidal-standards` | Referencia | Este repositorio |
