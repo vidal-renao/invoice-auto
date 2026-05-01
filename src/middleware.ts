@@ -5,14 +5,10 @@ import { routing } from './i18n/routing'
 
 const intlMiddleware = createMiddleware(routing)
 
-// Next.js 16 uses "proxy" convention instead of "middleware"
-export async function proxy(request: NextRequest) {
-  // Run next-intl locale routing first — it returns a NextResponse with
-  // redirect/rewrite or a plain "continue" response.
+// Cambiamos el nombre a 'middleware' para que el build de Vercel no falle
+export async function middleware(request: NextRequest) {
   const response = intlMiddleware(request)
 
-  // Refresh the Supabase session on every request so Server Components always
-  // receive an up-to-date session via cookies.
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
