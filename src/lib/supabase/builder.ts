@@ -17,6 +17,7 @@ export interface SelectBuilder<TRow> {
   lt(col: string, val: unknown): SelectBuilder<TRow>
   ilike(col: string, pattern: string): SelectBuilder<TRow>
   order(col: string, opts?: { ascending: boolean }): SelectBuilder<TRow>
+  limit(count: number): SelectBuilder<TRow>
   select(cols: string, opts?: { count: 'exact'; head: boolean }): SelectBuilder<TRow>
   single(): Promise<{ data: TRow | null; error: { message: string } | null }>
   then: Promise<{
@@ -59,4 +60,23 @@ export function typedFrom<TRow, TInsert>(
   tableName: string
 ): TableBuilder<TRow, TInsert> {
   return client.from(tableName) as TableBuilder<TRow, TInsert>
+}
+
+export interface RpcError {
+  message: string
+  code?: string
+}
+
+/**
+ * Typed call to a Postgres function (see supabase/migrations/009_payments.sql).
+ * Same reason as `typedFrom`: the hand-written Database type declares no
+ * Functions, so the generic `rpc` signature cannot be inferred.
+ */
+export async function typedRpc<TResult>(
+  client: { rpc(fn: string, args?: Record<string, unknown>): PromiseLike<{ data: unknown; error: RpcError | null }> },
+  fn: string,
+  args: Record<string, unknown>,
+): Promise<{ data: TResult | null; error: RpcError | null }> {
+  const { data, error } = await client.rpc(fn, args)
+  return { data: (data as TResult | null) ?? null, error }
 }

@@ -149,6 +149,8 @@ export interface Database {
           client_email: string | null
           client_phone: string | null
           client_tax_id: string | null
+          payment_iban: string | null
+          payment_reference: string | null
           created_at: string
           updated_at: string
         }
@@ -178,6 +180,8 @@ export interface Database {
           client_email?: string | null
           client_phone?: string | null
           client_tax_id?: string | null
+          payment_iban?: string | null
+          payment_reference?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -205,6 +209,8 @@ export interface Database {
           client_email?: string | null
           client_phone?: string | null
           client_tax_id?: string | null
+          payment_iban?: string | null
+          payment_reference?: string | null
           updated_at?: string
         }
         Relationships: [

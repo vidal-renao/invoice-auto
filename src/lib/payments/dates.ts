@@ -49,3 +49,14 @@ export function requestedExecutionDate(dueDate: string | null, today: string): s
   while (isWeekend(day)) day = addDays(day, 1)
   return day
 }
+
+/**
+ * "Today" for payment purposes. Spain (peninsula) and Switzerland share the
+ * Central European time zone, so one business calendar serves both.
+ */
+export const BUSINESS_TIME_ZONE = 'Europe/Zurich'
+
+export function businessToday(now: Date): string {
+  // en-CA formats as YYYY-MM-DD.
+  return new Intl.DateTimeFormat('en-CA', { timeZone: BUSINESS_TIME_ZONE }).format(now)
+}

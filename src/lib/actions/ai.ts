@@ -9,6 +9,7 @@ import {
   validateVatMath,
   detectReverseCharge,
 } from '@/lib/tax/validation'
+import { checkIban } from '@/lib/payments/iban'
 
 // ── Tool schema for Claude's extraction (plain JSON Schema — no Zod dependency) ─
 
@@ -32,6 +33,8 @@ interface ExtractedInvoice {
   client_email: string | null
   client_phone: string | null
   client_tax_id: string | null
+  payment_iban: string | null
+  payment_reference: string | null
 }
 
 const EXTRACT_TOOL: Anthropic.Tool = {
@@ -59,14 +62,27 @@ const EXTRACT_TOOL: Anthropic.Tool = {
       client_email:     { type: ['string', 'null'], description: 'Email address of the buyer/client. Null if not present.' },
       client_phone:     { type: ['string', 'null'], description: 'Phone number of the buyer/client. Null if not present.' },
       client_tax_id:    { type: ['string', 'null'], description: 'Tax ID / NIF of the buyer/client. Null if not present.' },
+      payment_iban:     { type: ['string', 'null'], description: 'IBAN the document asks to be paid to, exactly as printed (also the account of a Swiss QR-bill payment part). Null if none is printed.' },
+      payment_reference:{ type: ['string', 'null'], description: 'Payment reference to quote when paying: Swiss QR reference (27 digits), creditor reference starting with RF, or the free-text reference the document asks for. Null if none.' },
     },
     required: [
       'vendor_name', 'vendor_tax_id', 'invoice_number', 'invoice_date', 'due_date',
       'subtotal_cents', 'tax_cents', 'total_cents', 'tax_rate', 'currency', 'country_code',
       'is_reverse_charge', 'is_invoice', 'failure_reason', 'confidence',
       'client_name', 'client_email', 'client_phone', 'client_tax_id',
+      'payment_iban', 'payment_reference',
     ],
   },
+}
+
+/**
+ * Keeps an extracted IBAN only if it passes the checksum. A misread IBAN
+ * would otherwise raise a false "IBAN differs from the verified one" alarm.
+ */
+function normalizePrintedIban(raw: string | null): string | null {
+  if (!raw) return null
+  const check = checkIban(raw)
+  return check.valid ? check.iban : null
 }
 
 /** Auto-approve threshold: if AI confidence ≥ this AND VAT math is valid, skip manual review */
@@ -316,6 +332,10 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
           client_email: extracted.client_email,
           client_phone: extracted.client_phone,
           client_tax_id: extracted.client_tax_id,
+          // Stored as evidence only: payments always go to the verified
+          // supplier account, and a mismatch holds the payment.
+          payment_iban: normalizePrintedIban(extracted.payment_iban),
+          payment_reference: extracted.payment_reference?.trim().slice(0, 140) || null,
           updated_at: new Date().toISOString(),
         })
         .eq('id', invoiceId)
