@@ -120,7 +120,7 @@ export default function LandingPage() {
                 <div key={step.num} className="relative rounded-xl border border-[#2a2a2a] bg-[#111] p-6">
                   <div className="mb-4 flex items-center gap-3">
                     <span className="text-2xl" role="img" aria-label={step.title}>{step.icon}</span>
-                    <span className="font-mono text-xs text-[#555]">{step.num}</span>
+                    <span className="font-mono text-xs text-[#8a8a8a]">{step.num}</span>
                   </div>
                   <h3 className="mb-2 text-base font-semibold">{step.title}</h3>
                   <p className="text-sm leading-relaxed text-[#888]">{step.desc}</p>
@@ -174,7 +174,7 @@ export default function LandingPage() {
       </main>
 
       {/* ── Footer ─────────────────────────────────────────── */}
-      <footer className="border-t border-[#2a2a2a] px-6 py-8 text-center text-xs text-[#555]">
+      <footer className="border-t border-[#2a2a2a] px-6 py-8 text-center text-xs text-[#8a8a8a]">
         <p>
           © {new Date().getFullYear()} Invoice Auto ·{' '}
           <a
