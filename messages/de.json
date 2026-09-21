@@ -116,7 +116,8 @@
     "invoices": "Rechnungen",
     "clients": "Kunden",
     "settings": "Einstellungen",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "payments": "Zahlungen"
   },
   "scan": {
     "cta": "Beleg scannen",
@@ -296,7 +297,8 @@
   "landing": {
     "nav": {
       "signin": "Anmelden",
-      "getStarted": "Kostenlos starten"
+      "getStarted": "Kostenlos starten",
+      "demo": "Zahlungs-Demo"
     },
     "hero": {
       "badge": "Powered by Claude Vision AI",
@@ -350,5 +352,220 @@
     "back": "Zurück",
     "notes": "Notizen",
     "appName": "Invoice Auto"
+  },
+  "payments": {
+    "title": "Zahlungen",
+    "subtitle": "Eine freigegebene Rechnung ist korrekt – eine sichere Zahlung ist sie damit noch nicht. Hier wird Rechnung für Rechnung entschieden, was bezahlt wird, was einen zweiten Blick braucht und was angehalten wird.",
+    "tabs": {
+      "queue": "Zahlungsliste",
+      "suppliers": "Lieferantenkonten",
+      "batches": "Zahlungsdateien",
+      "audit": "Protokoll",
+      "settings": "Einstellungen"
+    },
+    "outcome": {
+      "pay": "Bezahlen",
+      "review": "Prüfen",
+      "stop": "Anhalten",
+      "payHint": "Keine Auffälligkeiten. Sie kommen in die nächste Zahlungsdatei.",
+      "reviewHint": "Eine Person muss sie ansehen. Sie kann sie mit einer Notiz freigeben – gültig nur für genau diese Bewertung.",
+      "stopHint": "Zuerst muss etwas geklärt werden. Anhalten wird nicht übersprungen, sondern gelöst."
+    },
+    "stats": {
+      "pay": "Zahlungsbereit",
+      "review": "In Prüfung",
+      "stop": "Angehalten",
+      "settled": "Geplant oder bezahlt",
+      "awaitingApproval": "{count, plural, =0 {Keine Rechnung wartet auf die steuerliche Freigabe} one {# Rechnung wartet auf die steuerliche Freigabe} other {# Rechnungen warten auf die steuerliche Freigabe}}"
+    },
+    "reasons": {
+      "already_scheduled": "Bereits in einer erstellten Zahlungsdatei.",
+      "already_paid": "Bereits bezahlt.",
+      "not_approved": "Die Rechnung ist noch nicht freigegeben (Status: {status}). Zuerst unter Rechnungen freigeben.",
+      "invoice_rejected": "Die Rechnung wurde abgelehnt.",
+      "amount_missing": "Kein gültiger Gesamtbetrag.",
+      "currency_unsupported": "Währung {currency}: bezahlt werden nur EUR und CHF.",
+      "no_bank_account": "Für diesen Lieferanten ist kein Bankkonto erfasst.",
+      "no_bank_account_with_iban": "Kein Konto erfasst. Die Rechnung nennt {invoice_iban}: erfassen und über einen unabhängigen Kanal bestätigen, bevor bezahlt wird.",
+      "account_unverified": "Das Konto {iban} wartet auf die Bestätigung über einen unabhängigen Kanal.",
+      "account_rejected": "Das Konto {iban} wurde abgelehnt.",
+      "account_cooling_off": "Das Konto {iban} wurde kürzlich geändert. Wartefrist bis {until}.",
+      "iban_mismatch": "Die Rechnung verlangt Zahlung auf {invoice_iban}, das bestätigte Konto ist aber {account_iban}. Das typische Muster des IBAN-Betrugs: telefonisch beim Lieferanten nachfragen, bevor etwas geschieht.",
+      "account_iban_invalid": "Die gespeicherte IBAN {iban} besteht die Prüfung nicht ({problem}).",
+      "duplicate_exact": "Doppelt: derselbe Lieferant hat bereits die Rechnung {other_number} ({other_date}) gestellt, Status: {other_state}.",
+      "route_unsupported": "Keine Zahlung in {currency} auf ein Konto in {country}.",
+      "qr_iban_needs_qrr": "{iban} ist eine QR-IBAN und akzeptiert nur Zahlungen mit QR-Referenz (27 Ziffern). Sie fehlt oder ist ungültig.",
+      "qrr_needs_qr_iban": "Die Rechnung hat eine QR-Referenz, aber {iban} ist keine QR-IBAN. Die Bank würde sie ablehnen.",
+      "duplicate_probable": "Mögliches Duplikat von {other_number} ({other_date}): gleicher Betrag, nahe Daten.",
+      "amount_above_threshold": "Betrag erreicht die Vier-Augen-Schwelle ({threshold_cents}).",
+      "amount_anomaly": "Betrag ist das {factor}-Fache des Medians dieses Lieferanten ({median_cents}, {sample} Rechnungen).",
+      "supplier_without_tax_id": "Der Lieferant ist nur über den Namen identifiziert, ohne UID/Steuernummer.",
+      "overdue": "Seit {days, plural, one {# Tag} other {# Tagen}} fällig.",
+      "no_due_date": "Kein Fälligkeitsdatum: Zahlung am nächsten Bankwerktag vorgeschlagen."
+    },
+    "paymentState": {
+      "in_batch": "In einer Datei",
+      "paid": "Bezahlt"
+    },
+    "route": {
+      "sepa": "SEPA",
+      "ch_domestic": "Schweiz (Inland)"
+    },
+    "queue": {
+      "supplier": "Lieferant",
+      "invoice": "Rechnung",
+      "amount": "Betrag",
+      "due": "Fällig",
+      "execution": "Ausführung",
+      "account": "Konto",
+      "reasons": "Gründe",
+      "select": "{invoice} auswählen",
+      "selectAll": "Alle auswählen",
+      "selected": "{count} ausgewählt",
+      "generate": "Zahlungsdatei erstellen",
+      "generating": "Wird erstellt…",
+      "generated": "Datei erstellt. Unter Zahlungsdateien herunterladen und ins E-Banking hochladen.",
+      "emptyPay": "Nichts zahlungsbereit.",
+      "emptyReview": "Nichts zu prüfen.",
+      "emptyStop": "Nichts angehalten.",
+      "overridden": "Prüfung freigegeben",
+      "acceptTitle": "Prüfung freigeben",
+      "acceptNote": "Warum die Zahlung korrekt ist",
+      "acceptPlaceholder": "z. B. Jahresvertrag, von der Geschäftsleitung genehmigt",
+      "accept": "Freigeben und bezahlen",
+      "registerIban": "IBAN der Rechnung erfassen",
+      "goVerify": "Konto bestätigen",
+      "openInvoice": "Rechnung öffnen",
+      "settingsMissing": "Das Belastungskonto fehlt. Es muss eingerichtet sein, um Zahlungsdateien zu erstellen.",
+      "noDate": "—",
+      "enterOtherIban": "Andere IBAN eingeben",
+      "register": "Erfassen"
+    },
+    "suppliers": {
+      "title": "Lieferantenkonten",
+      "intro": "Jede neue oder geänderte IBAN beginnt unbestätigt. Bestätigen heisst: über einen Kanal prüfen, der nicht aus der Rechnung oder der E-Mail stammt – ein Rückruf an die bekannte Nummer, persönlich, ein unterschriebener Brief oder die Bestätigung der Bank.",
+      "empty": "Noch keine Konten. Sie werden aus einer Rechnung erfasst, die mangels Konto angehalten ist.",
+      "status": {
+        "pending_verification": "Unbestätigt",
+        "verified": "Bestätigt",
+        "rejected": "Abgelehnt",
+        "superseded": "Ersetzt"
+      },
+      "change": "IBAN-Änderung",
+      "coolingUntil": "Wartefrist bis {until}",
+      "registered": "Erfasst {date}",
+      "verifiedBy": "Bestätigt {date} · {channel} · {contact}",
+      "rejectedBecause": "Abgelehnt: {reason}",
+      "fromInvoice": "Aus der Rechnung übernommen",
+      "manual": "Manuell eingegeben",
+      "channel": {
+        "phone_callback": "Rückruf an bekannte Nummer",
+        "in_person": "Persönlich",
+        "signed_letter": "Unterschriebener Brief",
+        "bank_confirmation": "Bestätigung der Bank"
+      },
+      "verifyTitle": "Dieses Konto bestätigen",
+      "channelLabel": "Kanal",
+      "contactLabel": "Verwendeter bekannter Kontakt",
+      "contactHint": "Der Kontakt, den du schon vor dieser Rechnung hattest – nie der aus der Rechnung.",
+      "noteLabel": "Notiz (optional)",
+      "verify": "Als bestätigt markieren",
+      "rejectLabel": "Grund der Ablehnung",
+      "reject": "Konto ablehnen",
+      "history": "Verlauf"
+    },
+    "batches": {
+      "title": "Zahlungsdateien",
+      "intro": "Dateien nach ISO 20022 pain.001.001.09, gültig für SEPA und den Schweizer Standard SPS. Das Erstellen bewegt kein Geld: Die Datei wird heruntergeladen und ins E-Banking hochgeladen.",
+      "empty": "Noch keine Datei erstellt.",
+      "status": {
+        "generated": "Erstellt",
+        "executed": "Ausgeführt",
+        "cancelled": "Storniert"
+      },
+      "summary": "{count, plural, one {# Zahlung} other {# Zahlungen}} · {total}",
+      "created": "Erstellt {date}",
+      "executedAt": "Ausgeführt {date}",
+      "cancelledAt": "Storniert {date}: {reason}",
+      "download": "XML herunterladen",
+      "markExecuted": "Als ausgeführt markieren",
+      "markExecutedConfirm": "Hat die Bank diese Datei bereits ausgeführt? Die Rechnungen gelten dann als bezahlt.",
+      "cancel": "Datei stornieren",
+      "cancelReason": "Grund der Stornierung",
+      "cancelHint": "Die Rechnungen kehren in die Liste zurück und werden neu bewertet."
+    },
+    "audit": {
+      "title": "Prüfprotokoll",
+      "intro": "Jede Entscheidung und jede Statusänderung mit ihrem Nachweis. Nur Anfügen ist möglich: Die Datenbank verweigert das Ändern oder Löschen von Einträgen.",
+      "empty": "Noch keine Aktivität.",
+      "when": "Datum",
+      "what": "Aktion",
+      "details": "Details",
+      "action": {
+        "settings_saved": "Einstellungen gespeichert",
+        "account_registered": "Konto erfasst",
+        "account_changed": "IBAN-Änderung erfasst",
+        "account_verified": "Konto bestätigt",
+        "account_rejected": "Konto abgelehnt",
+        "review_accepted": "Prüfung freigegeben",
+        "batch_created": "Zahlungsdatei erstellt",
+        "batch_executed": "Datei als ausgeführt markiert",
+        "batch_cancelled": "Datei storniert"
+      }
+    },
+    "settings": {
+      "title": "Zahlungseinstellungen",
+      "debtorName": "Inhaber des Belastungskontos",
+      "debtorIban": "IBAN des Belastungskontos",
+      "debtorBic": "BIC (optional)",
+      "threshold": "Vier-Augen-Schwelle",
+      "thresholdHint": "Beträge ab dieser Höhe gehen in die Prüfung, in der Währung der Rechnung.",
+      "coolingOff": "Wartefrist nach IBAN-Änderung (Stunden)",
+      "coolingOffHint": "Nach Bestätigung einer geänderten IBAN warten Zahlungen so lange. Das gibt dem echten Lieferanten Zeit, einen Betrug zu bemerken.",
+      "save": "Speichern",
+      "saved": "Gespeichert."
+    },
+    "invoicePanel": {
+      "title": "Zahlung",
+      "settled": "Diese Rechnung ist bereits: {state}.",
+      "notApproved": "Wird entschieden, sobald die Rechnung freigegeben ist.",
+      "openQueue": "In der Zahlungsliste ansehen"
+    },
+    "errors": {
+      "auth": "Deine Sitzung ist abgelaufen. Bitte neu anmelden.",
+      "invalid": "Bitte die Eingaben prüfen.",
+      "not_found": "Nicht gefunden.",
+      "settings_missing": "Zuerst das Belastungskonto einrichten.",
+      "not_payable": "Eine Rechnung ist nicht mehr zahlbar: Die Lage hat sich geändert. Seite neu laden.",
+      "not_in_review": "Diese Rechnung ist nicht mehr in Prüfung.",
+      "supplier_unknown": "Die Rechnung identifiziert den Lieferanten nicht.",
+      "iban_missing": "Die Rechnung nennt keine IBAN: bitte manuell eingeben.",
+      "already_scheduled": "Eine Rechnung ist bereits in einer anderen Zahlungsdatei.",
+      "account_not_verified": "Das Konto ist nicht bestätigt.",
+      "account_cooling_off": "Das Konto ist in der Wartefrist.",
+      "account_has_open_batch": "Es gibt Zahlungen auf dieses Konto in einer offenen Datei. Zuerst stornieren.",
+      "state_changed": "Der Status hat sich inzwischen geändert. Seite neu laden.",
+      "db": "Speichern nicht möglich. Bitte erneut versuchen.",
+      "iban_format": "Das sieht nicht wie eine IBAN aus.",
+      "iban_country": "Nur IBAN aus SEPA-Ländern.",
+      "iban_length": "Falsche Länge für dieses Land.",
+      "iban_checksum": "Die Prüfziffern stimmen nicht: IBAN prüfen.",
+      "bic_invalid": "Ungültige BIC.",
+      "required": "Pflichtfeld.",
+      "too_long": "Zu lang.",
+      "range": "Ausserhalb des Bereichs.",
+      "positive": "Muss grösser als null sein.",
+      "integer": "Muss eine ganze Zahl sein.",
+      "too_large": "Zu gross."
+    },
+    "demo": {
+      "badge": "Demo",
+      "title": "Entscheidungsmotor für Zahlungen",
+      "intro": "Fiktive Daten eines Unternehmens mit Lieferanten in Spanien und der Schweiz, bei jedem Aufruf mit demselben Motor neu berechnet, den die Anwendung verwendet. Jede Rechnung zeigt, warum sie bezahlt, geprüft oder angehalten wird.",
+      "downloadSample": "Beispiel-Datei pain.001 herunterladen",
+      "readOnly": "Nur Ansicht: Aktionen sind deaktiviert.",
+      "cta": "Mit eigenen Rechnungen testen",
+      "backHome": "Start"
+    }
   }
 }

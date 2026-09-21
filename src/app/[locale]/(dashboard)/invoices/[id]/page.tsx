@@ -10,6 +10,11 @@ import { InvoiceActions } from '@/components/invoice/InvoiceActions'
 import { ClientContactPanel } from '@/components/invoice/ClientContactPanel'
 import { COUNTRY_TAX_CONFIG } from '@/lib/tax/config'
 import type { InvoiceStatus, Currency } from '@/types/database'
+import { InvoicePaymentPanel } from '@/components/payments/InvoicePaymentPanel'
+import { businessToday } from '@/lib/payments/dates'
+import { buildQueue, type Queue } from '@/lib/payments/queue'
+import { loadWorkspace } from '@/lib/payments/repository'
+import { createClient } from '@/lib/supabase/server'
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -59,6 +64,24 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
   if (!result) notFound()
 
   const { invoice, receiptUrl } = result
+
+  // The payment decision for this invoice needs the whole picture (history,
+  // accounts, other invoices), exactly as the payment queue computes it.
+  let paymentQueue: Queue | null = null
+  if (invoice.status === 'approved') {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (user) {
+      try {
+        const { workspace } = await loadWorkspace(supabase, user.id)
+        const now = new Date()
+        paymentQueue = buildQueue(workspace, now, businessToday(now))
+      } catch (error) {
+        // The invoice page must keep working if the payment layer is unavailable.
+        console.error('[InvoicePage] payment decision unavailable:', error instanceof Error ? error.message : error)
+      }
+    }
+  }
   const isPDF = invoice.receipt_path?.toLowerCase().endsWith('.pdf') ?? false
   const currency = invoice.currency as Currency
   const statusLabel = t(`status.${invoice.status}`)
@@ -232,6 +255,11 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
                 </div>
               </div>
             </div>
+          )}
+
+          {/* ── Payment decision ────────────────────── */}
+          {paymentQueue && (
+            <InvoicePaymentPanel invoiceId={invoice.id} queue={paymentQueue} paymentsHref={`/${locale}/payments`} />
           )}
 
           {/* ── Client contact panel ────────────────── */}

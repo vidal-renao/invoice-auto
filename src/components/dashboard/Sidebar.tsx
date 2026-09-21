@@ -28,6 +28,16 @@ function FileIcon({ className }: { className?: string }) {
   )
 }
 
+function PaymentIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
+      <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" />
+      <path d="M1.5 6.5h13" />
+      <path d="M4 10h3" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 function UsersIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
@@ -71,6 +81,7 @@ export function Sidebar({ locale }: SidebarProps) {
   const navItems = [
     { href: `/${locale}/dashboard`, label: t('dashboard'), Icon: GridIcon },
     { href: `/${locale}/invoices`, label: t('invoices'), Icon: FileIcon },
+    { href: `/${locale}/payments`, label: t('payments'), Icon: PaymentIcon },
     { href: `/${locale}/clients`, label: t('clients'), Icon: UsersIcon },
     { href: `/${locale}/settings`, label: t('settings'), Icon: SettingsIcon },
   ]

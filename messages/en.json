@@ -116,7 +116,8 @@
     "invoices": "Invoices",
     "clients": "Clients",
     "settings": "Settings",
-    "logout": "Sign out"
+    "logout": "Sign out",
+    "payments": "Payments"
   },
   "scan": {
     "cta": "Scan Receipt",
@@ -296,7 +297,8 @@
   "landing": {
     "nav": {
       "signin": "Sign in",
-      "getStarted": "Get started free"
+      "getStarted": "Get started free",
+      "demo": "Payments demo"
     },
     "hero": {
       "badge": "Powered by Claude Vision AI",
@@ -350,5 +352,220 @@
     "back": "Back",
     "notes": "Notes",
     "appName": "Invoice Auto"
+  },
+  "payments": {
+    "title": "Payments",
+    "subtitle": "An approved invoice is a correct invoice; that does not make it a safe payment. Here each invoice is decided: what gets paid, what needs a second look and what is held.",
+    "tabs": {
+      "queue": "Payment queue",
+      "suppliers": "Supplier accounts",
+      "batches": "Payment files",
+      "audit": "Audit log",
+      "settings": "Settings"
+    },
+    "outcome": {
+      "pay": "Pay",
+      "review": "Review",
+      "stop": "Hold",
+      "payHint": "Nothing to flag. They go into the next payment file.",
+      "reviewHint": "A person must look at them. They can accept with a note, valid only for this exact evaluation.",
+      "stopHint": "Something must be fixed first. A hold is resolved, never skipped."
+    },
+    "stats": {
+      "pay": "Ready to pay",
+      "review": "In review",
+      "stop": "Held",
+      "settled": "Scheduled or paid",
+      "awaitingApproval": "{count, plural, =0 {No invoices waiting for tax approval} one {# invoice waiting for tax approval} other {# invoices waiting for tax approval}}"
+    },
+    "reasons": {
+      "already_scheduled": "Already in a generated payment file.",
+      "already_paid": "Already paid.",
+      "not_approved": "The invoice is not approved yet (status: {status}). Approve it under Invoices first.",
+      "invoice_rejected": "The invoice was rejected.",
+      "amount_missing": "No valid total amount.",
+      "currency_unsupported": "Currency {currency}: only EUR and CHF are paid.",
+      "no_bank_account": "No bank account on file for this supplier.",
+      "no_bank_account_with_iban": "No account on file. The invoice shows {invoice_iban}: register it and confirm it through an independent channel before paying.",
+      "account_unverified": "Account {iban} is waiting for confirmation through an independent channel.",
+      "account_rejected": "Account {iban} was rejected.",
+      "account_cooling_off": "Account {iban} changed recently. Cooling-off until {until}.",
+      "iban_mismatch": "The invoice asks for payment to {invoice_iban}, but the verified account is {account_iban}. This is the classic bank-detail-change fraud: call the supplier on a known number before doing anything.",
+      "account_iban_invalid": "The stored IBAN {iban} fails validation ({problem}).",
+      "duplicate_exact": "Duplicate: the same supplier already issued invoice {other_number} ({other_date}), status: {other_state}.",
+      "route_unsupported": "No payment in {currency} to an account in {country}.",
+      "qr_iban_needs_qrr": "{iban} is a QR-IBAN and only accepts payments with a QR reference (27 digits). It is missing or invalid.",
+      "qrr_needs_qr_iban": "The invoice has a QR reference, but {iban} is not a QR-IBAN. The bank would reject it.",
+      "duplicate_probable": "Possible duplicate of {other_number} ({other_date}): same amount, close dates.",
+      "amount_above_threshold": "Amount at or above the four-eyes threshold ({threshold_cents}).",
+      "amount_anomaly": "Amount is {factor}× this supplier's median ({median_cents}, {sample} invoices).",
+      "supplier_without_tax_id": "The supplier is identified by name only, without a VAT/tax id.",
+      "overdue": "Overdue by {days, plural, one {# day} other {# days}}.",
+      "no_due_date": "No due date: payment proposed for the next business day."
+    },
+    "paymentState": {
+      "in_batch": "In a file",
+      "paid": "Paid"
+    },
+    "route": {
+      "sepa": "SEPA",
+      "ch_domestic": "Switzerland (domestic)"
+    },
+    "queue": {
+      "supplier": "Supplier",
+      "invoice": "Invoice",
+      "amount": "Amount",
+      "due": "Due",
+      "execution": "Execution",
+      "account": "Account",
+      "reasons": "Reasons",
+      "select": "Select {invoice}",
+      "selectAll": "Select all",
+      "selected": "{count} selected",
+      "generate": "Generate payment file",
+      "generating": "Generating…",
+      "generated": "File generated. Download it under Payment files and upload it to your e-banking.",
+      "emptyPay": "Nothing ready to pay.",
+      "emptyReview": "Nothing to review.",
+      "emptyStop": "Nothing held.",
+      "overridden": "Review accepted",
+      "acceptTitle": "Accept the review",
+      "acceptNote": "Why paying it is correct",
+      "acceptPlaceholder": "e.g. Annual renewal approved by management",
+      "accept": "Accept and move to pay",
+      "registerIban": "Register the invoice's IBAN",
+      "goVerify": "Verify account",
+      "openInvoice": "Open invoice",
+      "settingsMissing": "The debit account is missing. Set it up to generate payment files.",
+      "noDate": "—",
+      "enterOtherIban": "Enter a different IBAN",
+      "register": "Register"
+    },
+    "suppliers": {
+      "title": "Supplier accounts",
+      "intro": "Every new or changed IBAN starts unverified. Verifying means confirming it through a channel that does not come from the invoice or the email: a call to the number you already had, in person, a signed letter or the bank's confirmation.",
+      "empty": "No accounts yet. They are registered from an invoice held for lack of an account.",
+      "status": {
+        "pending_verification": "Unverified",
+        "verified": "Verified",
+        "rejected": "Rejected",
+        "superseded": "Superseded"
+      },
+      "change": "IBAN change",
+      "coolingUntil": "Cooling-off until {until}",
+      "registered": "Registered {date}",
+      "verifiedBy": "Verified {date} · {channel} · {contact}",
+      "rejectedBecause": "Rejected: {reason}",
+      "fromInvoice": "Taken from the invoice",
+      "manual": "Entered by hand",
+      "channel": {
+        "phone_callback": "Call to a known number",
+        "in_person": "In person",
+        "signed_letter": "Signed letter",
+        "bank_confirmation": "Bank confirmation"
+      },
+      "verifyTitle": "Verify this account",
+      "channelLabel": "Channel",
+      "contactLabel": "Known contact used",
+      "contactHint": "The one you had before this invoice, never the one printed on it.",
+      "noteLabel": "Note (optional)",
+      "verify": "Mark as verified",
+      "rejectLabel": "Reason for rejection",
+      "reject": "Reject account",
+      "history": "History"
+    },
+    "batches": {
+      "title": "Payment files",
+      "intro": "ISO 20022 pain.001.001.09 files, valid for SEPA and the Swiss SPS standard. Generating one moves no money: you download it and upload it to your e-banking.",
+      "empty": "No file generated yet.",
+      "status": {
+        "generated": "Generated",
+        "executed": "Executed",
+        "cancelled": "Cancelled"
+      },
+      "summary": "{count, plural, one {# payment} other {# payments}} · {total}",
+      "created": "Generated {date}",
+      "executedAt": "Executed {date}",
+      "cancelledAt": "Cancelled {date}: {reason}",
+      "download": "Download XML",
+      "markExecuted": "Mark as executed",
+      "markExecutedConfirm": "Has the bank already executed this file? Its invoices will become paid.",
+      "cancel": "Cancel file",
+      "cancelReason": "Reason for cancelling",
+      "cancelHint": "The invoices return to the queue and are decided again."
+    },
+    "audit": {
+      "title": "Audit log",
+      "intro": "Every decision and state change, with its evidence. Append-only: the database refuses to modify or delete entries.",
+      "empty": "No activity yet.",
+      "when": "Date",
+      "what": "Action",
+      "details": "Details",
+      "action": {
+        "settings_saved": "Settings saved",
+        "account_registered": "Account registered",
+        "account_changed": "IBAN change registered",
+        "account_verified": "Account verified",
+        "account_rejected": "Account rejected",
+        "review_accepted": "Review accepted",
+        "batch_created": "Payment file generated",
+        "batch_executed": "File marked as executed",
+        "batch_cancelled": "File cancelled"
+      }
+    },
+    "settings": {
+      "title": "Payment settings",
+      "debtorName": "Debit account holder",
+      "debtorIban": "Debit account IBAN",
+      "debtorBic": "BIC (optional)",
+      "threshold": "Four-eyes threshold",
+      "thresholdHint": "Amounts at or above this go to review, in the invoice's currency.",
+      "coolingOff": "Wait after an IBAN change (hours)",
+      "coolingOffHint": "After a changed IBAN is verified, payments wait this long. It gives the real supplier time to notice a fraud.",
+      "save": "Save",
+      "saved": "Saved."
+    },
+    "invoicePanel": {
+      "title": "Payment",
+      "settled": "This invoice is already: {state}.",
+      "notApproved": "Decided once the invoice is approved.",
+      "openQueue": "See it in the payment queue"
+    },
+    "errors": {
+      "auth": "Your session expired. Please sign in again.",
+      "invalid": "Please check the form.",
+      "not_found": "Not found.",
+      "settings_missing": "Set up the debit account first.",
+      "not_payable": "An invoice can no longer be paid: things changed. Reload the page.",
+      "not_in_review": "This invoice is no longer in review.",
+      "supplier_unknown": "The invoice does not identify the supplier.",
+      "iban_missing": "The invoice shows no IBAN: enter it by hand.",
+      "already_scheduled": "An invoice is already in another payment file.",
+      "account_not_verified": "The account is not verified.",
+      "account_cooling_off": "The account is in its cooling-off period.",
+      "account_has_open_batch": "There are payments to this account in an open file. Cancel it first.",
+      "state_changed": "The state changed in the meantime. Reload the page.",
+      "db": "Could not save. Please try again.",
+      "iban_format": "That does not look like an IBAN.",
+      "iban_country": "Only IBANs from SEPA countries.",
+      "iban_length": "Wrong length for that country.",
+      "iban_checksum": "The check digits do not match: check the IBAN.",
+      "bic_invalid": "Invalid BIC.",
+      "required": "Required.",
+      "too_long": "Too long.",
+      "range": "Out of range.",
+      "positive": "Must be greater than zero.",
+      "integer": "Must be a whole number.",
+      "too_large": "Too large."
+    },
+    "demo": {
+      "badge": "Demo",
+      "title": "Payment decision engine",
+      "intro": "Fictitious data of a company with suppliers in Spain and Switzerland, recomputed on every visit by the same engine the app uses. Each invoice shows why it is paid, reviewed or held.",
+      "downloadSample": "Download the sample pain.001 file",
+      "readOnly": "Read-only view: actions are disabled.",
+      "cta": "Try it with your invoices",
+      "backHome": "Home"
+    }
   }
 }

@@ -116,7 +116,8 @@
     "invoices": "Facturas",
     "clients": "Clientes",
     "settings": "Configuración",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "payments": "Pagos"
   },
   "scan": {
     "cta": "Escanear Ticket",
@@ -296,7 +297,8 @@
   "landing": {
     "nav": {
       "signin": "Iniciar sesión",
-      "getStarted": "Empezar gratis"
+      "getStarted": "Empezar gratis",
+      "demo": "Demo de pagos"
     },
     "hero": {
       "badge": "Impulsado por Claude Vision AI",
@@ -350,5 +352,220 @@
     "back": "Volver",
     "notes": "Notas",
     "appName": "Invoice Auto"
+  },
+  "payments": {
+    "title": "Pagos",
+    "subtitle": "Una factura aprobada es correcta; eso no la convierte en un pago seguro. Aquí se decide, factura a factura, qué se paga, qué necesita otra mirada y qué se detiene.",
+    "tabs": {
+      "queue": "Cola de pago",
+      "suppliers": "Cuentas de proveedores",
+      "batches": "Ficheros de pago",
+      "audit": "Registro",
+      "settings": "Configuración"
+    },
+    "outcome": {
+      "pay": "Pagar",
+      "review": "Revisar",
+      "stop": "Detener",
+      "payHint": "Sin incidencias. Entran en el próximo fichero de pago.",
+      "reviewHint": "Una persona debe mirarlas. Puede aceptarlas con una nota, que vale solo para esta evaluación exacta.",
+      "stopHint": "Hay algo que resolver antes. Detener no se salta: se resuelve."
+    },
+    "stats": {
+      "pay": "Listas para pagar",
+      "review": "En revisión",
+      "stop": "Detenidas",
+      "settled": "Programadas o pagadas",
+      "awaitingApproval": "{count, plural, =0 {Ninguna factura pendiente de aprobación fiscal} one {# factura pendiente de aprobación fiscal} other {# facturas pendientes de aprobación fiscal}}"
+    },
+    "reasons": {
+      "already_scheduled": "Ya está en un fichero de pago generado.",
+      "already_paid": "Ya está pagada.",
+      "not_approved": "La factura aún no está aprobada (estado: {status}). Apruébala primero en Facturas.",
+      "invoice_rejected": "La factura está rechazada.",
+      "amount_missing": "No tiene un importe total válido.",
+      "currency_unsupported": "Moneda {currency}: solo se pagan EUR y CHF.",
+      "no_bank_account": "No hay cuenta bancaria registrada para este proveedor.",
+      "no_bank_account_with_iban": "No hay cuenta registrada. La factura indica {invoice_iban}: regístrala y verifícala por un canal independiente antes de pagar.",
+      "account_unverified": "La cuenta {iban} está pendiente de verificación por un canal independiente.",
+      "account_rejected": "La cuenta {iban} fue rechazada.",
+      "account_cooling_off": "La cuenta {iban} se cambió hace poco. Periodo de espera hasta {until}.",
+      "iban_mismatch": "La factura pide el pago a {invoice_iban}, pero la cuenta verificada es {account_iban}. Es el patrón típico del fraude del cambio de IBAN: confírmalo con el proveedor por teléfono antes de hacer nada.",
+      "account_iban_invalid": "El IBAN guardado {iban} no supera la validación ({problem}).",
+      "duplicate_exact": "Duplicada: el mismo proveedor ya emitió la factura {other_number} ({other_date}), estado: {other_state}.",
+      "route_unsupported": "No se genera un pago en {currency} a una cuenta de {country}.",
+      "qr_iban_needs_qrr": "La cuenta {iban} es un QR-IBAN y solo admite pagos con referencia QR (27 dígitos). Falta o no es válida.",
+      "qrr_needs_qr_iban": "La factura trae una referencia QR, pero {iban} no es un QR-IBAN. El banco lo rechazaría.",
+      "duplicate_probable": "Posible duplicada de {other_number} ({other_date}): mismo importe y fechas cercanas.",
+      "amount_above_threshold": "Importe igual o superior al umbral de doble revisión ({threshold_cents}).",
+      "amount_anomaly": "Importe {factor} veces la mediana de este proveedor ({median_cents}, {sample} facturas).",
+      "supplier_without_tax_id": "El proveedor solo se identifica por el nombre, sin NIF/UID.",
+      "overdue": "Vencida hace {days, plural, one {# día} other {# días}}.",
+      "no_due_date": "Sin fecha de vencimiento: se propone pagar en el próximo día hábil."
+    },
+    "paymentState": {
+      "in_batch": "En un fichero",
+      "paid": "Pagada"
+    },
+    "route": {
+      "sepa": "SEPA",
+      "ch_domestic": "Suiza (nacional)"
+    },
+    "queue": {
+      "supplier": "Proveedor",
+      "invoice": "Factura",
+      "amount": "Importe",
+      "due": "Vence",
+      "execution": "Ejecución",
+      "account": "Cuenta",
+      "reasons": "Motivos",
+      "select": "Seleccionar {invoice}",
+      "selectAll": "Seleccionar todas",
+      "selected": "{count, plural, one {# seleccionada} other {# seleccionadas}}",
+      "generate": "Generar fichero de pago",
+      "generating": "Generando…",
+      "generated": "Fichero generado. Descárgalo en Ficheros de pago y súbelo a tu banca online.",
+      "emptyPay": "No hay nada listo para pagar.",
+      "emptyReview": "Nada pendiente de revisión.",
+      "emptyStop": "Nada detenido.",
+      "overridden": "Revisión aceptada",
+      "acceptTitle": "Aceptar la revisión",
+      "acceptNote": "Por qué es correcto pagarla",
+      "acceptPlaceholder": "p. ej. Renovación anual aprobada por dirección",
+      "accept": "Aceptar y pasar a pagar",
+      "registerIban": "Registrar IBAN de la factura",
+      "goVerify": "Verificar cuenta",
+      "openInvoice": "Abrir factura",
+      "settingsMissing": "Falta la cuenta de cargo. Configúrala para poder generar ficheros de pago.",
+      "noDate": "—",
+      "enterOtherIban": "Introducir otro IBAN",
+      "register": "Registrar"
+    },
+    "suppliers": {
+      "title": "Cuentas de proveedores",
+      "intro": "Cada IBAN nuevo o cambiado empieza sin verificar. Verificar significa confirmarlo por un canal que no venga de la propia factura o del email: una llamada al número que ya tenías, en persona, una carta firmada o la confirmación del banco.",
+      "empty": "Aún no hay cuentas. Se registran desde una factura detenida por falta de cuenta.",
+      "status": {
+        "pending_verification": "Pendiente de verificar",
+        "verified": "Verificada",
+        "rejected": "Rechazada",
+        "superseded": "Sustituida"
+      },
+      "change": "Cambio de IBAN",
+      "coolingUntil": "En espera hasta {until}",
+      "registered": "Registrada {date}",
+      "verifiedBy": "Verificada {date} · {channel} · {contact}",
+      "rejectedBecause": "Rechazada: {reason}",
+      "fromInvoice": "Tomada de la factura",
+      "manual": "Introducida a mano",
+      "channel": {
+        "phone_callback": "Llamada a un número conocido",
+        "in_person": "En persona",
+        "signed_letter": "Carta firmada",
+        "bank_confirmation": "Confirmación del banco"
+      },
+      "verifyTitle": "Verificar esta cuenta",
+      "channelLabel": "Canal",
+      "contactLabel": "Contacto conocido utilizado",
+      "contactHint": "El que ya tenías antes de esta factura, nunca el que aparece en ella.",
+      "noteLabel": "Nota (opcional)",
+      "verify": "Marcar como verificada",
+      "rejectLabel": "Motivo del rechazo",
+      "reject": "Rechazar cuenta",
+      "history": "Historial"
+    },
+    "batches": {
+      "title": "Ficheros de pago",
+      "intro": "Ficheros ISO 20022 pain.001.001.09, válidos para SEPA y para el estándar suizo SPS. Generarlos no mueve dinero: se descargan y se suben a la banca online.",
+      "empty": "Aún no se ha generado ningún fichero.",
+      "status": {
+        "generated": "Generado",
+        "executed": "Ejecutado",
+        "cancelled": "Cancelado"
+      },
+      "summary": "{count, plural, one {# pago} other {# pagos}} · {total}",
+      "created": "Generado {date}",
+      "executedAt": "Ejecutado {date}",
+      "cancelledAt": "Cancelado {date}: {reason}",
+      "download": "Descargar XML",
+      "markExecuted": "Marcar como ejecutado",
+      "markExecutedConfirm": "¿El banco ya ha ejecutado este fichero? Sus facturas pasarán a pagadas.",
+      "cancel": "Cancelar fichero",
+      "cancelReason": "Motivo de la cancelación",
+      "cancelHint": "Las facturas vuelven a la cola y se deciden de nuevo."
+    },
+    "audit": {
+      "title": "Registro de auditoría",
+      "intro": "Cada decisión y cada cambio de estado, con su evidencia. Solo se puede añadir: la base de datos rechaza modificar o borrar entradas.",
+      "empty": "Sin actividad todavía.",
+      "when": "Fecha",
+      "what": "Acción",
+      "details": "Detalle",
+      "action": {
+        "settings_saved": "Configuración guardada",
+        "account_registered": "Cuenta registrada",
+        "account_changed": "Cambio de IBAN registrado",
+        "account_verified": "Cuenta verificada",
+        "account_rejected": "Cuenta rechazada",
+        "review_accepted": "Revisión aceptada",
+        "batch_created": "Fichero de pago generado",
+        "batch_executed": "Fichero marcado como ejecutado",
+        "batch_cancelled": "Fichero cancelado"
+      }
+    },
+    "settings": {
+      "title": "Configuración de pagos",
+      "debtorName": "Titular de la cuenta de cargo",
+      "debtorIban": "IBAN de la cuenta de cargo",
+      "debtorBic": "BIC (opcional)",
+      "threshold": "Umbral de doble revisión",
+      "thresholdHint": "Importes iguales o superiores pasan a revisión, en la moneda de la factura.",
+      "coolingOff": "Espera tras un cambio de IBAN (horas)",
+      "coolingOffHint": "Tras verificar un IBAN cambiado, los pagos esperan este tiempo. Da margen a que el proveedor real detecte el fraude.",
+      "save": "Guardar",
+      "saved": "Guardado."
+    },
+    "invoicePanel": {
+      "title": "Pago",
+      "settled": "Esta factura ya está {state}.",
+      "notApproved": "Se decidirá cuando la factura esté aprobada.",
+      "openQueue": "Ver en la cola de pago"
+    },
+    "errors": {
+      "auth": "Tu sesión ha caducado. Vuelve a iniciar sesión.",
+      "invalid": "Revisa los datos del formulario.",
+      "not_found": "No se ha encontrado.",
+      "settings_missing": "Configura primero la cuenta de cargo.",
+      "not_payable": "Alguna factura ya no se puede pagar: la situación ha cambiado. Recarga la página.",
+      "not_in_review": "Esta factura ya no está en revisión.",
+      "supplier_unknown": "La factura no identifica al proveedor.",
+      "iban_missing": "La factura no indica IBAN: introdúcelo a mano.",
+      "already_scheduled": "Alguna factura ya está en otro fichero de pago.",
+      "account_not_verified": "La cuenta no está verificada.",
+      "account_cooling_off": "La cuenta está en periodo de espera.",
+      "account_has_open_batch": "Hay pagos a esta cuenta en un fichero abierto. Cancélalo antes.",
+      "state_changed": "El estado ha cambiado mientras tanto. Recarga la página.",
+      "db": "No se ha podido guardar. Inténtalo de nuevo.",
+      "iban_format": "No parece un IBAN.",
+      "iban_country": "Solo se admiten IBAN de países SEPA.",
+      "iban_length": "Longitud incorrecta para ese país.",
+      "iban_checksum": "Los dígitos de control no cuadran: revisa el IBAN.",
+      "bic_invalid": "BIC no válido.",
+      "required": "Obligatorio.",
+      "too_long": "Demasiado largo.",
+      "range": "Fuera de rango.",
+      "positive": "Debe ser mayor que cero.",
+      "integer": "Debe ser un número entero.",
+      "too_large": "Demasiado grande."
+    },
+    "demo": {
+      "badge": "Demostración",
+      "title": "Motor de decisión de pagos",
+      "intro": "Datos ficticios de una empresa con proveedores en España y Suiza, recalculados cada vez que abres la página con el mismo motor que usa la aplicación. Cada factura muestra por qué se paga, se revisa o se detiene.",
+      "downloadSample": "Descargar el fichero pain.001 de ejemplo",
+      "readOnly": "Vista de solo lectura: las acciones están desactivadas.",
+      "cta": "Probar con tus facturas",
+      "backHome": "Inicio"
+    }
   }
 }

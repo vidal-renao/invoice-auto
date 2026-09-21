@@ -46,6 +46,12 @@ export default function LandingPage() {
           </div>
           <div className="flex items-center gap-3">
             <Link
+              href={`/${locale}/demo/payments`}
+              className="hidden rounded-md px-4 py-2 text-sm font-medium text-[#888] transition-colors hover:text-[#ededed] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 sm:inline-block"
+            >
+              {t('nav.demo')}
+            </Link>
+            <Link
               href={`/${locale}/login`}
               className="rounded-md px-4 py-2 text-sm font-medium text-[#888] transition-colors hover:text-[#ededed] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
             >

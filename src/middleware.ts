@@ -33,7 +33,11 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
+  // `api` is excluded: locale routing would redirect /api/* to /es/api/* (a
+  // 404), which broke every route handler — the Excel export, the auth
+  // callback and the payment file download. Route handlers read and refresh
+  // the Supabase session themselves.
   matcher: [
-    '/((?!_next/static|_next/image|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt|xml|json|js|css|woff2?|ttf|otf)$).*)',
+    '/((?!api/|_next/static|_next/image|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt|xml|json|js|css|woff2?|ttf|otf)$).*)',
   ],
 }
