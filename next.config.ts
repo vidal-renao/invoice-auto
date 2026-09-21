@@ -27,7 +27,8 @@ const nextConfig: NextConfig = {
 // which Next.js 16 rejects as an unrecognised key. Strip it post-wrap.
 const wrappedConfig = withNextIntl(nextConfig)
 if (wrappedConfig.experimental && 'turbo' in wrappedConfig.experimental) {
-  const { turbo: _removed, ...rest } = wrappedConfig.experimental as Record<string, unknown>
+  const rest = { ...(wrappedConfig.experimental as Record<string, unknown>) }
+  delete rest.turbo
   wrappedConfig.experimental = rest as NextConfig['experimental']
 }
 

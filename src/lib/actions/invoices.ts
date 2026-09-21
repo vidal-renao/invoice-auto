@@ -32,14 +32,24 @@ export async function deleteInvoice(
     .eq('user_id', user.id)
     .single()
 
-  const { error: dbError } = await supabase
+  // `.select()` returns the rows actually deleted. RLS turns a forbidden
+  // delete into "0 rows, no error" — without this check the receipt file
+  // below would be removed while the invoice row survives.
+  const { data: deleted, error: dbError } = await supabase
     .from('invoices')
     .delete()
     .eq('id', invoiceId)
     .eq('user_id', user.id)
+    .select('id')
 
   if (dbError) {
+    // 23503: a payment references this invoice (pay_payments FK) — paid
+    // invoices are kept for the audit trail.
     console.error('[deleteInvoice] DB delete failed:', dbError.message)
+    return { error: dbError.code === '23503' ? 'has_payment' : 'db' }
+  }
+  if (!deleted || deleted.length === 0) {
+    console.error('[deleteInvoice] No row deleted (not found or not permitted):', invoiceId)
     return { error: 'db' }
   }
 

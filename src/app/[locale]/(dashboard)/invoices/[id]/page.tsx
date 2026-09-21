@@ -11,9 +11,6 @@ import { ClientContactPanel } from '@/components/invoice/ClientContactPanel'
 import { COUNTRY_TAX_CONFIG } from '@/lib/tax/config'
 import type { InvoiceStatus, Currency } from '@/types/database'
 
-const KNOWN_FAILURE_CODES = new Set([
-  'not_invoice', 'image_unclear', 'timeout_8s', 'parsing_failed', 'handwritten_only',
-])
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('invoice')

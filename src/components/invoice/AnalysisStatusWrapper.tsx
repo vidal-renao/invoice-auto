@@ -50,8 +50,11 @@ export function AnalysisStatusWrapper({
   const [status, setStatus] = useState<InvoiceStatus>(initialStatus)
 
   // Ref always reflects the latest status inside async poll callbacks
+  // (synced in an effect: writing a ref during render is not allowed in React 19)
   const statusRef = useRef<InvoiceStatus>(status)
-  statusRef.current = status
+  useEffect(() => {
+    statusRef.current = status
+  }, [status])
 
   const isAnalyzing = status === 'pending' || status === 'processing'
 
