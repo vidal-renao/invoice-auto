@@ -123,6 +123,20 @@ flowchart LR
 | **review** — accepted with a note | probable duplicate · amount ≥ four-eyes threshold · amount > 3× the supplier's median · supplier identified by name only |
 | **pay** | SEPA (EUR) or Swiss domestic (CHF / QR-bill), execution on the due date or the business day before |
 
+<p align="center">
+  <img src="docs/screenshots/pagos-cola.png" alt="Payment queue: counters per outcome and the invoices ready to pay, with account, route and execution date" width="880">
+</p>
+
+| Held — each with its evidence | Review — accepted with a note |
+|---|---|
+| ![Held payments: IBAN on the invoice differs from the verified one, changed account in cooling-off, QR-IBAN without QR reference, unverified account](docs/screenshots/pagos-detenidos.png) | ![Payments in review: probable duplicate, amount 9.8× the supplier median, supplier without tax id](docs/screenshots/pagos-revision.png) |
+
+| Supplier accounts: verification and cooling-off | Mobile |
+|---|---|
+| ![Supplier accounts: one pending verification, one IBAN change still in its waiting period](docs/screenshots/pagos-cuentas.png) | <img src="docs/screenshots/pagos-movil.png" alt="Payment queue on a phone" width="260"> |
+
+<sub>Screenshots of the public demo — fictitious companies, IBANs that pass the checksum but belong to nobody.</sub>
+
 Design decisions (details in [ADR-002](docs/adr/ADR-002-payment-decision-layer.md), threats in [the threat model](docs/threat-model-payments.md)):
 
 - **Pure engine** (`src/lib/payments/decision.ts`): no clock, database or network — same input, same decision, every reason with its evidence.
