@@ -117,7 +117,11 @@
     "clients": "Clientes",
     "settings": "Configuración",
     "logout": "Cerrar sesión",
-    "payments": "Pagos"
+    "payments": "Pagos",
+    "mainNavigation": "Navegación principal",
+    "menu": "Menú",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú"
   },
   "scan": {
     "cta": "Escanear Ticket",

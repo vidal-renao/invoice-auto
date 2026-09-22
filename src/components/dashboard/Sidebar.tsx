@@ -1,73 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
-import { createClient } from '@/lib/supabase/client'
-
-// ── Inline SVG icons (no icon library dependency) ──────────────────────────
-
-function GridIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
-      <rect x="1.5" y="1.5" width="5" height="5" rx="1" />
-      <rect x="9.5" y="1.5" width="5" height="5" rx="1" />
-      <rect x="1.5" y="9.5" width="5" height="5" rx="1" />
-      <rect x="9.5" y="9.5" width="5" height="5" rx="1" />
-    </svg>
-  )
-}
-
-function FileIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
-      <path d="M9 1.5H3.5A1 1 0 0 0 2.5 2.5v11a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V6l-4.5-4.5Z" strokeLinejoin="round" />
-      <path d="M9 1.5V6h4.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-
-function PaymentIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
-      <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" />
-      <path d="M1.5 6.5h13" />
-      <path d="M4 10h3" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-function UsersIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
-      <circle cx="6" cy="5" r="2.5" />
-      <path d="M1 13c0-2.21 2.239-4 5-4s5 1.79 5 4" strokeLinecap="round" />
-      <path d="M11 7c1.38 0 2.5 1.12 2.5 2.5S12.38 12 11 12" strokeLinecap="round" />
-      <path d="M13.5 13c0-1.1-.7-2.06-1.75-2.6" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-function SettingsIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
-      <circle cx="8" cy="8" r="2" />
-      <path d="M8 1v2M8 13v2M1 8h2M13 8h2M2.93 2.93l1.41 1.41M11.66 11.66l1.41 1.41M2.93 13.07l1.41-1.41M11.66 4.34l1.41-1.41" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-function LogOutIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
-      <path d="M6 2H2.5A1 1 0 0 0 1.5 3v10a1 1 0 0 0 1 1H6" strokeLinecap="round" />
-      <path d="M11 5l3 3-3 3M14 8H6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-
-// ── Component ───────────────────────────────────────────────────────────────
+import { BrandMark, LogOutIcon, useDashboardNav } from './nav-items'
 
 interface SidebarProps {
   locale: string
@@ -75,68 +11,43 @@ interface SidebarProps {
 
 export function Sidebar({ locale }: SidebarProps) {
   const t = useTranslations('nav')
-  const pathname = usePathname()
-  const router = useRouter()
-
-  const navItems = [
-    { href: `/${locale}/dashboard`, label: t('dashboard'), Icon: GridIcon },
-    { href: `/${locale}/invoices`, label: t('invoices'), Icon: FileIcon },
-    { href: `/${locale}/payments`, label: t('payments'), Icon: PaymentIcon },
-    { href: `/${locale}/clients`, label: t('clients'), Icon: UsersIcon },
-    { href: `/${locale}/settings`, label: t('settings'), Icon: SettingsIcon },
-  ]
-
-  async function handleLogout() {
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    router.push(`/${locale}/login`)
-    router.refresh()
-  }
+  const { items, logoutLabel, logout } = useDashboardNav(locale)
 
   return (
     <aside className="flex h-full w-56 shrink-0 flex-col border-r border-[#2a2a2a] bg-[#0a0a0a]">
       {/* Brand */}
-      <div className="flex h-14 items-center gap-2.5 border-b border-[#2a2a2a] px-4">
-        <div className="flex h-6 w-6 items-center justify-center rounded bg-violet-700">
-          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M3 4h10M3 8h7M3 12h4" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-        </div>
-        <span className="text-sm font-semibold text-[#ededed]">Invoice Auto</span>
+      <div className="flex h-14 items-center border-b border-[#2a2a2a] px-4">
+        <BrandMark />
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 space-y-0.5 px-2 py-4" aria-label="Main navigation">
-        {navItems.map(({ href, label, Icon }) => {
-          const isActive =
-            pathname === href || pathname.startsWith(`${href}/`)
-          return (
-            <Link
-              key={href}
-              href={href}
-              aria-current={isActive ? 'page' : undefined}
-              className={cn(
-                'flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors duration-150',
-                isActive
-                  ? 'bg-[#1a1a1a] text-[#ededed]'
-                  : 'text-[#888] hover:bg-[#111] hover:text-[#ededed]'
-              )}
-            >
-              <Icon className="h-4 w-4 shrink-0" />
-              {label}
-            </Link>
-          )
-        })}
+      <nav className="flex-1 space-y-0.5 px-2 py-4" aria-label={t('mainNavigation')}>
+        {items.map(({ href, label, Icon, isActive }) => (
+          <Link
+            key={href}
+            href={href}
+            aria-current={isActive ? 'page' : undefined}
+            className={cn(
+              'flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors duration-150',
+              isActive
+                ? 'bg-[#1a1a1a] text-[#ededed]'
+                : 'text-[#888] hover:bg-[#111] hover:text-[#ededed]'
+            )}
+          >
+            <Icon className="h-4 w-4 shrink-0" />
+            {label}
+          </Link>
+        ))}
       </nav>
 
       {/* Logout */}
       <div className="border-t border-[#2a2a2a] px-2 py-4">
         <button
-          onClick={handleLogout}
+          onClick={logout}
           className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm text-[#888] transition-colors duration-150 hover:bg-[#111] hover:text-[#ededed]"
         >
           <LogOutIcon className="h-4 w-4 shrink-0" />
-          {t('logout')}
+          {logoutLabel}
         </button>
       </div>
     </aside>
