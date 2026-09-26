@@ -14,7 +14,8 @@
         "invalidCredentials": "Incorrect email or password. Double-check your details and try again.",
         "emailNotConfirmed": "Your email address is not confirmed yet. Check your inbox for a confirmation link.",
         "tooManyRequests": "Too many failed attempts. Please wait a few minutes before trying again.",
-        "generic": "Sign-in failed. If the problem persists, try resetting your password below."
+        "generic": "Sign-in failed. If the problem persists, try resetting your password below.",
+        "linkExpired": "That reset link is invalid or has expired. Request a new one."
       }
     },
     "register": {
@@ -65,6 +66,11 @@
         "weakPassword": "Password must be at least 8 characters.",
         "generic": "Failed to update password. Please request a new reset link."
       }
+    },
+    "validation": {
+      "email": "Enter a valid email address.",
+      "passwordMin": "The password must be at least 8 characters.",
+      "nameMin": "Enter your full name."
     }
   },
   "dashboard": {
@@ -355,7 +361,8 @@
     "edit": "Edit",
     "back": "Back",
     "notes": "Notes",
-    "appName": "Invoice Auto"
+    "appName": "Invoice Auto",
+    "backHome": "Back to home"
   },
   "payments": {
     "title": "Payments",

@@ -14,7 +14,8 @@
         "invalidCredentials": "Correo o contraseña incorrectos. Revisa tus datos e inténtalo de nuevo.",
         "emailNotConfirmed": "Tu correo no está confirmado aún. Revisa tu bandeja de entrada.",
         "tooManyRequests": "Demasiados intentos fallidos. Espera unos minutos antes de intentarlo de nuevo.",
-        "generic": "No se pudo iniciar sesión. Si el problema persiste, restablece tu contraseña."
+        "generic": "No se pudo iniciar sesión. Si el problema persiste, restablece tu contraseña.",
+        "linkExpired": "El enlace de restablecimiento no es válido o ha caducado. Solicita uno nuevo."
       }
     },
     "register": {
@@ -65,6 +66,11 @@
         "weakPassword": "La contraseña debe tener al menos 8 caracteres.",
         "generic": "No se pudo actualizar la contraseña. Solicita un nuevo enlace de restablecimiento."
       }
+    },
+    "validation": {
+      "email": "Introduce un correo electrónico válido.",
+      "passwordMin": "La contraseña debe tener al menos 8 caracteres.",
+      "nameMin": "Introduce tu nombre completo."
     }
   },
   "dashboard": {
@@ -355,7 +361,8 @@
     "edit": "Editar",
     "back": "Volver",
     "notes": "Notas",
-    "appName": "Invoice Auto"
+    "appName": "Invoice Auto",
+    "backHome": "Volver al inicio"
   },
   "payments": {
     "title": "Pagos",

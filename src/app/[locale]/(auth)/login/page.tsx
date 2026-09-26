@@ -7,8 +7,13 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t('title') }
 }
 
-export default async function LoginPage() {
+interface LoginPageProps {
+  searchParams: Promise<{ error?: string }>
+}
+
+export default async function LoginPage({ searchParams }: LoginPageProps) {
   const t = await getTranslations('auth.login')
+  const { error } = await searchParams
 
   return (
     <>
@@ -18,6 +23,16 @@ export default async function LoginPage() {
         </h1>
         <p className="mt-1 text-sm text-[#888]">{t('subtitle')}</p>
       </div>
+
+      {error === 'link_expired' && (
+        <div
+          role="alert"
+          className="mb-4 rounded-lg border border-amber-500/20 bg-amber-500/10 px-4 py-3"
+        >
+          <p className="text-sm text-amber-300">{t('errors.linkExpired')}</p>
+        </div>
+      )}
+
       <LoginForm />
     </>
   )

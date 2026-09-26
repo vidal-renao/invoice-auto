@@ -1,10 +1,16 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 
-export default function AuthLayout({
+export default async function AuthLayout({
   children,
+  params,
 }: {
   children: React.ReactNode
+  params: Promise<{ locale: string }>
 }) {
+  const { locale } = await params
+  const t = await getTranslations('common')
+
   return (
     <div className="relative flex min-h-screen flex-col bg-[#0a0a0a]">
 
@@ -30,13 +36,13 @@ export default function AuthLayout({
 
         {/* Back to home */}
         <Link
-          href="/"
+          href={`/${locale}`}
           className="flex items-center gap-1.5 rounded-md border border-[#2a2a2a] px-3 py-1.5 text-xs font-medium text-[#888] transition-colors hover:border-[#444] hover:text-[#ededed] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
         >
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
             <path d="M7.5 2L3.5 6l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          Back to home
+          {t('backHome')}
         </Link>
       </header>
 
@@ -49,7 +55,7 @@ export default function AuthLayout({
           </div>
 
           {/* Footer hint */}
-          <p className="mt-6 text-center text-xs text-[#444]">
+          <p className="mt-6 text-center text-xs text-[#8a8a8a]">
             Invoice Auto · Powered by Claude Vision AI
           </p>
         </div>

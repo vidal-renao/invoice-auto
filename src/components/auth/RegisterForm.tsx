@@ -12,13 +12,15 @@ import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 
-const registerSchema = z.object({
-  fullName: z.string().min(2),
-  email: z.string().email(),
-  password: z.string().min(8),
-})
+function buildRegisterSchema(tv: (key: string) => string) {
+  return z.object({
+    fullName: z.string().min(2, tv('nameMin')),
+    email: z.string().email(tv('email')),
+    password: z.string().min(8, tv('passwordMin')),
+  })
+}
 
-type RegisterValues = z.infer<typeof registerSchema>
+type RegisterValues = z.infer<ReturnType<typeof buildRegisterSchema>>
 
 function classifyRegisterError(error: AuthError): 'emailTaken' | 'weakPassword' | 'tooManyRequests' | 'generic' {
   const msg = error.message.toLowerCase()
@@ -42,6 +44,7 @@ function classifyRegisterError(error: AuthError): 'emailTaken' | 'weakPassword' 
 
 export function RegisterForm() {
   const t = useTranslations('auth.register')
+  const tv = useTranslations('auth.validation')
   const locale = useLocale()
   const router = useRouter()
   const [serverError, setServerError] = useState<string | null>(null)
@@ -50,7 +53,7 @@ export function RegisterForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<RegisterValues>({ resolver: zodResolver(registerSchema) })
+  } = useForm<RegisterValues>({ resolver: zodResolver(buildRegisterSchema(tv)) })
 
   async function onSubmit(values: RegisterValues) {
     setServerError(null)
@@ -115,7 +118,7 @@ export function RegisterForm() {
         {t('hasAccount')}{' '}
         <Link
           href={`/${locale}/login`}
-          className="text-violet-400 transition-colors hover:text-violet-300"
+          className="text-violet-400 underline underline-offset-2 transition-colors hover:text-violet-300"
         >
           {t('login')}
         </Link>

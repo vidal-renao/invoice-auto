@@ -11,22 +11,25 @@ import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 
-const schema = z
-  .object({
-    password: z.string().min(8),
-    confirmPassword: z.string().min(8),
-  })
-  .refine((d) => d.password === d.confirmPassword, {
-    path: ['confirmPassword'],
-    message: 'passwordMismatch',
-  })
+function buildSchema(tv: (key: string) => string) {
+  return z
+    .object({
+      password: z.string().min(8, tv('passwordMin')),
+      confirmPassword: z.string().min(8, tv('passwordMin')),
+    })
+    .refine((d) => d.password === d.confirmPassword, {
+      path: ['confirmPassword'],
+      message: 'passwordMismatch',
+    })
+}
 
-type FormValues = z.infer<typeof schema>
+type FormValues = z.infer<ReturnType<typeof buildSchema>>
 
 type State = 'checking' | 'ready' | 'success' | 'invalid'
 
 export function ResetPasswordForm() {
   const t = useTranslations('auth.resetPassword')
+  const tv = useTranslations('auth.validation')
   const locale = useLocale()
   const router = useRouter()
   const [state, setState] = useState<State>('checking')
@@ -43,7 +46,7 @@ export function ResetPasswordForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<FormValues>({ resolver: zodResolver(schema) })
+  } = useForm<FormValues>({ resolver: zodResolver(buildSchema(tv)) })
 
   async function onSubmit(values: FormValues) {
     setServerError(null)
@@ -81,7 +84,7 @@ export function ResetPasswordForm() {
         <p className="mb-2 text-sm text-[#888]">{t('invalidLink')}</p>
         <Link
           href={`/${locale}/forgot-password`}
-          className="text-sm text-violet-400 transition-colors hover:text-violet-300"
+          className="text-sm text-violet-400 underline underline-offset-2 transition-colors hover:text-violet-300"
         >
           {t('requestNew')}
         </Link>

@@ -15,7 +15,10 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = request.nextUrl
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/en/dashboard'
+  const next = searchParams.get('next') ?? '/es/dashboard'
+  // `next` is /<locale>/<page>: reuse that locale for the error redirect so a
+  // Spanish or German user is not dropped on the English login page.
+  const locale = /^\/(es|de|en)(\/|$)/.exec(next)?.[1] ?? 'es'
 
   if (code) {
     const supabase = await createClient()
@@ -26,5 +29,5 @@ export async function GET(request: NextRequest) {
   }
 
   // Invalid or missing code — send to login with error hint
-  return NextResponse.redirect(`${origin}/en/login?error=link_expired`)
+  return NextResponse.redirect(`${origin}/${locale}/login?error=link_expired`)
 }

@@ -10,14 +10,17 @@ import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 
-const schema = z.object({
-  email: z.string().email(),
-})
+function buildSchema(tv: (key: string) => string) {
+  return z.object({
+    email: z.string().email(tv('email')),
+  })
+}
 
-type FormValues = z.infer<typeof schema>
+type FormValues = z.infer<ReturnType<typeof buildSchema>>
 
 export function ForgotPasswordForm() {
   const t = useTranslations('auth.forgotPassword')
+  const tv = useTranslations('auth.validation')
   const locale = useLocale()
   const [sentTo, setSentTo] = useState<string | null>(null)
   const [serverError, setServerError] = useState<string | null>(null)
@@ -26,7 +29,7 @@ export function ForgotPasswordForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<FormValues>({ resolver: zodResolver(schema) })
+  } = useForm<FormValues>({ resolver: zodResolver(buildSchema(tv)) })
 
   async function onSubmit(values: FormValues) {
     setServerError(null)
@@ -60,7 +63,7 @@ export function ForgotPasswordForm() {
         </p>
         <Link
           href={`/${locale}/login`}
-          className="text-sm text-violet-400 transition-colors hover:text-violet-300"
+          className="text-sm text-violet-400 underline underline-offset-2 transition-colors hover:text-violet-300"
         >
           ← {t('backToLogin')}
         </Link>
@@ -91,7 +94,7 @@ export function ForgotPasswordForm() {
       <p className="text-center text-sm text-[#888]">
         <Link
           href={`/${locale}/login`}
-          className="text-violet-400 transition-colors hover:text-violet-300"
+          className="text-violet-400 underline underline-offset-2 transition-colors hover:text-violet-300"
         >
           ← {t('backToLogin')}
         </Link>

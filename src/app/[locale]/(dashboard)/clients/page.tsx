@@ -123,7 +123,7 @@ export default async function ClientsPage({ params }: ClientsPageProps) {
                       <td className="hidden px-4 py-3 sm:table-cell">
                         {vendor.tax_id
                           ? <span className="font-mono text-xs text-[#888]">{vendor.tax_id}</span>
-                          : <span className="text-[#444]">—</span>}
+                          : <span className="text-[#8a8a8a]">—</span>}
                       </td>
                       <td className="hidden px-4 py-3 md:table-cell">
                         {vendor.country_code
@@ -131,14 +131,14 @@ export default async function ClientsPage({ params }: ClientsPageProps) {
                               {flag && <span aria-hidden="true">{flag}</span>}
                               <span className="font-mono text-xs">{vendor.country_code}</span>
                             </span>
-                          : <span className="text-[#444]">{t('unknownCountry')}</span>}
+                          : <span className="text-[#8a8a8a]">{t('unknownCountry')}</span>}
                       </td>
                       <td className="px-4 py-3">
                         {vendor.category
                           ? <span className={`inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium ${CATEGORY_STYLES[vendor.category]}`}>
                               {t(`category.${vendor.category}`)}
                             </span>
-                          : <span className="inline-flex items-center rounded-md border border-[#2a2a2a] px-2 py-0.5 text-xs text-[#444]">
+                          : <span className="inline-flex items-center rounded-md border border-[#2a2a2a] px-2 py-0.5 text-xs text-[#8a8a8a]">
                               {t('category.none')}
                             </span>}
                       </td>
@@ -149,7 +149,7 @@ export default async function ClientsPage({ params }: ClientsPageProps) {
                         <span className="tabular-nums font-medium text-[#ededed]">
                           {vendor.total_cents > 0
                             ? formatCurrency(vendor.total_cents, vendor.currency as Currency, locale)
-                            : <span className="text-[#444]">—</span>}
+                            : <span className="text-[#8a8a8a]">—</span>}
                         </span>
                       </td>
                     </tr>

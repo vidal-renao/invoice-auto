@@ -12,12 +12,16 @@ import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-})
+// Messages come from the message catalogue: zod's English defaults would
+// otherwise surface untranslated under a Spanish or German UI.
+function buildLoginSchema(tv: (key: string) => string) {
+  return z.object({
+    email: z.string().email(tv('email')),
+    password: z.string().min(8, tv('passwordMin')),
+  })
+}
 
-type LoginValues = z.infer<typeof loginSchema>
+type LoginValues = z.infer<ReturnType<typeof buildLoginSchema>>
 
 function classifyError(error: AuthError): 'invalidCredentials' | 'emailNotConfirmed' | 'tooManyRequests' | 'generic' {
   const msg = error.message.toLowerCase()
@@ -35,6 +39,7 @@ function classifyError(error: AuthError): 'invalidCredentials' | 'emailNotConfir
 
 export function LoginForm() {
   const t = useTranslations('auth.login')
+  const tv = useTranslations('auth.validation')
   const locale = useLocale()
   const router = useRouter()
   const [serverError, setServerError] = useState<string | null>(null)
@@ -43,7 +48,7 @@ export function LoginForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginValues>({ resolver: zodResolver(loginSchema) })
+  } = useForm<LoginValues>({ resolver: zodResolver(buildLoginSchema(tv)) })
 
   async function onSubmit(values: LoginValues) {
     setServerError(null)
@@ -84,7 +89,7 @@ export function LoginForm() {
         <div className="flex justify-end">
           <Link
             href={`/${locale}/forgot-password`}
-            className="text-xs text-[#666] transition-colors hover:text-violet-400"
+            className="text-xs text-[#8a8a8a] underline underline-offset-2 transition-colors hover:text-violet-300"
           >
             {t('forgotPassword')}
           </Link>
@@ -113,7 +118,7 @@ export function LoginForm() {
         {t('noAccount')}{' '}
         <Link
           href={`/${locale}/register`}
-          className="text-violet-400 transition-colors hover:text-violet-300"
+          className="text-violet-400 underline underline-offset-2 transition-colors hover:text-violet-300"
         >
           {t('register')}
         </Link>
