@@ -40,12 +40,12 @@ function toPayRow(item: QueueItem): PayRow {
 
 function StatTile({ outcome, label, count, hint }: { outcome: Outcome | 'settled'; label: string; count: number; hint?: string }) {
   const accent =
-    outcome === 'settled' ? 'text-[#ededed]' : outcome === 'pay' ? 'text-emerald-300' : outcome === 'review' ? 'text-amber-300' : 'text-red-300'
+    outcome === 'settled' ? 'text-ink' : outcome === 'pay' ? 'text-success-text' : outcome === 'review' ? 'text-warning-text' : 'text-danger-text'
   return (
-    <div className="rounded-lg border border-[#2a2a2a] bg-[#111] p-4">
-      <p className="text-xs font-medium uppercase tracking-widest text-[#888]">{label}</p>
+    <div className="rounded-lg border border-line bg-surface p-4">
+      <p className="text-xs font-medium uppercase tracking-widest text-muted">{label}</p>
       <p className={cn('mt-2 font-mono text-2xl font-semibold tabular-nums', accent)}>{count}</p>
-      {hint && <p className="mt-1 text-xs text-[#888]">{hint}</p>}
+      {hint && <p className="mt-1 text-xs text-muted">{hint}</p>}
     </div>
   )
 }
@@ -73,10 +73,10 @@ function ItemCard({
   const canVerify = codes.has('account_unverified') && account
 
   return (
-    <li className="rounded-xl border border-[#2a2a2a] bg-[#111] p-4">
+    <li className="rounded-xl border border-line bg-surface p-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="font-medium text-[#ededed]">
+          <p className="font-medium text-ink">
             {invoiceBase ? (
               <Link href={`${invoiceBase}/${invoice.id}`} className="hover:text-white hover:underline">
                 {invoice.vendor_name ?? '—'}
@@ -85,14 +85,14 @@ function ItemCard({
               (invoice.vendor_name ?? '—')
             )}
           </p>
-          <p className="mt-0.5 text-xs text-[#888]">
+          <p className="mt-0.5 text-xs text-muted">
             {invoice.invoice_number ?? '—'}
             {invoice.invoice_date && ` · ${formatDate(invoice.invoice_date, locale)}`}
             {invoice.due_date && ` · ${t('queue.due')} ${formatDate(invoice.due_date, locale)}`}
             {account && <span className="font-mono"> · {maskIban(account.iban)}</span>}
           </p>
         </div>
-        <p className="font-mono text-sm font-medium tabular-nums text-[#ededed]">
+        <p className="font-mono text-sm font-medium tabular-nums text-ink">
           {invoice.total_cents != null ? formatCurrency(invoice.total_cents, currency, locale) : '—'}
         </p>
       </div>
@@ -105,7 +105,7 @@ function ItemCard({
         <p className="mt-3 text-xs">
           <Link
             href={readOnly ? `#account-${account.id}` : `${basePath}/suppliers#account-${account.id}`}
-            className="inline-flex min-h-11 items-center text-violet-300 underline underline-offset-2 hover:text-violet-200"
+            className="inline-flex min-h-11 items-center text-accent-text underline underline-offset-2 hover:text-accent-text"
           >
             {t('queue.goVerify')}
           </Link>
@@ -133,13 +133,13 @@ function Section({
   return (
     <section aria-labelledby={`section-${outcome}`} className="space-y-3">
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-        <h2 id={`section-${outcome}`} className="flex items-center gap-2 text-base font-semibold text-[#ededed]">
+        <h2 id={`section-${outcome}`} className="flex items-center gap-2 text-base font-semibold text-ink">
           <span className={cn('inline-flex h-6 min-w-6 items-center justify-center rounded-full border px-1.5 text-xs', OUTCOME_STYLE[outcome])}>
             {count}
           </span>
           {title}
         </h2>
-        <p className="text-xs text-[#888]">{hint}</p>
+        <p className="text-xs text-muted">{hint}</p>
       </div>
       {children}
     </section>
@@ -160,9 +160,9 @@ export function QueueView({ queue, readOnly, settingsMissing, basePath, invoiceB
       </div>
 
       {queue.awaiting_approval > 0 && (
-        <p className="text-xs text-[#888]">
+        <p className="text-xs text-muted">
           {invoiceBase ? (
-            <Link href={`${invoiceBase}?status=review_needed`} className="underline hover:text-[#ededed]">
+            <Link href={`${invoiceBase}?status=review_needed`} className="underline hover:text-ink">
               {t('stats.awaitingApproval', { count: queue.awaiting_approval })}
             </Link>
           ) : (
@@ -172,7 +172,7 @@ export function QueueView({ queue, readOnly, settingsMissing, basePath, invoiceB
       )}
 
       {settingsMissing && !readOnly && (
-        <p role="status" className="rounded-lg border border-amber-500/30 bg-amber-500/5 px-4 py-3 text-sm text-amber-200">
+        <p role="status" className="rounded-lg border border-amber-500/30 bg-amber-500/5 px-4 py-3 text-sm text-warning-text">
           {t('queue.settingsMissing')}{' '}
           <Link href={`${basePath}/settings`} className="underline hover:text-white">
             {t('tabs.settings')}
@@ -192,7 +192,7 @@ export function QueueView({ queue, readOnly, settingsMissing, basePath, invoiceB
 
       <Section outcome="review" title={t('outcome.review')} hint={t('outcome.reviewHint')} count={queue.review.length}>
         {queue.review.length === 0 ? (
-          <p className="rounded-lg border border-dashed border-[#2a2a2a] px-4 py-6 text-center text-sm text-[#8a8a8a]">{t('queue.emptyReview')}</p>
+          <p className="rounded-lg border border-dashed border-line px-4 py-6 text-center text-sm text-muted">{t('queue.emptyReview')}</p>
         ) : (
           <ul className="grid gap-3 lg:grid-cols-2">
             {queue.review.map((item) => (
@@ -204,7 +204,7 @@ export function QueueView({ queue, readOnly, settingsMissing, basePath, invoiceB
 
       <Section outcome="stop" title={t('outcome.stop')} hint={t('outcome.stopHint')} count={queue.stop.length}>
         {queue.stop.length === 0 ? (
-          <p className="rounded-lg border border-dashed border-[#2a2a2a] px-4 py-6 text-center text-sm text-[#8a8a8a]">{t('queue.emptyStop')}</p>
+          <p className="rounded-lg border border-dashed border-line px-4 py-6 text-center text-sm text-muted">{t('queue.emptyStop')}</p>
         ) : (
           <ul className="grid gap-3 lg:grid-cols-2">
             {queue.stop.map((item) => (
@@ -216,25 +216,25 @@ export function QueueView({ queue, readOnly, settingsMissing, basePath, invoiceB
 
       {queue.settled.length > 0 && (
         <section aria-labelledby="section-settled" className="space-y-3">
-          <h2 id="section-settled" className="text-base font-semibold text-[#ededed]">
+          <h2 id="section-settled" className="text-base font-semibold text-ink">
             {t('stats.settled')}
           </h2>
-          <ul className="divide-y divide-[#1e1e1e] overflow-hidden rounded-xl border border-[#2a2a2a] bg-[#111]">
+          <ul className="divide-y divide-elevated-2 overflow-hidden rounded-xl border border-line bg-surface">
             {queue.settled.map(({ invoice, state }) => (
               <li key={invoice.id} className="flex flex-wrap items-center justify-between gap-2 px-4 py-2.5 text-sm">
-                <span className="text-[#ccc]">
-                  {invoice.vendor_name ?? '—'} <span className="text-xs text-[#888]">{invoice.invoice_number}</span>
+                <span className="text-ink-soft">
+                  {invoice.vendor_name ?? '—'} <span className="text-xs text-muted">{invoice.invoice_number}</span>
                 </span>
                 <span className="flex items-center gap-3">
-                  <span className="font-mono text-xs tabular-nums text-[#aaa]">
+                  <span className="font-mono text-xs tabular-nums text-ink-soft">
                     {invoice.total_cents != null ? formatCurrency(invoice.total_cents, invoice.currency ?? 'EUR', locale) : '—'}
                   </span>
                   <span
                     className={cn(
                       'inline-flex rounded-full border px-2.5 py-0.5 text-xs font-medium',
                       state === 'paid'
-                        ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
-                        : 'border-violet-500/30 bg-violet-500/10 text-violet-300',
+                        ? 'border-emerald-500/30 bg-emerald-500/10 text-success-text'
+                        : 'border-violet-500/30 bg-violet-500/10 text-accent-text',
                     )}
                   >
                     {t(`paymentState.${state}`)}

@@ -37,7 +37,7 @@ export default async function BatchesPage({ params }: { params: Promise<{ locale
 
   return (
     <div className="space-y-4">
-      <p className="max-w-3xl text-sm leading-relaxed text-[#888]">{t('intro')}</p>
+      <p className="max-w-3xl text-sm leading-relaxed text-muted">{t('intro')}</p>
       <BatchList batches={views} readOnly={false} downloadBase="/api/payments/batches" />
     </div>
   )

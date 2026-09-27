@@ -27,11 +27,11 @@ interface InvoicePageProps {
 }
 
 const STATUS_STYLES: Record<InvoiceStatus, string> = {
-  pending:       'bg-violet-500/15 text-violet-300 border-violet-500/30',
-  processing:    'bg-blue-500/15 text-blue-300 border-blue-500/30',
-  review_needed: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
-  approved:      'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-  rejected:      'bg-red-500/15 text-red-400 border-red-500/30',
+  pending:       'bg-violet-500/15 text-accent-text border-violet-500/30',
+  processing:    'bg-blue-500/15 text-accent-text border-blue-500/30',
+  review_needed: 'bg-amber-500/15 text-warning-text border-amber-500/30',
+  approved:      'bg-emerald-500/15 text-success-text border-emerald-500/30',
+  rejected:      'bg-red-500/15 text-danger-text border-red-500/30',
 }
 
 function StatusBadge({ status, label }: { status: InvoiceStatus; label: string }) {
@@ -49,8 +49,8 @@ function DetailRow({ label, value }: { label: string; value: string | null }) {
   if (!value) return null
   return (
     <div className="flex items-start justify-between gap-4 py-2.5 text-sm">
-      <span className="shrink-0 text-[#888]">{label}</span>
-      <span className="text-right font-medium text-[#ededed]">{value}</span>
+      <span className="shrink-0 text-muted">{label}</span>
+      <span className="text-right font-medium text-ink">{value}</span>
     </div>
   )
 }
@@ -94,8 +94,12 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
     parsing_failed:   t('failureReason.parsing_failed'),
     handwritten_only: t('failureReason.handwritten_only'),
   }
+  // An unexpected crash stores its raw JavaScript message on the row. Showing
+  // "Cannot read properties of undefined (reading 'def')" to someone who just
+  // wanted their receipt read tells them nothing and looks broken; the detail
+  // stays in the row and in the logs for us.
   const failureLabel = invoice.failure_reason
-    ? (FAILURE_REASON_LABELS[invoice.failure_reason] ?? invoice.failure_reason)
+    ? (FAILURE_REASON_LABELS[invoice.failure_reason] ?? t('failureReason.unexpected_error'))
     : null
 
   // Fiscal breakdown data
@@ -121,7 +125,7 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <Link
           href={`/${locale}/invoices`}
-          className="inline-flex items-center gap-1.5 text-sm text-[#888] transition-colors hover:text-[#ededed]"
+          className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-ink"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
             strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4" aria-hidden="true">
@@ -142,14 +146,14 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
       </div>
 
       <div>
-        <h1 className="text-xl font-semibold text-[#ededed]">
+        <h1 className="text-xl font-semibold text-ink">
           {invoice.vendor_name ?? t('title')}
           {invoice.invoice_number && (
-            <span className="ml-2 text-sm font-normal text-[#888]">#{invoice.invoice_number}</span>
+            <span className="ml-2 text-sm font-normal text-muted">#{invoice.invoice_number}</span>
           )}
         </h1>
         {isAutoApproved && (
-          <span className="mt-1 inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-xs text-emerald-400">
+          <span className="mt-1 inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-xs text-success-text">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
               strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3" aria-hidden="true">
               <polyline points="20 6 9 17 4 12" />
@@ -164,9 +168,9 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
 
         {/* ── Receipt preview ─────────────────── (2/5) */}
         <div className="lg:col-span-2">
-          <div className="overflow-hidden rounded-xl border border-[#2a2a2a] bg-[#111]">
-            <div className="border-b border-[#2a2a2a] px-4 py-3">
-              <p className="text-xs font-medium text-[#888]">{t('receiptPreview')}</p>
+          <div className="overflow-hidden rounded-xl border border-line bg-surface">
+            <div className="border-b border-line px-4 py-3">
+              <p className="text-xs font-medium text-muted">{t('receiptPreview')}</p>
             </div>
             {receiptUrl && !isPDF ? (
               <div className="relative aspect-[3/4] w-full">
@@ -186,7 +190,7 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
               </div>
             ) : (
               <div className="flex items-center justify-center px-6 py-12">
-                <p className="text-sm text-[#555]">{t('noReceipt')}</p>
+                <p className="text-sm text-faint">{t('noReceipt')}</p>
               </div>
             )}
           </div>
@@ -197,11 +201,11 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
 
           {/* ── Fiscal breakdown ────────────────────── */}
           {invoice.total_cents != null && !isAnalyzingOnLoad && (
-            <div className="overflow-hidden rounded-xl border border-[#2a2a2a] bg-[#111]">
-              <div className="flex items-center justify-between border-b border-[#2a2a2a] px-4 py-3">
-                <p className="text-xs font-medium text-[#888]">{t('fiscal.title')}</p>
+            <div className="overflow-hidden rounded-xl border border-line bg-surface">
+              <div className="flex items-center justify-between border-b border-line px-4 py-3">
+                <p className="text-xs font-medium text-muted">{t('fiscal.title')}</p>
                 {countryConfig && (
-                  <span className="flex items-center gap-1.5 text-xs text-[#555]">
+                  <span className="flex items-center gap-1.5 text-xs text-faint">
                     <span aria-hidden="true">{countryConfig.flag}</span>
                     {countryConfig.name} · {countryConfig.taxIdLabel}
                   </span>
@@ -211,8 +215,8 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
                 {/* Base */}
                 {invoice.subtotal_cents != null && (
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-[#888]">{t('fiscal.base')}</span>
-                    <span className="font-medium text-[#ededed]">
+                    <span className="text-muted">{t('fiscal.base')}</span>
+                    <span className="font-medium text-ink">
                       {formatCurrency(invoice.subtotal_cents, currency, locale)}
                     </span>
                   </div>
@@ -220,36 +224,36 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
                 {/* Tax */}
                 {invoice.tax_cents != null && !invoice.is_reverse_charge && (
                   <div className="flex items-center justify-between text-sm">
-                    <span className="flex items-center gap-1.5 text-[#888]">
+                    <span className="flex items-center gap-1.5 text-muted">
                       {t('fiscal.taxAmount', { rate: taxRateLabel ?? '?' })}
                       {taxRateLabel && (
-                        <span className={`rounded px-1 py-0.5 text-[10px] font-medium ${vatStatusValid ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'}`}>
+                        <span className={`rounded px-1 py-0.5 text-[10px] font-medium ${vatStatusValid ? 'bg-emerald-500/10 text-success-text' : 'bg-amber-500/10 text-warning-text'}`}>
                           {vatStatusValid ? t('fiscal.validRate') : t('fiscal.discrepancyRate')}
                         </span>
                       )}
                     </span>
-                    <span className="font-medium text-[#ededed]">
+                    <span className="font-medium text-ink">
                       {formatCurrency(invoice.tax_cents, currency, locale)}
                     </span>
                   </div>
                 )}
                 {/* Reverse charge note */}
                 {invoice.is_reverse_charge && (
-                  <p className="rounded-md border border-amber-500/20 bg-amber-500/5 px-3 py-2 text-xs text-amber-400">
+                  <p className="rounded-md border border-amber-500/20 bg-amber-500/5 px-3 py-2 text-xs text-warning-text">
                     {t('fiscal.reverseChargeNote')}
                   </p>
                 )}
                 {/* Separator + Total */}
-                <div className="mt-1 border-t border-[#2a2a2a] pt-2">
+                <div className="mt-1 border-t border-line pt-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-[#ededed]">{t('fiscal.total')}</span>
-                    <span className="text-lg font-bold text-violet-300">
+                    <span className="text-sm font-semibold text-ink">{t('fiscal.total')}</span>
+                    <span className="text-lg font-bold text-accent-text">
                       {formatCurrency(invoice.total_cents, currency, locale)}
                     </span>
                   </div>
                   {invoice.due_date && (
-                    <p className="mt-1 text-xs text-[#888]">
-                      {t('details.dueDate')}: <span className="font-medium text-[#ededed]">{formatDate(invoice.due_date, locale)}</span>
+                    <p className="mt-1 text-xs text-muted">
+                      {t('details.dueDate')}: <span className="font-medium text-ink">{formatDate(invoice.due_date, locale)}</span>
                     </p>
                   )}
                 </div>
@@ -276,11 +280,11 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
           />
 
           {/* ── Extracted data ──────────────────────── */}
-          <div className="rounded-xl border border-[#2a2a2a] bg-[#111]">
-            <div className="border-b border-[#2a2a2a] px-4 py-3">
-              <p className="text-xs font-medium text-[#888]">{t('extractedData')}</p>
+          <div className="rounded-xl border border-line bg-surface">
+            <div className="border-b border-line px-4 py-3">
+              <p className="text-xs font-medium text-muted">{t('extractedData')}</p>
             </div>
-            <div className="divide-y divide-[#1e1e1e] px-4">
+            <div className="divide-y divide-elevated-2 px-4">
               <DetailRow label={t('details.vendor')} value={invoice.vendor_name} />
               <DetailRow label={t('details.vendorTaxId')} value={invoice.vendor_tax_id} />
               <DetailRow label={t('details.invoiceNumber')} value={invoice.invoice_number} />
@@ -294,7 +298,7 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
               )}
             </div>
             {!invoice.vendor_name && !invoice.total_cents && !invoice.invoice_number && (
-              <div className="px-4 py-6 text-center text-sm text-[#555]">
+              <div className="px-4 py-6 text-center text-sm text-faint">
                 {isAnalyzingOnLoad ? t('dataNotYetAvailable') : t('noDataExtracted')}
               </div>
             )}
@@ -302,17 +306,17 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
 
           {/* Notes */}
           {invoice.notes && (
-            <div className="rounded-xl border border-[#2a2a2a] bg-[#111] px-4 py-3">
-              <p className="mb-1 text-xs font-medium text-[#888]">{tCommon('notes')}</p>
-              <p className="text-sm text-[#ededed]">{invoice.notes}</p>
+            <div className="rounded-xl border border-line bg-surface px-4 py-3">
+              <p className="mb-1 text-xs font-medium text-muted">{tCommon('notes')}</p>
+              <p className="text-sm text-ink">{invoice.notes}</p>
             </div>
           )}
 
           {/* Failure reason */}
           {failureLabel && (
             <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 px-4 py-3">
-              <p className="mb-0.5 text-xs font-medium text-amber-400">{t('failureReason.title')}</p>
-              <p className="text-sm text-[#888]">{failureLabel}</p>
+              <p className="mb-0.5 text-xs font-medium text-warning-text">{t('failureReason.title')}</p>
+              <p className="text-sm text-muted">{failureLabel}</p>
             </div>
           )}
         </div>

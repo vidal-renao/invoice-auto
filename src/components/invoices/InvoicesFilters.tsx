@@ -33,8 +33,8 @@ export function InvoicesFilters() {
   )
 
   const inputClass = cn(
-    'h-8 rounded-md border border-[#2a2a2a] bg-[#161616] px-3 text-sm text-[#ededed]',
-    'placeholder:text-[#555] focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-violet-500/30',
+    'h-8 rounded-md border border-line bg-surface-2 px-3 text-sm text-ink',
+    'placeholder:text-faint focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-violet-500/30',
     'transition-colors'
   )
 
@@ -89,7 +89,7 @@ export function InvoicesFilters() {
         aria-label={t('dateFrom')}
         title={t('dateFrom')}
       />
-      <span className="text-xs text-[#555]">–</span>
+      <span className="text-xs text-faint">–</span>
       <input
         type="date"
         value={dateTo}
@@ -103,7 +103,7 @@ export function InvoicesFilters() {
       {hasFilters && (
         <button
           onClick={() => router.push(pathname)}
-          className="inline-flex h-8 items-center gap-1.5 rounded-md border border-[#2a2a2a] px-3 text-xs text-[#888] transition-colors hover:border-[#444] hover:text-[#ededed]"
+          className="inline-flex h-8 items-center gap-1.5 rounded-md border border-line px-3 text-xs text-muted transition-colors hover:border-faint hover:text-ink"
         >
           <svg
             viewBox="0 0 24 24"

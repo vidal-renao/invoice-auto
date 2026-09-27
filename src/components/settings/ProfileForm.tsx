@@ -17,11 +17,11 @@ const INITIAL_STATE: ProfileActionState = { success: false }
 
 // Shared select class — mirrors Input's visual style
 const selectClass = cn(
-  'w-full rounded-md border border-[#2a2a2a] bg-[#111]',
-  'px-3 py-2 text-sm text-[#ededed]',
+  'w-full rounded-md border border-line bg-surface',
+  'px-3 py-2 text-sm text-ink',
   'transition-colors duration-150',
   'focus:outline-none focus:ring-1 focus:ring-violet-700 focus:border-violet-700',
-  '[&>option]:bg-[#1a1a1a]'
+  '[&>option]:bg-elevated'
 )
 
 export function ProfileForm({ profile }: ProfileFormProps) {
@@ -33,8 +33,8 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       {/* ── Section 1: Company Profile ─────────────────────────────────────── */}
       <Card>
         <CardHeader>
-          <h2 className="text-sm font-semibold text-[#ededed]">{t('profile.sectionTitle')}</h2>
-          <p className="mt-0.5 text-xs text-[#888]">{t('profile.sectionDesc')}</p>
+          <h2 className="text-sm font-semibold text-ink">{t('profile.sectionTitle')}</h2>
+          <p className="mt-0.5 text-xs text-muted">{t('profile.sectionDesc')}</p>
         </CardHeader>
         <CardContent className="space-y-4">
           <Input
@@ -67,13 +67,13 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       {/* ── Section 2: Fiscal Settings ─────────────────────────────────────── */}
       <Card>
         <CardHeader>
-          <h2 className="text-sm font-semibold text-[#ededed]">{t('fiscal.sectionTitle')}</h2>
-          <p className="mt-0.5 text-xs text-[#888]">{t('fiscal.sectionDesc')}</p>
+          <h2 className="text-sm font-semibold text-ink">{t('fiscal.sectionTitle')}</h2>
+          <p className="mt-0.5 text-xs text-muted">{t('fiscal.sectionDesc')}</p>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Country */}
           <div className="space-y-1.5">
-            <label htmlFor="country" className="block text-sm font-medium text-[#ededed]">
+            <label htmlFor="country" className="block text-sm font-medium text-ink">
               {t('fiscal.country')}
             </label>
             <select
@@ -86,12 +86,12 @@ export function ProfileForm({ profile }: ProfileFormProps) {
               <option value="CH">{t('countries.CH')}</option>
               <option value="DE">{t('countries.DE')}</option>
             </select>
-            <p className="text-xs text-[#888]">{t('fiscal.currencyNote')}</p>
+            <p className="text-xs text-muted">{t('fiscal.currencyNote')}</p>
           </div>
 
           {/* Locale */}
           <div className="space-y-1.5">
-            <label htmlFor="locale" className="block text-sm font-medium text-[#ededed]">
+            <label htmlFor="locale" className="block text-sm font-medium text-ink">
               {t('fiscal.locale')}
             </label>
             <select
@@ -109,10 +109,10 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       </Card>
 
       {/* ── Save row ────────────────────────────────────────────────────────── */}
-      <CardFooter className="flex items-center gap-4 rounded-lg border border-[#2a2a2a] bg-[#111] px-6 py-4">
+      <CardFooter className="flex items-center gap-4 rounded-lg border border-line bg-surface px-6 py-4">
         <div className="flex-1">
           {state.success && (
-            <span className="flex items-center gap-1.5 text-sm text-emerald-400">
+            <span className="flex items-center gap-1.5 text-sm text-success-text">
               <svg
                 viewBox="0 0 16 16"
                 fill="none"
@@ -132,7 +132,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
             </span>
           )}
           {!state.success && state.error && (
-            <span className="text-sm text-red-400">{t('saveError')}</span>
+            <span className="text-sm text-danger-text">{t('saveError')}</span>
           )}
         </div>
         <Button type="submit" loading={isPending}>

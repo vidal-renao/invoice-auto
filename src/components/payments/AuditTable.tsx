@@ -24,30 +24,30 @@ export function AuditTable({ rows }: { rows: AuditRow[] }) {
     new Intl.DateTimeFormat(locale, { dateStyle: 'short', timeStyle: 'medium', timeZone: BUSINESS_TIME_ZONE }).format(new Date(iso))
 
   if (rows.length === 0) {
-    return <p className="rounded-lg border border-dashed border-[#2a2a2a] px-4 py-8 text-center text-sm text-[#8a8a8a]">{t('empty')}</p>
+    return <p className="rounded-lg border border-dashed border-line px-4 py-8 text-center text-sm text-muted">{t('empty')}</p>
   }
 
   return (
     <div
-      className="overflow-x-auto rounded-xl border border-[#2a2a2a] bg-[#111] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+      className="overflow-x-auto rounded-xl border border-line bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
       tabIndex={0}
       role="region"
       aria-label={t('title')}
     >
       <table className="w-full min-w-[640px] text-sm">
         <thead>
-          <tr className="border-b border-[#2a2a2a] text-left text-xs text-[#888]">
+          <tr className="border-b border-line text-left text-xs text-muted">
             <th scope="col" className="px-4 py-3 font-medium">{t('when')}</th>
             <th scope="col" className="px-4 py-3 font-medium">{t('what')}</th>
             <th scope="col" className="px-4 py-3 font-medium">{t('details')}</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-[#1e1e1e]">
+        <tbody className="divide-y divide-elevated-2">
           {rows.map((r) => (
             <tr key={r.id} className="align-top">
-              <td className="whitespace-nowrap px-4 py-2.5 font-mono text-xs text-[#aaa]">{when(r.occurred_at)}</td>
-              <td className="px-4 py-2.5 text-[#ededed]">{t.has(`action.${r.action}`) ? t(`action.${r.action}`) : r.action}</td>
-              <td className="break-all px-4 py-2.5 font-mono text-[11px] leading-relaxed text-[#888]">{summarise(r.details)}</td>
+              <td className="whitespace-nowrap px-4 py-2.5 font-mono text-xs text-ink-soft">{when(r.occurred_at)}</td>
+              <td className="px-4 py-2.5 text-ink">{t.has(`action.${r.action}`) ? t(`action.${r.action}`) : r.action}</td>
+              <td className="break-all px-4 py-2.5 font-mono text-[11px] leading-relaxed text-muted">{summarise(r.details)}</td>
             </tr>
           ))}
         </tbody>

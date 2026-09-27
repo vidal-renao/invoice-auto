@@ -1,37 +1,131 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Design Tokens — Invoice Auto (dark mode baseline)
-   Vercel/Linear aesthetic
+   Design Tokens — Invoice Auto
+   Vercel/Linear aesthetic, dark and light.
+
+   The palette lives in CSS variables so a single attribute on <html>
+   flips the whole application. Components never name a colour: they use
+   the semantic utilities generated from these tokens (bg-surface,
+   text-muted, border-line…), which is what makes a second theme possible
+   without touching 49 files again.
+
+   Contrast: every text pair below is at or above 4.5:1 against the
+   surface it sits on, in both themes.
    ============================================================ */
 
-@theme {
-  /* Backgrounds */
-  --color-bg-base: #0a0a0a;
-  --color-bg-surface: #111111;
-  --color-bg-elevated: #1a1a1a;
+:root {
+  color-scheme: dark;
 
-  /* Borders */
-  --color-border: #2a2a2a;
-  --color-border-subtle: #1f1f1f;
+  /* Surfaces, from furthest back to closest */
+  --c-canvas: #0a0a0a;
+  --c-canvas-alt: #0d0d0d;
+  --c-surface: #111111;
+  --c-surface-2: #161616;
+  --c-elevated: #1a1a1a;
+  --c-elevated-2: #1e1e1e;
+
+  /* Lines */
+  --c-line: #2a2a2a;
+  --c-line-strong: #333333;
 
   /* Text */
-  --color-text-primary: #ededed;
-  --color-text-muted: #888888;
-  --color-text-faint: #555555;
+  --c-ink: #ededed;        /* primary            15.4:1 on canvas */
+  --c-ink-soft: #d4d4d4;   /* secondary          11.6:1 */
+  --c-muted: #a3a3a3;      /* supporting copy     6.7:1 */
+  --c-faint: #8a8a8a;      /* placeholders, meta  4.7:1 */
 
-  /* Accent — violet */
-  --color-accent: #7c3aed;
-  --color-accent-hover: #6d28d9;
-  --color-accent-subtle: #1e1133;
+  /* Accent and status, as text on our surfaces */
+  --c-accent: #7c3aed;
+  --c-accent-strong: #6d28d9;
+  --c-accent-text: #c4b5fd;
+  --c-success-text: #6ee7b7;
+  --c-warning-text: #fcd34d;
+  --c-danger-text: #fca5a5;
+}
 
-  /* Semantic */
-  --color-success: #22c55e;
-  --color-success-subtle: #052e16;
-  --color-warning: #f59e0b;
-  --color-warning-subtle: #1c1300;
-  --color-error: #ef4444;
-  --color-error-subtle: #1f0000;
+/* System preference, unless the visitor picked a theme explicitly. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+
+    --c-canvas: #ffffff;
+    --c-canvas-alt: #fafafa;
+    --c-surface: #f7f7f8;
+    --c-surface-2: #f2f2f4;
+    --c-elevated: #ececef;
+    --c-elevated-2: #e5e5e9;
+
+    --c-line: #dededf;
+    --c-line-strong: #c8c8cc;
+
+    --c-ink: #0f0f12;        /* 18.9:1 on white */
+    --c-ink-soft: #2c2c33;   /* 12.9:1 */
+    --c-muted: #55555e;      /*  7.4:1 */
+    --c-faint: #6a6a73;      /*  5.4:1 */
+
+    --c-accent: #6d28d9;
+    --c-accent-strong: #5b21b6;
+    --c-accent-text: #6d28d9; /* 6.6:1 on white — the 300 shades vanish here */
+    --c-success-text: #047857;
+    --c-warning-text: #92400e;
+    --c-danger-text: #b91c1c;
+  }
+}
+
+/* Explicit choice wins over the system preference. */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --c-canvas: #ffffff;
+  --c-canvas-alt: #fafafa;
+  --c-surface: #f7f7f8;
+  --c-surface-2: #f2f2f4;
+  --c-elevated: #ececef;
+  --c-elevated-2: #e5e5e9;
+
+  --c-line: #dededf;
+  --c-line-strong: #c8c8cc;
+
+  --c-ink: #0f0f12;
+  --c-ink-soft: #2c2c33;
+  --c-muted: #55555e;
+  --c-faint: #6a6a73;
+
+  --c-accent: #6d28d9;
+  --c-accent-strong: #5b21b6;
+  --c-accent-text: #6d28d9;
+  --c-success-text: #047857;
+  --c-warning-text: #92400e;
+  --c-danger-text: #b91c1c;
+}
+
+@theme inline {
+  /* Surfaces */
+  --color-canvas: var(--c-canvas);
+  --color-canvas-alt: var(--c-canvas-alt);
+  --color-surface: var(--c-surface);
+  --color-surface-2: var(--c-surface-2);
+  --color-elevated: var(--c-elevated);
+  --color-elevated-2: var(--c-elevated-2);
+
+  /* Lines */
+  --color-line: var(--c-line);
+  --color-line-strong: var(--c-line-strong);
+
+  /* Text */
+  --color-ink: var(--c-ink);
+  --color-ink-soft: var(--c-ink-soft);
+  --color-muted: var(--c-muted);
+  --color-faint: var(--c-faint);
+
+  /* Accent and status */
+  --color-accent: var(--c-accent);
+  --color-accent-strong: var(--c-accent-strong);
+  --color-accent-text: var(--c-accent-text);
+  --color-success-text: var(--c-success-text);
+  --color-warning-text: var(--c-warning-text);
+  --color-danger-text: var(--c-danger-text);
 
   /* Typography */
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
@@ -47,13 +141,9 @@
    Base Styles
    ============================================================ */
 
-html {
-  color-scheme: dark;
-}
-
 body {
-  background-color: var(--color-bg-base);
-  color: var(--color-text-primary);
+  background-color: var(--c-canvas);
+  color: var(--c-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -68,12 +158,12 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border);
+  background: var(--c-line);
   border-radius: 9999px;
 }
 
 /* Focus ring global reset — components add their own */
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--c-accent);
   outline-offset: 2px;
 }

@@ -106,7 +106,7 @@ export function RegisterForm() {
 
       {serverError && (
         <div role="alert" className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3">
-          <p className="text-sm text-red-400">{serverError}</p>
+          <p className="text-sm text-danger-text">{serverError}</p>
         </div>
       )}
 
@@ -114,11 +114,11 @@ export function RegisterForm() {
         {isSubmitting ? t('loading') : t('submit')}
       </Button>
 
-      <p className="text-center text-sm text-[#888]">
+      <p className="text-center text-sm text-muted">
         {t('hasAccount')}{' '}
         <Link
           href={`/${locale}/login`}
-          className="text-violet-400 underline underline-offset-2 transition-colors hover:text-violet-300"
+          className="text-accent-text underline underline-offset-2 transition-colors hover:text-accent-text"
         >
           {t('login')}
         </Link>

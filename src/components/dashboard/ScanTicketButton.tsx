@@ -119,20 +119,20 @@ function StepProgress({
                 'h-1.5 w-1.5 rounded-full transition-all duration-300',
                 done && 'bg-violet-500',
                 active && 'bg-violet-400 animate-pulse',
-                !done && !active && 'bg-[#333]'
+                !done && !active && 'bg-line-strong'
               )}
             />
             {/* Label */}
             <span
               className={cn(
                 'text-xs transition-colors duration-300',
-                active ? 'text-violet-300' : 'text-[#555]'
+                active ? 'text-accent-text' : 'text-faint'
               )}
             >
               {label}
             </span>
             {/* Arrow separator */}
-            {i < 2 && <span className="text-xs text-[#333]">›</span>}
+            {i < 2 && <span className="text-xs text-line-strong">›</span>}
           </div>
         )
       })}
@@ -145,13 +145,13 @@ function StepProgress({
 function UploadProgress({ progress }: { progress: number }) {
   return (
     <div className="w-64 space-y-1" role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
-      <div className="h-1 w-full overflow-hidden rounded-full bg-[#2a2a2a]">
+      <div className="h-1 w-full overflow-hidden rounded-full bg-line">
         <div
           className="h-full rounded-full bg-violet-500 transition-all duration-200 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>
-      <p className="text-center text-xs tabular-nums text-[#555]">{progress} %</p>
+      <p className="text-center text-xs tabular-nums text-faint">{progress} %</p>
     </div>
   )
 }
@@ -294,7 +294,7 @@ export function ScanTicketButton({ variant = 'hero' }: ScanTicketButtonProps) {
             'inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium',
             'bg-violet-700 text-white transition-colors hover:bg-violet-600',
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500',
-            'focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]',
+            'focus-visible:ring-offset-2 focus-visible:ring-offset-canvas',
             'disabled:pointer-events-none disabled:opacity-50'
           )}
         >
@@ -305,7 +305,7 @@ export function ScanTicketButton({ variant = 'hero' }: ScanTicketButtonProps) {
         {/* Compact progress bar (upload only) */}
         {status === 'uploading' && (
           <div
-            className="h-0.5 w-full overflow-hidden rounded-full bg-[#2a2a2a]"
+            className="h-0.5 w-full overflow-hidden rounded-full bg-line"
             role="progressbar"
             aria-valuenow={progress}
             aria-valuemin={0}
@@ -324,13 +324,13 @@ export function ScanTicketButton({ variant = 'hero' }: ScanTicketButtonProps) {
         )}
 
         {status === 'error' && (
-          <p role="alert" className="text-xs text-red-400">{t('uploadError')}</p>
+          <p role="alert" className="text-xs text-danger-text">{t('uploadError')}</p>
         )}
         {status === 'sizeError' && (
-          <p role="alert" className="text-xs text-red-400">{t('sizeError')}</p>
+          <p role="alert" className="text-xs text-danger-text">{t('sizeError')}</p>
         )}
         {status === 'authError' && (
-          <p role="alert" className="text-xs text-red-400">{t('authError')}</p>
+          <p role="alert" className="text-xs text-danger-text">{t('authError')}</p>
         )}
       </div>
     )
@@ -358,7 +358,7 @@ export function ScanTicketButton({ variant = 'hero' }: ScanTicketButtonProps) {
           'bg-violet-700 text-white',
           'hover:bg-violet-600 active:bg-violet-800',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400',
-          'focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]',
+          'focus-visible:ring-offset-2 focus-visible:ring-offset-canvas',
           'transition-all duration-150',
           'disabled:pointer-events-none disabled:opacity-60',
           'hover:shadow-[0_0_24px_rgba(124,58,237,0.35)]'
@@ -379,21 +379,21 @@ export function ScanTicketButton({ variant = 'hero' }: ScanTicketButtonProps) {
       {step && step > 1 && <StepProgress step={step} labels={stepLabels} />}
 
       {/* Hint (only when idle) */}
-      {status === 'idle' && <p className="text-xs text-[#888]">{t('hint')}</p>}
+      {status === 'idle' && <p className="text-xs text-muted">{t('hint')}</p>}
 
       {/* Analyzing hint */}
       {status === 'analyzing' && (
-        <p className="text-xs text-[#555]">{t('analyzingHint')}</p>
+        <p className="text-xs text-faint">{t('analyzingHint')}</p>
       )}
 
       {status === 'error' && (
-        <p role="alert" className="text-xs text-red-400">{t('uploadError')}</p>
+        <p role="alert" className="text-xs text-danger-text">{t('uploadError')}</p>
       )}
       {status === 'sizeError' && (
-        <p role="alert" className="text-xs text-red-400">{t('sizeError')}</p>
+        <p role="alert" className="text-xs text-danger-text">{t('sizeError')}</p>
       )}
       {status === 'authError' && (
-        <p role="alert" className="text-xs text-red-400">{t('authError')}</p>
+        <p role="alert" className="text-xs text-danger-text">{t('authError')}</p>
       )}
     </div>
   )

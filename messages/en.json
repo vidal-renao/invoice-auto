@@ -171,7 +171,8 @@
       "image_unclear": "The image is blurry or unreadable",
       "timeout_8s": "Request timed out (8 s)",
       "parsing_failed": "Could not parse the AI response",
-      "handwritten_only": "Handwritten document — automatic extraction not available"
+      "handwritten_only": "Handwritten document — automatic extraction not available",
+      "unexpected_error": "We could not analyse this document because of a technical error. Upload it again; if it keeps happening, write to us."
     },
     "details": {
       "vendor": "Vendor",
@@ -387,7 +388,10 @@
     "back": "Back",
     "notes": "Notes",
     "appName": "Invoice Auto",
-    "backHome": "Back to home"
+    "backHome": "Back to home",
+    "theme": "Theme",
+    "themeToDark": "Switch to dark mode",
+    "themeToLight": "Switch to light mode"
   },
   "payments": {
     "title": "Payments",

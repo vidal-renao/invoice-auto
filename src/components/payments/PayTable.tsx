@@ -76,13 +76,13 @@ export function PayTable({ rows, readOnly, canGenerate, batchesHref, invoiceBase
   }
 
   if (rows.length === 0) {
-    return <p className="rounded-lg border border-dashed border-[#2a2a2a] px-4 py-6 text-center text-sm text-[#8a8a8a]">{t('queue.emptyPay')}</p>
+    return <p className="rounded-lg border border-dashed border-line px-4 py-6 text-center text-sm text-muted">{t('queue.emptyPay')}</p>
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-[#2a2a2a] bg-[#111]">
+    <div className="overflow-hidden rounded-xl border border-line bg-surface">
       {/* Narrow screens: one card per payment, amount always in view. */}
-      <ul className="divide-y divide-[#1e1e1e] lg:hidden">
+      <ul className="divide-y divide-elevated-2 lg:hidden">
         {rows.map((r) => {
           const href = invoiceBase ? `${invoiceBase}/${r.invoice_id}` : null
           return (
@@ -98,21 +98,21 @@ export function PayTable({ rows, readOnly, canGenerate, batchesHref, invoiceBase
               )}
               <div className="min-w-0 flex-1 space-y-1.5">
                 <div className="flex items-start justify-between gap-3">
-                  <p className="font-medium text-[#ededed]">
+                  <p className="font-medium text-ink">
                     {href ? <Link href={href} className="hover:text-white hover:underline">{r.supplier}</Link> : r.supplier}
                   </p>
-                  <p className="shrink-0 font-mono text-sm font-medium tabular-nums text-[#ededed]">
+                  <p className="shrink-0 font-mono text-sm font-medium tabular-nums text-ink">
                     {formatCurrency(r.amount_cents, r.currency, locale)}
                   </p>
                 </div>
-                <p className="text-xs text-[#888]">
+                <p className="text-xs text-muted">
                   {r.invoice_number ?? '—'} · <span className="font-mono">{maskIban(r.iban)}</span> · {t(`route.${r.route}`)}
                 </p>
-                <p className="text-xs text-[#888]">
-                  {t('queue.execution')}: <span className="text-[#ccc]">{formatDate(r.execution_date, locale)}</span>
+                <p className="text-xs text-muted">
+                  {t('queue.execution')}: <span className="text-ink-soft">{formatDate(r.execution_date, locale)}</span>
                 </p>
                 {r.overridden && (
-                  <span className="inline-flex rounded-full border border-violet-500/30 bg-violet-500/10 px-2 py-0.5 text-[11px] text-violet-300">
+                  <span className="inline-flex rounded-full border border-violet-500/30 bg-violet-500/10 px-2 py-0.5 text-[11px] text-accent-text">
                     {t('queue.overridden')}
                   </span>
                 )}
@@ -132,7 +132,7 @@ export function PayTable({ rows, readOnly, canGenerate, batchesHref, invoiceBase
       >
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-[#2a2a2a] text-left text-xs text-[#888]">
+            <tr className="border-b border-line text-left text-xs text-muted">
               {!readOnly && (
                 <th scope="col" className="w-10 px-4 py-3">
                   <input
@@ -150,7 +150,7 @@ export function PayTable({ rows, readOnly, canGenerate, batchesHref, invoiceBase
               <th scope="col" className="px-4 py-3 text-right font-medium">{t('queue.amount')}</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#1e1e1e]">
+          <tbody className="divide-y divide-elevated-2">
             {rows.map((r) => {
               const href = invoiceBase ? `${invoiceBase}/${r.invoice_id}` : null
               return (
@@ -167,15 +167,15 @@ export function PayTable({ rows, readOnly, canGenerate, batchesHref, invoiceBase
                     </td>
                   )}
                   <td className="px-4 py-3">
-                    <p className="font-medium text-[#ededed]">
+                    <p className="font-medium text-ink">
                       {href ? <Link href={href} className="hover:text-white hover:underline">{r.supplier}</Link> : r.supplier}
                     </p>
-                    <p className="mt-0.5 text-xs text-[#888]">
+                    <p className="mt-0.5 text-xs text-muted">
                       {r.invoice_number ?? '—'}
                       {r.due_date && ` · ${t('queue.due')} ${formatDate(r.due_date, locale)}`}
                     </p>
                     {r.overridden && (
-                      <span className="mt-1.5 inline-flex rounded-full border border-violet-500/30 bg-violet-500/10 px-2 py-0.5 text-[11px] text-violet-300">
+                      <span className="mt-1.5 inline-flex rounded-full border border-violet-500/30 bg-violet-500/10 px-2 py-0.5 text-[11px] text-accent-text">
                         {t('queue.overridden')}
                       </span>
                     )}
@@ -186,11 +186,11 @@ export function PayTable({ rows, readOnly, canGenerate, batchesHref, invoiceBase
                     )}
                   </td>
                   <td className="px-4 py-3">
-                    <p className="font-mono text-xs text-[#ededed]">{maskIban(r.iban)}</p>
-                    <p className="mt-0.5 text-xs text-[#888]">{t(`route.${r.route}`)}</p>
+                    <p className="font-mono text-xs text-ink">{maskIban(r.iban)}</p>
+                    <p className="mt-0.5 text-xs text-muted">{t(`route.${r.route}`)}</p>
                   </td>
-                  <td className="px-4 py-3 text-[#ccc]">{formatDate(r.execution_date, locale)}</td>
-                  <td className="px-4 py-3 text-right font-mono font-medium tabular-nums text-[#ededed]">
+                  <td className="px-4 py-3 text-ink-soft">{formatDate(r.execution_date, locale)}</td>
+                  <td className="px-4 py-3 text-right font-mono font-medium tabular-nums text-ink">
                     {formatCurrency(r.amount_cents, r.currency, locale)}
                   </td>
                 </tr>
@@ -201,10 +201,10 @@ export function PayTable({ rows, readOnly, canGenerate, batchesHref, invoiceBase
       </div>
 
       {!readOnly && (
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#2a2a2a] px-4 py-3">
-          <p className="text-xs text-[#888]">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line px-4 py-3">
+          <p className="text-xs text-muted">
             {t('queue.selected', { count: chosen.length })}
-            {chosen.length > 0 && <span className="ml-2 font-mono text-[#ededed]">{totals(chosen, locale)}</span>}
+            {chosen.length > 0 && <span className="ml-2 font-mono text-ink">{totals(chosen, locale)}</span>}
           </p>
           <Button onClick={generate} loading={pending} disabled={pending || chosen.length === 0 || !canGenerate}>
             {pending ? t('queue.generating') : t('queue.generate')}
@@ -217,8 +217,8 @@ export function PayTable({ rows, readOnly, canGenerate, batchesHref, invoiceBase
           role={message.kind === 'error' ? 'alert' : 'status'}
           className={
             message.kind === 'ok'
-              ? 'border-t border-emerald-500/20 bg-emerald-500/5 px-4 py-3 text-sm text-emerald-300'
-              : 'border-t border-red-500/20 bg-red-500/5 px-4 py-3 text-sm text-red-300'
+              ? 'border-t border-emerald-500/20 bg-emerald-500/5 px-4 py-3 text-sm text-success-text'
+              : 'border-t border-red-500/20 bg-red-500/5 px-4 py-3 text-sm text-danger-text'
           }
         >
           {message.text}{' '}

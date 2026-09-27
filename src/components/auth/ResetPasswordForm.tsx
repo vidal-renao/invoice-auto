@@ -69,7 +69,7 @@ export function ResetPasswordForm() {
 
   if (state === 'checking') {
     return (
-      <p className="text-center text-sm text-[#888]">Loading…</p>
+      <p className="text-center text-sm text-muted">Loading…</p>
     )
   }
 
@@ -81,10 +81,10 @@ export function ResetPasswordForm() {
             ⚠️
           </div>
         </div>
-        <p className="mb-2 text-sm text-[#888]">{t('invalidLink')}</p>
+        <p className="mb-2 text-sm text-muted">{t('invalidLink')}</p>
         <Link
           href={`/${locale}/forgot-password`}
-          className="text-sm text-violet-400 underline underline-offset-2 transition-colors hover:text-violet-300"
+          className="text-sm text-accent-text underline underline-offset-2 transition-colors hover:text-accent-text"
         >
           {t('requestNew')}
         </Link>
@@ -100,8 +100,8 @@ export function ResetPasswordForm() {
             ✅
           </div>
         </div>
-        <h2 className="mb-2 text-base font-semibold text-[#ededed]">{t('successTitle')}</h2>
-        <p className="text-sm text-[#888]">{t('successDesc')}</p>
+        <h2 className="mb-2 text-base font-semibold text-ink">{t('successTitle')}</h2>
+        <p className="text-sm text-muted">{t('successDesc')}</p>
       </div>
     )
   }
@@ -128,7 +128,7 @@ export function ResetPasswordForm() {
       />
 
       {serverError && (
-        <p role="alert" className="text-sm text-red-400">
+        <p role="alert" className="text-sm text-danger-text">
           {serverError}
         </p>
       )}

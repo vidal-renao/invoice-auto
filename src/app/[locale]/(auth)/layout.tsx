@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
 export default async function AuthLayout({
   children,
@@ -12,7 +14,7 @@ export default async function AuthLayout({
   const t = await getTranslations('common')
 
   return (
-    <div className="relative flex min-h-screen flex-col bg-[#0a0a0a]">
+    <div className="relative flex min-h-screen flex-col bg-canvas">
 
       {/* Subtle radial glow — connects visually to landing */}
       <div
@@ -23,7 +25,7 @@ export default async function AuthLayout({
       </div>
 
       {/* ── Top bar ──────────────────────────────────────────── */}
-      <header className="relative z-10 flex items-center justify-between border-b border-[#2a2a2a] bg-[#0a0a0a]/80 px-6 py-4 backdrop-blur-sm">
+      <header className="relative z-10 flex items-center justify-between border-b border-line bg-canvas/80 px-6 py-4 backdrop-blur-sm">
         {/* Logo */}
         <div className="flex items-center gap-2">
           <div className="flex h-7 w-7 items-center justify-center rounded-md bg-violet-600">
@@ -31,31 +33,34 @@ export default async function AuthLayout({
               <path d="M3 4h10M3 8h7M3 12h4" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
           </div>
-          <span className="text-sm font-semibold text-[#ededed]">Invoice Auto</span>
+          <span className="text-sm font-semibold text-ink">Invoice Auto</span>
         </div>
 
-        {/* Back to home */}
-        <Link
-          href={`/${locale}`}
-          className="flex items-center gap-1.5 rounded-md border border-[#2a2a2a] px-3 py-1.5 text-xs font-medium text-[#888] transition-colors hover:border-[#444] hover:text-[#ededed] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
-        >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <path d="M7.5 2L3.5 6l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          {t('backHome')}
-        </Link>
+        <div className="flex items-center gap-2">
+          <LocaleSwitcher />
+          <ThemeToggle />
+          <Link
+            href={`/${locale}`}
+            className="flex min-h-11 items-center gap-1.5 rounded-md border border-line px-3 text-xs font-medium text-muted transition-colors hover:border-line-strong hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          >
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M7.5 2L3.5 6l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            {t('backHome')}
+          </Link>
+        </div>
       </header>
 
       {/* ── Form area ────────────────────────────────────────── */}
       <main className="relative z-10 flex flex-1 items-center justify-center px-4 py-12">
         <div className="w-full max-w-sm">
           {/* Card */}
-          <div className="rounded-xl border border-[#2a2a2a] bg-[#111]/80 p-8 shadow-2xl shadow-black/60 backdrop-blur-sm">
+          <div className="rounded-xl border border-line bg-surface/80 p-8 shadow-2xl shadow-black/60 backdrop-blur-sm">
             {children}
           </div>
 
           {/* Footer hint */}
-          <p className="mt-6 text-center text-xs text-[#8a8a8a]">
+          <p className="mt-6 text-center text-xs text-muted">
             Invoice Auto · Powered by Claude Vision AI
           </p>
         </div>

@@ -5,21 +5,21 @@ import type { Outcome, Reason } from '@/lib/payments/types'
 import { cn, formatCurrency, formatDate } from '@/lib/utils'
 
 const SEVERITY_STYLE: Record<Reason['severity'], string> = {
-  stop: 'border-red-500/30 bg-red-500/5 text-red-300',
-  review: 'border-amber-500/30 bg-amber-500/5 text-amber-200',
-  info: 'border-[#2a2a2a] bg-transparent text-[#999]',
+  stop: 'border-red-500/30 bg-red-500/5 text-danger-text',
+  review: 'border-amber-500/30 bg-amber-500/5 text-warning-text',
+  info: 'border-line bg-transparent text-muted',
 }
 
 const SEVERITY_DOT: Record<Reason['severity'], string> = {
   stop: 'bg-red-400',
   review: 'bg-amber-400',
-  info: 'bg-[#666]',
+  info: 'bg-faint',
 }
 
 export const OUTCOME_STYLE: Record<Outcome, string> = {
-  pay: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300',
-  review: 'border-amber-500/30 bg-amber-500/10 text-amber-300',
-  stop: 'border-red-500/30 bg-red-500/10 text-red-300',
+  pay: 'border-emerald-500/30 bg-emerald-500/10 text-success-text',
+  review: 'border-amber-500/30 bg-amber-500/10 text-warning-text',
+  stop: 'border-red-500/30 bg-red-500/10 text-danger-text',
 }
 
 export function OutcomeBadge({ outcome, label }: { outcome: Outcome; label: string }) {

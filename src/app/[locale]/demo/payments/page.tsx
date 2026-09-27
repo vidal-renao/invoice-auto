@@ -26,8 +26,8 @@ export default async function PaymentsDemoPage({ params }: { params: Promise<{ l
   const queue = buildQueue(workspace, now, today)
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#ededed]">
-      <header className="border-b border-[#2a2a2a]">
+    <div className="min-h-screen bg-canvas text-ink">
+      <header className="border-b border-line">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4 md:px-6">
           <Link href={`/${locale}`} className="flex items-center gap-2 text-sm font-semibold">
             <span className="flex h-7 w-7 items-center justify-center rounded-md bg-violet-600 text-xs font-bold text-white" aria-hidden="true">
@@ -46,22 +46,22 @@ export default async function PaymentsDemoPage({ params }: { params: Promise<{ l
 
       <main id="main-content" className="mx-auto max-w-6xl space-y-10 px-4 py-8 md:px-6 md:py-10">
         <section className="space-y-4">
-          <span className="inline-flex rounded-full border border-violet-500/30 bg-violet-500/10 px-2.5 py-0.5 text-xs font-medium text-violet-300">
+          <span className="inline-flex rounded-full border border-violet-500/30 bg-violet-500/10 px-2.5 py-0.5 text-xs font-medium text-accent-text">
             {t('demo.badge')}
           </span>
           <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">{t('demo.title')}</h1>
-          <p className="max-w-3xl text-sm leading-relaxed text-[#999] md:text-base">{t('subtitle')}</p>
-          <p className="max-w-3xl text-sm leading-relaxed text-[#888]">{t('demo.intro')}</p>
+          <p className="max-w-3xl text-sm leading-relaxed text-muted md:text-base">{t('subtitle')}</p>
+          <p className="max-w-3xl text-sm leading-relaxed text-muted">{t('demo.intro')}</p>
           <div className="flex flex-wrap items-center gap-3 pt-1">
             {/* A file download, not a page: client-side navigation would not save it. */}
             <a
               href="/api/demo/pain001"
               download
-              className="rounded-md border border-[#2a2a2a] px-4 py-2 text-sm text-[#ededed] transition-colors hover:bg-[#1a1a1a]"
+              className="rounded-md border border-line px-4 py-2 text-sm text-ink transition-colors hover:bg-elevated"
             >
               {t('demo.downloadSample')}
             </a>
-            <p className="text-xs text-[#888]">{t('demo.readOnly')}</p>
+            <p className="text-xs text-muted">{t('demo.readOnly')}</p>
           </div>
         </section>
 
@@ -69,7 +69,7 @@ export default async function PaymentsDemoPage({ params }: { params: Promise<{ l
 
         <section aria-labelledby="demo-suppliers" className="space-y-4">
           <h2 id="demo-suppliers" className="text-base font-semibold">{t('suppliers.title')}</h2>
-          <p className="max-w-3xl text-sm leading-relaxed text-[#888]">{t('suppliers.intro')}</p>
+          <p className="max-w-3xl text-sm leading-relaxed text-muted">{t('suppliers.intro')}</p>
           <SupplierAccounts
             readOnly
             now={now.toISOString()}

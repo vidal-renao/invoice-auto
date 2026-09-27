@@ -14,11 +14,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const CATEGORY_STYLES: Record<VendorCategory, string> = {
-  software:     'bg-violet-500/15 text-violet-300 border-violet-500/30',
-  utilities:    'bg-blue-500/15 text-blue-300 border-blue-500/30',
-  travel:       'bg-amber-500/15 text-amber-300 border-amber-500/30',
+  software:     'bg-violet-500/15 text-accent-text border-violet-500/30',
+  utilities:    'bg-blue-500/15 text-accent-text border-blue-500/30',
+  travel:       'bg-amber-500/15 text-warning-text border-amber-500/30',
   marketing:    'bg-pink-500/15 text-pink-300 border-pink-500/30',
-  professional: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+  professional: 'bg-emerald-500/15 text-success-text border-emerald-500/30',
   office:       'bg-sky-500/15 text-sky-300 border-sky-500/30',
   other:        'bg-neutral-500/15 text-neutral-400 border-neutral-500/30',
 }
@@ -47,9 +47,9 @@ export default async function ClientsPage({ params }: ClientsPageProps) {
     <div className="space-y-6">
       {/* ── Header ─────────────────────────────────── */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-[#ededed]">{t('title')}</h1>
+        <h1 className="text-2xl font-semibold text-ink">{t('title')}</h1>
         {vendors.length > 0 && (
-          <span className="rounded-md border border-[#2a2a2a] bg-[#1a1a1a] px-2.5 py-1 text-xs text-[#888]">
+          <span className="rounded-md border border-line bg-elevated px-2.5 py-1 text-xs text-muted">
             {t('rowCount', { count: vendors.length })}
           </span>
         )}
@@ -58,21 +58,21 @@ export default async function ClientsPage({ params }: ClientsPageProps) {
       {/* ── Summary cards ──────────────────────────── */}
       {vendors.length > 0 && (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-          <div className="rounded-xl border border-[#2a2a2a] bg-[#111] px-4 py-3">
-            <p className="text-xs text-[#555]">{t('rowCount', { count: vendors.length })}</p>
-            <p className="mt-1 text-2xl font-bold text-[#ededed]">{vendors.length}</p>
+          <div className="rounded-xl border border-line bg-surface px-4 py-3">
+            <p className="text-xs text-faint">{t('rowCount', { count: vendors.length })}</p>
+            <p className="mt-1 text-2xl font-bold text-ink">{vendors.length}</p>
           </div>
-          <div className="rounded-xl border border-[#2a2a2a] bg-[#111] px-4 py-3">
-            <p className="text-xs text-[#555]">{t('table.total')}</p>
-            <p className="mt-1 text-2xl font-bold text-violet-300">
+          <div className="rounded-xl border border-line bg-surface px-4 py-3">
+            <p className="text-xs text-faint">{t('table.total')}</p>
+            <p className="mt-1 text-2xl font-bold text-accent-text">
               {formatCurrency(totalSpent, 'EUR', locale)}
             </p>
           </div>
           {topVendor && (
-            <div className="col-span-2 rounded-xl border border-[#2a2a2a] bg-[#111] px-4 py-3 sm:col-span-1">
-              <p className="text-xs text-[#555]">Top vendor</p>
-              <p className="mt-1 truncate text-sm font-semibold text-[#ededed]">{topVendor.name}</p>
-              <p className="text-xs text-violet-300">{formatCurrency(topVendor.total_cents, topVendor.currency as Currency, locale)}</p>
+            <div className="col-span-2 rounded-xl border border-line bg-surface px-4 py-3 sm:col-span-1">
+              <p className="text-xs text-faint">Top vendor</p>
+              <p className="mt-1 truncate text-sm font-semibold text-ink">{topVendor.name}</p>
+              <p className="text-xs text-accent-text">{formatCurrency(topVendor.total_cents, topVendor.currency as Currency, locale)}</p>
             </div>
           )}
         </div>
@@ -80,8 +80,8 @@ export default async function ClientsPage({ params }: ClientsPageProps) {
 
       {/* ── Empty state ─────────────────────────────── */}
       {vendors.length === 0 && (
-        <div className="flex flex-col items-center justify-center rounded-xl border border-[#2a2a2a] bg-[#111] py-20 text-center">
-          <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-[#2a2a2a] bg-[#1a1a1a]" aria-hidden="true">
+        <div className="flex flex-col items-center justify-center rounded-xl border border-line bg-surface py-20 text-center">
+          <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-line bg-elevated" aria-hidden="true">
             <svg viewBox="0 0 16 16" fill="none" stroke="#555" strokeWidth="1.4" className="h-7 w-7">
               <circle cx="6" cy="5" r="2.5" />
               <path d="M1 13c0-2.21 2.239-4 5-4s5 1.79 5 4" strokeLinecap="round" />
@@ -89,67 +89,67 @@ export default async function ClientsPage({ params }: ClientsPageProps) {
               <path d="M13.5 13c0-1.1-.7-2.06-1.75-2.6" strokeLinecap="round" />
             </svg>
           </div>
-          <p className="text-sm font-medium text-[#ededed]">{t('empty.title')}</p>
-          <p className="mt-1 max-w-xs text-xs text-[#888]">{t('empty.description')}</p>
+          <p className="text-sm font-medium text-ink">{t('empty.title')}</p>
+          <p className="mt-1 max-w-xs text-xs text-muted">{t('empty.description')}</p>
         </div>
       )}
 
       {/* ── Table ───────────────────────────────────── */}
       {vendors.length > 0 && (
-        <div className="overflow-hidden rounded-xl border border-[#2a2a2a] bg-[#111]">
+        <div className="overflow-hidden rounded-xl border border-line bg-surface">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-[#2a2a2a]">
-                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-[#555]">{t('table.name')}</th>
-                  <th className="hidden px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-[#555] sm:table-cell">{t('table.taxId')}</th>
-                  <th className="hidden px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-[#555] md:table-cell">{t('table.country')}</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-[#555]">{t('table.category')}</th>
-                  <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-[#555]">{t('table.invoiceCount')}</th>
-                  <th className="hidden px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-[#555] sm:table-cell">{t('table.total')}</th>
+                <tr className="border-b border-line">
+                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-faint">{t('table.name')}</th>
+                  <th className="hidden px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-faint sm:table-cell">{t('table.taxId')}</th>
+                  <th className="hidden px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-faint md:table-cell">{t('table.country')}</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-faint">{t('table.category')}</th>
+                  <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-faint">{t('table.invoiceCount')}</th>
+                  <th className="hidden px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-faint sm:table-cell">{t('table.total')}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#1e1e1e]">
+              <tbody className="divide-y divide-elevated-2">
                 {vendors.map((vendor: VendorRow) => {
                   const config = vendor.country_code
                     ? COUNTRY_TAX_CONFIG[vendor.country_code as keyof typeof COUNTRY_TAX_CONFIG]
                     : null
                   const flag = config?.flag ?? ''
                   return (
-                    <tr key={vendor.tax_id ?? vendor.name} className="group transition-colors duration-100 hover:bg-[#1a1a1a]">
+                    <tr key={vendor.tax_id ?? vendor.name} className="group transition-colors duration-100 hover:bg-elevated">
                       <td className="px-4 py-3">
-                        <span className="font-medium text-[#ededed]">{vendor.name}</span>
+                        <span className="font-medium text-ink">{vendor.name}</span>
                       </td>
                       <td className="hidden px-4 py-3 sm:table-cell">
                         {vendor.tax_id
-                          ? <span className="font-mono text-xs text-[#888]">{vendor.tax_id}</span>
-                          : <span className="text-[#8a8a8a]">—</span>}
+                          ? <span className="font-mono text-xs text-muted">{vendor.tax_id}</span>
+                          : <span className="text-muted">—</span>}
                       </td>
                       <td className="hidden px-4 py-3 md:table-cell">
                         {vendor.country_code
-                          ? <span className="flex items-center gap-1.5 text-[#aaa]">
+                          ? <span className="flex items-center gap-1.5 text-ink-soft">
                               {flag && <span aria-hidden="true">{flag}</span>}
                               <span className="font-mono text-xs">{vendor.country_code}</span>
                             </span>
-                          : <span className="text-[#8a8a8a]">{t('unknownCountry')}</span>}
+                          : <span className="text-muted">{t('unknownCountry')}</span>}
                       </td>
                       <td className="px-4 py-3">
                         {vendor.category
                           ? <span className={`inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium ${CATEGORY_STYLES[vendor.category]}`}>
                               {t(`category.${vendor.category}`)}
                             </span>
-                          : <span className="inline-flex items-center rounded-md border border-[#2a2a2a] px-2 py-0.5 text-xs text-[#8a8a8a]">
+                          : <span className="inline-flex items-center rounded-md border border-line px-2 py-0.5 text-xs text-muted">
                               {t('category.none')}
                             </span>}
                       </td>
                       <td className="px-4 py-3 text-right">
-                        <span className="tabular-nums text-[#888]">{vendor.invoice_count}</span>
+                        <span className="tabular-nums text-muted">{vendor.invoice_count}</span>
                       </td>
                       <td className="hidden px-4 py-3 text-right sm:table-cell">
-                        <span className="tabular-nums font-medium text-[#ededed]">
+                        <span className="tabular-nums font-medium text-ink">
                           {vendor.total_cents > 0
                             ? formatCurrency(vendor.total_cents, vendor.currency as Currency, locale)
-                            : <span className="text-[#8a8a8a]">—</span>}
+                            : <span className="text-muted">—</span>}
                         </span>
                       </td>
                     </tr>

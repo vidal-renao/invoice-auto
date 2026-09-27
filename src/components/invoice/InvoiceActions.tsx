@@ -137,7 +137,7 @@ export function InvoiceActions({ invoiceId, status, receiptUrl, isPDF }: Invoice
             <button
               onClick={() => handleStatusUpdate('approved')}
               disabled={isUpdatingStatus}
-              className="inline-flex items-center gap-1.5 rounded-md border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-sm font-medium text-emerald-400 transition-colors hover:bg-emerald-500/20 disabled:pointer-events-none disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-md border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-sm font-medium text-success-text transition-colors hover:bg-emerald-500/20 disabled:pointer-events-none disabled:opacity-50"
             >
               <CheckIcon className="h-3.5 w-3.5" />
               {t('approve')}
@@ -145,7 +145,7 @@ export function InvoiceActions({ invoiceId, status, receiptUrl, isPDF }: Invoice
             <button
               onClick={() => handleStatusUpdate('rejected')}
               disabled={isUpdatingStatus}
-              className="inline-flex items-center gap-1.5 rounded-md border border-red-500/30 bg-red-500/10 px-3 py-1.5 text-sm font-medium text-red-400 transition-colors hover:bg-red-500/20 disabled:pointer-events-none disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-md border border-red-500/30 bg-red-500/10 px-3 py-1.5 text-sm font-medium text-danger-text transition-colors hover:bg-red-500/20 disabled:pointer-events-none disabled:opacity-50"
             >
               <BanIcon className="h-3.5 w-3.5" />
               {t('reject')}
@@ -157,7 +157,7 @@ export function InvoiceActions({ invoiceId, status, receiptUrl, isPDF }: Invoice
         {receiptUrl && !isPDF && (
           <button
             onClick={() => setShowZoom(true)}
-            className="inline-flex items-center gap-1.5 rounded-md border border-[#2a2a2a] px-3 py-1.5 text-sm text-[#888] transition-colors hover:border-[#444] hover:text-[#ededed]"
+            className="inline-flex items-center gap-1.5 rounded-md border border-line px-3 py-1.5 text-sm text-muted transition-colors hover:border-faint hover:text-ink"
             aria-label={t('zoomImage')}
           >
             <ZoomIcon className="h-4 w-4" />
@@ -168,7 +168,7 @@ export function InvoiceActions({ invoiceId, status, receiptUrl, isPDF }: Invoice
         {/* ── Delete ─────────────────────────────────────────── */}
         <button
           onClick={() => { setShowDeleteModal(true); setDeleteError(false) }}
-          className="inline-flex items-center gap-1.5 rounded-md border border-[#2a2a2a] px-3 py-1.5 text-sm text-[#888] transition-colors hover:border-red-500/30 hover:text-red-400"
+          className="inline-flex items-center gap-1.5 rounded-md border border-line px-3 py-1.5 text-sm text-muted transition-colors hover:border-red-500/30 hover:text-danger-text"
         >
           <TrashIcon className="h-4 w-4" />
           {t('delete')}
@@ -177,7 +177,7 @@ export function InvoiceActions({ invoiceId, status, receiptUrl, isPDF }: Invoice
 
       {/* Status update error */}
       {statusError && (
-        <p role="alert" className="mt-1 text-xs text-red-400">{t('statusError')}</p>
+        <p role="alert" className="mt-1 text-xs text-danger-text">{t('statusError')}</p>
       )}
 
       {/* ── Delete confirmation modal ──────────────────────────── */}
@@ -189,30 +189,30 @@ export function InvoiceActions({ invoiceId, status, receiptUrl, isPDF }: Invoice
           aria-modal="true"
         >
           <div
-            className="w-full max-w-sm rounded-xl border border-[#2a2a2a] bg-[#111] p-6 shadow-2xl shadow-black/60"
+            className="w-full max-w-sm rounded-xl border border-line bg-surface p-6 shadow-2xl shadow-black/60"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-base font-semibold text-[#ededed]">
+            <h3 className="text-base font-semibold text-ink">
               {t('deleteConfirmTitle')}
             </h3>
-            <p className="mt-1.5 text-sm text-[#888]">{t('deleteConfirmDesc')}</p>
+            <p className="mt-1.5 text-sm text-muted">{t('deleteConfirmDesc')}</p>
 
             {deleteError && (
-              <p role="alert" className="mt-3 text-sm text-red-400">{t('deleteError')}</p>
+              <p role="alert" className="mt-3 text-sm text-danger-text">{t('deleteError')}</p>
             )}
 
             <div className="mt-6 flex gap-3">
               <button
                 onClick={() => { setShowDeleteModal(false); setDeleteError(false) }}
                 disabled={isDeleting}
-                className="flex-1 rounded-md border border-[#2a2a2a] px-4 py-2 text-sm text-[#888] transition-colors hover:border-[#444] hover:text-[#ededed] disabled:opacity-50"
+                className="flex-1 rounded-md border border-line px-4 py-2 text-sm text-muted transition-colors hover:border-faint hover:text-ink disabled:opacity-50"
               >
                 {t('cancelDelete')}
               </button>
               <button
                 onClick={handleDelete}
                 disabled={isDeleting}
-                className="flex-1 rounded-md border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm font-medium text-red-400 transition-colors hover:bg-red-500/20 disabled:opacity-50"
+                className="flex-1 rounded-md border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm font-medium text-danger-text transition-colors hover:bg-red-500/20 disabled:opacity-50"
               >
                 {isDeleting ? '…' : t('deleteConfirmBtn')}
               </button>
@@ -232,7 +232,7 @@ export function InvoiceActions({ invoiceId, status, receiptUrl, isPDF }: Invoice
         >
           <button
             onClick={() => setShowZoom(false)}
-            className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-[#1a1a1a] text-[#888] transition-colors hover:bg-[#2a2a2a] hover:text-[#ededed]"
+            className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-elevated text-muted transition-colors hover:bg-line hover:text-ink"
             aria-label={t('closeZoom')}
           >
             <XIcon className="h-4 w-4" />

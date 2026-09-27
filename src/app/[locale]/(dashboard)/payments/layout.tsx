@@ -15,8 +15,8 @@ export default async function PaymentsLayout({
   return (
     <div className="space-y-6">
       <header className="space-y-2">
-        <h1 className="text-2xl font-semibold tracking-tight text-[#ededed]">{t('title')}</h1>
-        <p className="max-w-3xl text-sm leading-relaxed text-[#888]">{t('subtitle')}</p>
+        <h1 className="text-2xl font-semibold tracking-tight text-ink">{t('title')}</h1>
+        <p className="max-w-3xl text-sm leading-relaxed text-muted">{t('subtitle')}</p>
       </header>
       <PaymentsNav basePath={`/${locale}/payments`} />
       {children}

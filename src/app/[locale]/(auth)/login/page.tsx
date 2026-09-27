@@ -18,10 +18,10 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   return (
     <>
       <div className="mb-6 text-center">
-        <h1 className="text-xl font-semibold text-[#ededed]">
+        <h1 className="text-xl font-semibold text-ink">
           {t('title')}
         </h1>
-        <p className="mt-1 text-sm text-[#888]">{t('subtitle')}</p>
+        <p className="mt-1 text-sm text-muted">{t('subtitle')}</p>
       </div>
 
       {error === 'link_expired' && (
@@ -29,7 +29,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           role="alert"
           className="mb-4 rounded-lg border border-amber-500/20 bg-amber-500/10 px-4 py-3"
         >
-          <p className="text-sm text-amber-300">{t('errors.linkExpired')}</p>
+          <p className="text-sm text-warning-text">{t('errors.linkExpired')}</p>
         </div>
       )}
 

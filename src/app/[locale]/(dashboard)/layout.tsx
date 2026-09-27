@@ -32,7 +32,7 @@ export default async function DashboardLayout({
         Skip to content
       </a>
 
-      <div className="flex h-dvh flex-col overflow-hidden bg-[#0a0a0a] md:flex-row">
+      <div className="flex h-dvh flex-col overflow-hidden bg-canvas md:flex-row">
         {/* Top bar + drawer below md; sidebar on md+ */}
         <MobileNav locale={locale} />
 

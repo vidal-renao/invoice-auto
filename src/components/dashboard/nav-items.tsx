@@ -77,7 +77,7 @@ export function BrandMark() {
           <path d="M3 4h10M3 8h7M3 12h4" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
         </svg>
       </div>
-      <span className="text-sm font-semibold text-[#ededed]">Invoice Auto</span>
+      <span className="text-sm font-semibold text-ink">Invoice Auto</span>
     </div>
   )
 }

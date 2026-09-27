@@ -89,7 +89,7 @@ export function LoginForm() {
         <div className="flex justify-end">
           <Link
             href={`/${locale}/forgot-password`}
-            className="text-xs text-[#8a8a8a] underline underline-offset-2 transition-colors hover:text-violet-300"
+            className="text-xs text-muted underline underline-offset-2 transition-colors hover:text-accent-text"
           >
             {t('forgotPassword')}
           </Link>
@@ -98,11 +98,11 @@ export function LoginForm() {
 
       {serverError && (
         <div role="alert" className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3">
-          <p className="text-sm text-red-400">{serverError}</p>
-          <p className="mt-1 text-xs text-red-400/70">
+          <p className="text-sm text-danger-text">{serverError}</p>
+          <p className="mt-1 text-xs text-danger-text/70">
             <Link
               href={`/${locale}/forgot-password`}
-              className="underline underline-offset-2 hover:text-red-300"
+              className="underline underline-offset-2 hover:text-danger-text"
             >
               {t('forgotPassword')}
             </Link>
@@ -114,11 +114,11 @@ export function LoginForm() {
         {isSubmitting ? t('loading') : t('submit')}
       </Button>
 
-      <p className="text-center text-sm text-[#888]">
+      <p className="text-center text-sm text-muted">
         {t('noAccount')}{' '}
         <Link
           href={`/${locale}/register`}
-          className="text-violet-400 underline underline-offset-2 transition-colors hover:text-violet-300"
+          className="text-accent-text underline underline-offset-2 transition-colors hover:text-accent-text"
         >
           {t('register')}
         </Link>

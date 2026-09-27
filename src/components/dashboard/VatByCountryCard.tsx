@@ -39,16 +39,16 @@ export async function VatByCountryCard({
       <CardHeader>
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h2 className="text-sm font-medium text-[#ededed]">
+            <h2 className="text-sm font-medium text-ink">
               {t('vatBreakdown.title')}
             </h2>
-            <p className="mt-0.5 text-xs text-[#555]">
+            <p className="mt-0.5 text-xs text-faint">
               {t('vatBreakdown.subtitle')}
             </p>
           </div>
           {/* Shield icon */}
           <div
-            className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#2a2a2a] bg-[#1a1a1a]"
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-line bg-elevated"
             aria-hidden="true"
           >
             <svg
@@ -69,7 +69,7 @@ export async function VatByCountryCard({
 
       <CardContent className="px-0 py-0">
         {rows.length === 0 ? (
-          <p className="px-6 py-8 text-center text-sm text-[#555]">
+          <p className="px-6 py-8 text-center text-sm text-faint">
             {t('vatBreakdown.empty')}
           </p>
         ) : (
@@ -86,23 +86,23 @@ export async function VatByCountryCard({
                   key={quarter}
                   className={
                     qIdx > 0
-                      ? 'border-t border-[#1e1e1e]'
+                      ? 'border-t border-elevated-2'
                       : undefined
                   }
                 >
                   {/* Quarter header */}
                   <div className="flex items-center justify-between px-6 py-3">
-                    <span className="text-xs font-semibold uppercase tracking-widest text-[#555]">
+                    <span className="text-xs font-semibold uppercase tracking-widest text-faint">
                       {quarter}
                     </span>
-                    <span className="font-mono text-sm font-semibold text-violet-400">
+                    <span className="font-mono text-sm font-semibold text-accent-text">
                       {formatCurrency(quarterTotal, currency, locale)}
                     </span>
                   </div>
 
                   {/* Country rows */}
                   <table className="w-full">
-                    <tbody className="divide-y divide-[#161616]">
+                    <tbody className="divide-y divide-surface-2">
                       {quarterRows.map((row) => (
                         <tr
                           key={`${row.countryCode}-${row.quarter}`}
@@ -119,10 +119,10 @@ export async function VatByCountryCard({
                                 {row.flag}
                               </span>
                               <div>
-                                <p className="text-sm text-[#ededed]">
+                                <p className="text-sm text-ink">
                                   {row.countryName}
                                 </p>
-                                <p className="text-xs text-[#555]">
+                                <p className="text-xs text-faint">
                                   {row.invoiceCount}{' '}
                                   {row.invoiceCount === 1
                                     ? t('vatBreakdown.invoice')
@@ -134,20 +134,20 @@ export async function VatByCountryCard({
 
                           {/* Base imponible */}
                           <td className="px-4 py-2.5 text-right">
-                            <p className="text-xs text-[#555]">
+                            <p className="text-xs text-faint">
                               {t('vatBreakdown.base')}
                             </p>
-                            <p className="font-mono text-sm text-[#888]">
+                            <p className="font-mono text-sm text-muted">
                               {formatCurrency(row.subtotalCents, currency, locale)}
                             </p>
                           </td>
 
                           {/* IVA */}
                           <td className="px-6 py-2.5 text-right">
-                            <p className="text-xs text-[#555]">
+                            <p className="text-xs text-faint">
                               {t('vatBreakdown.vat')}
                             </p>
-                            <p className="font-mono text-sm font-semibold text-[#ededed]">
+                            <p className="font-mono text-sm font-semibold text-ink">
                               {formatCurrency(row.taxCents, currency, locale)}
                             </p>
                           </td>
@@ -161,8 +161,8 @@ export async function VatByCountryCard({
 
             {/* Footer: show all quarters link if more than 2 */}
             {byQuarter.size > 2 && (
-              <div className="border-t border-[#1e1e1e] px-6 py-3">
-                <p className="text-xs text-[#555]">
+              <div className="border-t border-elevated-2 px-6 py-3">
+                <p className="text-xs text-faint">
                   {t('vatBreakdown.moreQuarters', {
                     count: byQuarter.size - 2,
                   })}

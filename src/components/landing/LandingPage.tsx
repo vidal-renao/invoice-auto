@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { useTranslations, useLocale } from 'next-intl'
-import { LocaleSwitcher } from './LocaleSwitcher'
+import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
 export default function LandingPage() {
   const t = useTranslations('landing')
@@ -21,17 +22,17 @@ export default function LandingPage() {
   ]
 
   const features = [
-    { icon: '👁', color: 'text-violet-400', title: t('features.feat1Title'), desc: t('features.feat1Desc') },
-    { icon: '🌍', color: 'text-emerald-400', title: t('features.feat2Title'), desc: t('features.feat2Desc') },
-    { icon: '💱', color: 'text-blue-400', title: t('features.feat3Title'), desc: t('features.feat3Desc') },
-    { icon: '📱', color: 'text-amber-400', title: t('features.feat4Title'), desc: t('features.feat4Desc') },
+    { icon: '👁', color: 'text-accent-text', title: t('features.feat1Title'), desc: t('features.feat1Desc') },
+    { icon: '🌍', color: 'text-success-text', title: t('features.feat2Title'), desc: t('features.feat2Desc') },
+    { icon: '💱', color: 'text-accent-text', title: t('features.feat3Title'), desc: t('features.feat3Desc') },
+    { icon: '📱', color: 'text-warning-text', title: t('features.feat4Title'), desc: t('features.feat4Desc') },
   ]
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#ededed]">
+    <div className="min-h-screen bg-canvas text-ink">
 
       {/* ── Navbar ─────────────────────────────────────────── */}
-      <header className="sticky top-0 z-50 border-b border-[#2a2a2a] bg-[#0a0a0a]/90 backdrop-blur-sm">
+      <header className="sticky top-0 z-50 border-b border-line bg-canvas/90 backdrop-blur-sm">
         <nav
           className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"
           aria-label="Main navigation"
@@ -48,13 +49,13 @@ export default function LandingPage() {
           <div className="flex items-center gap-3">
             <Link
               href={`/${locale}/demo/payments`}
-              className="whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium text-[#a3a3a3] transition-colors hover:text-[#ededed] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 sm:px-4"
+              className="whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium text-muted transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 sm:px-4"
             >
               {t('nav.demo')}
             </Link>
             <Link
               href={`/${locale}/login`}
-              className="hidden rounded-md px-4 py-2 text-sm font-medium text-[#a3a3a3] transition-colors hover:text-[#ededed] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 sm:inline-block"
+              className="hidden rounded-md px-4 py-2 text-sm font-medium text-muted transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 sm:inline-block"
             >
               {t('nav.signin')}
             </Link>
@@ -65,6 +66,7 @@ export default function LandingPage() {
               {t('nav.getStarted')}
             </Link>
             <LocaleSwitcher className="hidden md:flex" />
+            <ThemeToggle />
           </div>
         </nav>
       </header>
@@ -72,14 +74,14 @@ export default function LandingPage() {
       <main>
         {/* ── Hero ───────────────────────────────────────────── */}
         <section className="mx-auto max-w-6xl px-6 pb-20 pt-24 text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-xs font-medium text-violet-400">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-xs font-medium text-accent-text">
             <span className="h-1.5 w-1.5 rounded-full bg-violet-400" aria-hidden="true" />
             {t('hero.badge')}
           </div>
           <h1 className="mx-auto mb-6 max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
             {t('hero.headline')}
           </h1>
-          <p className="mx-auto mb-10 max-w-xl text-base text-[#888] sm:text-lg">
+          <p className="mx-auto mb-10 max-w-xl text-base text-muted sm:text-lg">
             {t('hero.subline')}
           </p>
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -91,43 +93,43 @@ export default function LandingPage() {
             </Link>
             <Link
               href={`/${locale}/login`}
-              className="rounded-md border border-[#2a2a2a] px-6 py-3 text-sm font-semibold text-[#888] transition-colors hover:border-[#444] hover:text-[#ededed] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+              className="rounded-md border border-line px-6 py-3 text-sm font-semibold text-muted transition-colors hover:border-faint hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
             >
               {t('hero.signin')}
             </Link>
           </div>
 
           {/* Stats strip */}
-          <div className="mt-16 grid grid-cols-1 divide-y divide-[#2a2a2a] overflow-hidden rounded-xl border border-[#2a2a2a] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          <div className="mt-16 grid grid-cols-1 divide-y divide-line overflow-hidden rounded-xl border border-line sm:grid-cols-3 sm:divide-x sm:divide-y-0">
             {stats.map((stat) => (
-              <div key={stat.label} className="bg-[#111] px-8 py-8">
+              <div key={stat.label} className="bg-surface px-8 py-8">
                 <div className="text-3xl font-bold">{stat.value}</div>
-                <div className="mt-1 text-sm text-[#888]">{stat.label}</div>
+                <div className="mt-1 text-sm text-muted">{stat.label}</div>
               </div>
             ))}
           </div>
         </section>
 
         {/* ── How it Works ───────────────────────────────────── */}
-        <section className="border-t border-[#2a2a2a] bg-[#0d0d0d] py-20">
+        <section className="border-t border-line bg-canvas-alt py-20">
           <div className="mx-auto max-w-6xl px-6">
             <div className="mb-12 text-center">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-violet-400">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent-text">
                 {t('how.label')}
               </p>
               <h2 className="text-3xl font-bold tracking-tight">{t('how.title')}</h2>
             </div>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {steps.map((step, i) => (
-                <div key={step.num} className="relative rounded-xl border border-[#2a2a2a] bg-[#111] p-6">
+                <div key={step.num} className="relative rounded-xl border border-line bg-surface p-6">
                   <div className="mb-4 flex items-center gap-3">
                     <span className="text-2xl" role="img" aria-label={step.title}>{step.icon}</span>
-                    <span className="font-mono text-xs text-[#8a8a8a]">{step.num}</span>
+                    <span className="font-mono text-xs text-muted">{step.num}</span>
                   </div>
                   <h3 className="mb-2 text-base font-semibold">{step.title}</h3>
-                  <p className="text-sm leading-relaxed text-[#888]">{step.desc}</p>
+                  <p className="text-sm leading-relaxed text-muted">{step.desc}</p>
                   {i < steps.length - 1 && (
-                    <div className="absolute -right-4 top-1/2 hidden -translate-y-1/2 text-[#444] md:block" aria-hidden="true">
+                    <div className="absolute -right-4 top-1/2 hidden -translate-y-1/2 text-faint md:block" aria-hidden="true">
                       →
                     </div>
                   )}
@@ -138,22 +140,22 @@ export default function LandingPage() {
         </section>
 
         {/* ── Features ───────────────────────────────────────── */}
-        <section className="border-t border-[#2a2a2a] py-20">
+        <section className="border-t border-line py-20">
           <div className="mx-auto max-w-6xl px-6">
             <div className="mb-12 text-center">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-violet-400">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent-text">
                 {t('features.label')}
               </p>
               <h2 className="text-3xl font-bold tracking-tight">{t('features.title')}</h2>
             </div>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {features.map((feat) => (
-                <div key={feat.title} className="rounded-xl border border-[#2a2a2a] bg-[#111] p-5">
+                <div key={feat.title} className="rounded-xl border border-line bg-surface p-5">
                   <div className={`mb-3 text-2xl ${feat.color}`} role="img" aria-label={feat.title}>
                     {feat.icon}
                   </div>
                   <h3 className="mb-2 text-sm font-semibold">{feat.title}</h3>
-                  <p className="text-xs leading-relaxed text-[#888]">{feat.desc}</p>
+                  <p className="text-xs leading-relaxed text-muted">{feat.desc}</p>
                 </div>
               ))}
             </div>
@@ -161,14 +163,14 @@ export default function LandingPage() {
         </section>
 
         {/* ── Payments engine — the Swiss/SEPA differentiator ── */}
-        <section className="border-t border-[#2a2a2a] bg-[#0d0d0d] py-20">
+        <section className="border-t border-line bg-canvas-alt py-20">
           <div className="mx-auto max-w-6xl px-6">
             <div className="mb-12 max-w-2xl">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-violet-400">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent-text">
                 {t('payments.label')}
               </p>
               <h2 className="mb-4 text-3xl font-bold tracking-tight">{t('payments.title')}</h2>
-              <p className="text-base leading-relaxed text-[#a3a3a3]">{t('payments.desc')}</p>
+              <p className="text-base leading-relaxed text-muted">{t('payments.desc')}</p>
             </div>
             <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
               {[
@@ -176,16 +178,16 @@ export default function LandingPage() {
                 { title: t('payments.b2'), desc: t('payments.b2d') },
                 { title: t('payments.b3'), desc: t('payments.b3d') },
               ].map((item) => (
-                <div key={item.title} className="rounded-xl border border-[#2a2a2a] bg-[#111] p-5">
+                <div key={item.title} className="rounded-xl border border-line bg-surface p-5">
                   <h3 className="mb-2 text-sm font-semibold">{item.title}</h3>
-                  <p className="text-xs leading-relaxed text-[#888]">{item.desc}</p>
+                  <p className="text-xs leading-relaxed text-muted">{item.desc}</p>
                 </div>
               ))}
             </div>
             <div className="mt-8">
               <Link
                 href={`/${locale}/demo/payments`}
-                className="inline-flex min-h-11 items-center gap-2 rounded-md border border-violet-500/40 bg-violet-500/10 px-5 text-sm font-semibold text-violet-300 transition-colors hover:border-violet-400 hover:text-violet-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+                className="inline-flex min-h-11 items-center gap-2 rounded-md border border-violet-500/40 bg-violet-500/10 px-5 text-sm font-semibold text-accent-text transition-colors hover:border-violet-400 hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
               >
                 {t('payments.cta')} →
               </Link>
@@ -194,10 +196,10 @@ export default function LandingPage() {
         </section>
 
         {/* ── Final CTA ──────────────────────────────────────── */}
-        <section className="border-t border-[#2a2a2a] bg-[#0d0d0d] py-24">
+        <section className="border-t border-line bg-canvas-alt py-24">
           <div className="mx-auto max-w-2xl px-6 text-center">
             <h2 className="mb-4 text-3xl font-bold tracking-tight">{t('cta.title')}</h2>
-            <p className="mb-8 text-base text-[#888]">{t('cta.subtitle')}</p>
+            <p className="mb-8 text-base text-muted">{t('cta.subtitle')}</p>
             <Link
               href={`/${locale}/register`}
               className="inline-flex items-center gap-2 rounded-md bg-violet-600 px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
@@ -209,7 +211,7 @@ export default function LandingPage() {
       </main>
 
       {/* ── Footer ─────────────────────────────────────────── */}
-      <footer className="border-t border-[#2a2a2a] px-6 py-10 text-xs text-[#8a8a8a]">
+      <footer className="border-t border-line px-6 py-10 text-xs text-muted">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 md:flex-row md:items-center md:justify-between">
           <nav aria-label={t('footer.legal')} className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
             {[
@@ -220,20 +222,21 @@ export default function LandingPage() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex min-h-11 items-center rounded-md px-2 underline underline-offset-2 transition-colors hover:text-[#ededed] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+                className="flex min-h-11 items-center rounded-md px-2 underline underline-offset-2 transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
               >
                 {item.label}
               </Link>
             ))}
             <a
               href="mailto:vidalrenao.lab@outlook.com"
-              className="flex min-h-11 items-center rounded-md px-2 underline underline-offset-2 transition-colors hover:text-[#ededed] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+              className="flex min-h-11 items-center rounded-md px-2 underline underline-offset-2 transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
             >
               vidalrenao.lab@outlook.com
             </a>
           </nav>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <LocaleSwitcher />
+            <ThemeToggle className="md:hidden" />
             <p>© {new Date().getFullYear()} Invoice Auto</p>
           </div>
         </div>

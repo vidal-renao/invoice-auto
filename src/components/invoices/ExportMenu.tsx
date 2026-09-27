@@ -80,8 +80,8 @@ export function ExportMenu({ exportHref }: ExportMenuProps) {
         className={cn(
           'inline-flex h-9 items-center gap-1.5 rounded-md border px-3 text-sm transition-colors',
           open
-            ? 'border-[#444] text-[#ededed]'
-            : 'border-[#2a2a2a] text-[#888] hover:border-[#444] hover:text-[#ededed]'
+            ? 'border-faint text-ink'
+            : 'border-line text-muted hover:border-faint hover:text-ink'
         )}
       >
         <DownloadIcon className="h-4 w-4" />
@@ -92,13 +92,13 @@ export function ExportMenu({ exportHref }: ExportMenuProps) {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full z-20 mt-1 min-w-[168px] overflow-hidden rounded-md border border-[#2a2a2a] bg-[#111] shadow-xl">
+        <div className="absolute right-0 top-full z-20 mt-1 min-w-[168px] overflow-hidden rounded-md border border-line bg-surface shadow-xl">
           {/* CSV — fully functional */}
           <a
             href={csvHref}
             download
             onClick={() => setOpen(false)}
-            className="flex items-center gap-2 px-4 py-2.5 text-sm text-[#ededed] transition-colors hover:bg-[#1a1a1a]"
+            className="flex items-center gap-2 px-4 py-2.5 text-sm text-ink transition-colors hover:bg-elevated"
           >
             {t('exportCsv')}
           </a>
@@ -108,23 +108,23 @@ export function ExportMenu({ exportHref }: ExportMenuProps) {
             href={xlsxHref}
             download
             onClick={() => setOpen(false)}
-            className="flex items-center justify-between gap-2 px-4 py-2.5 text-sm text-[#555]"
+            className="flex items-center justify-between gap-2 px-4 py-2.5 text-sm text-faint"
             aria-disabled="true"
             tabIndex={-1}
           >
             {t('exportXlsx')}
-            <span className="rounded-full bg-violet-500/10 px-1.5 py-0.5 text-[10px] font-medium text-violet-500/60">
+            <span className="rounded-full bg-violet-500/10 px-1.5 py-0.5 text-[10px] font-medium text-accent-text/60">
               {t('exportSoon')}
             </span>
           </a>
 
           {/* PDF — prepared, pending pdfmake/pdf-lib dependency */}
           <div
-            className="flex cursor-not-allowed items-center justify-between gap-2 px-4 py-2.5 text-sm text-[#555]"
+            className="flex cursor-not-allowed items-center justify-between gap-2 px-4 py-2.5 text-sm text-faint"
             aria-disabled="true"
           >
             {t('exportPdf')}
-            <span className="rounded-full bg-violet-500/10 px-1.5 py-0.5 text-[10px] font-medium text-violet-500/60">
+            <span className="rounded-full bg-violet-500/10 px-1.5 py-0.5 text-[10px] font-medium text-accent-text/60">
               {t('exportSoon')}
             </span>
           </div>

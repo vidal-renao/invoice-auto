@@ -19,7 +19,7 @@ export default async function SuppliersPage({ params }: { params: Promise<{ loca
 
   return (
     <div className="space-y-4">
-      <p className="max-w-3xl text-sm leading-relaxed text-[#888]">{t('intro')}</p>
+      <p className="max-w-3xl text-sm leading-relaxed text-muted">{t('intro')}</p>
       <SupplierAccounts
         readOnly={false}
         now={new Date().toISOString()}

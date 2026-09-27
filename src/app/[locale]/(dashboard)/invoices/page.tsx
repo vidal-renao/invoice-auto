@@ -21,11 +21,11 @@ interface InvoicesPageProps {
 }
 
 const STATUS_STYLES: Record<InvoiceStatus, string> = {
-  pending:       'bg-violet-500/15 text-violet-300 border-violet-500/30',
-  processing:    'bg-blue-500/15 text-blue-300 border-blue-500/30',
-  review_needed: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
-  approved:      'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-  rejected:      'bg-red-500/15 text-red-400 border-red-500/30',
+  pending:       'bg-violet-500/15 text-accent-text border-violet-500/30',
+  processing:    'bg-blue-500/15 text-accent-text border-blue-500/30',
+  review_needed: 'bg-amber-500/15 text-warning-text border-amber-500/30',
+  approved:      'bg-emerald-500/15 text-success-text border-emerald-500/30',
+  rejected:      'bg-red-500/15 text-danger-text border-red-500/30',
 }
 
 function str(val: string | string[] | undefined): string | undefined {
@@ -62,7 +62,7 @@ export default async function InvoicesPage({ params, searchParams }: InvoicesPag
     <div className="space-y-5">
       {/* ── Header ───────────────────────────────────────────────── */}
       <div className="flex items-center justify-between gap-4">
-        <h1 className="text-2xl font-semibold text-[#ededed]">{t('title')}</h1>
+        <h1 className="text-2xl font-semibold text-ink">{t('title')}</h1>
         <div className="flex items-center gap-2">
           {/* Export dropdown — only shown when there are invoices */}
           {invoices.length > 0 && (
@@ -79,7 +79,7 @@ export default async function InvoicesPage({ params, searchParams }: InvoicesPag
 
       {/* ── List ─────────────────────────────────────────────────── */}
       {invoices.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-xl border border-[#2a2a2a] bg-[#111] py-20 text-center">
+        <div className="flex flex-col items-center justify-center rounded-xl border border-line bg-surface py-20 text-center">
           <svg
             width="28"
             height="28"
@@ -96,8 +96,8 @@ export default async function InvoicesPage({ params, searchParams }: InvoicesPag
             <path d="M14 2v6h6" />
             <path d="M8 13h8M8 17h5" />
           </svg>
-          <p className="text-sm font-medium text-[#ededed]">{t('empty.title')}</p>
-          <p className="mt-1 text-xs text-[#888]">
+          <p className="text-sm font-medium text-ink">{t('empty.title')}</p>
+          <p className="mt-1 text-xs text-muted">
             {hasFilters ? t('empty.noResults') : t('empty.description')}
           </p>
           {!hasFilters && (
@@ -107,55 +107,55 @@ export default async function InvoicesPage({ params, searchParams }: InvoicesPag
           )}
         </div>
       ) : (
-        <div className="overflow-hidden rounded-xl border border-[#2a2a2a] bg-[#111]">
+        <div className="overflow-hidden rounded-xl border border-line bg-surface">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#2a2a2a]">
-                <th className="px-4 py-3 text-left text-xs font-medium text-[#888]">
+              <tr className="border-b border-line">
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted">
                   {tInvoice('details.vendor')}
                 </th>
-                <th className="hidden px-4 py-3 text-left text-xs font-medium text-[#888] sm:table-cell">
+                <th className="hidden px-4 py-3 text-left text-xs font-medium text-muted sm:table-cell">
                   {tInvoice('details.invoiceNumber')}
                 </th>
-                <th className="hidden px-4 py-3 text-left text-xs font-medium text-[#888] md:table-cell">
+                <th className="hidden px-4 py-3 text-left text-xs font-medium text-muted md:table-cell">
                   {tInvoice('details.date')}
                 </th>
-                <th className="px-4 py-3 text-right text-xs font-medium text-[#888]">
+                <th className="px-4 py-3 text-right text-xs font-medium text-muted">
                   {tInvoice('details.total')}
                 </th>
-                <th className="px-4 py-3 text-right text-xs font-medium text-[#888]">
+                <th className="px-4 py-3 text-right text-xs font-medium text-muted">
                   {t('status')}
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#1e1e1e]">
+            <tbody className="divide-y divide-elevated-2">
               {invoices.map((invoice) => (
                 <tr
                   key={invoice.id}
-                  className="group transition-colors hover:bg-[#161616]"
+                  className="group transition-colors hover:bg-surface-2"
                 >
                   <td className="px-4 py-3">
                     <Link
                       href={`/${locale}/invoices/${invoice.id}`}
-                      className="block font-medium text-[#ededed] after:absolute after:inset-0 group-hover:text-white"
+                      className="block font-medium text-ink after:absolute after:inset-0 group-hover:text-white"
                     >
                       {invoice.vendor_name ?? (
-                        <span className="text-[#555]">{t('unknownVendor')}</span>
+                        <span className="text-faint">{t('unknownVendor')}</span>
                       )}
                     </Link>
-                    <p className="mt-0.5 font-mono text-[10px] text-[#555]">
+                    <p className="mt-0.5 font-mono text-[10px] text-faint">
                       {invoice.id.slice(0, 8)}…
                     </p>
                   </td>
-                  <td className="hidden px-4 py-3 text-[#888] sm:table-cell">
+                  <td className="hidden px-4 py-3 text-muted sm:table-cell">
                     {invoice.invoice_number ?? '—'}
                   </td>
-                  <td className="hidden px-4 py-3 text-[#888] md:table-cell">
+                  <td className="hidden px-4 py-3 text-muted md:table-cell">
                     {invoice.invoice_date
                       ? formatDate(invoice.invoice_date, locale)
                       : '—'}
                   </td>
-                  <td className="px-4 py-3 text-right font-medium text-[#ededed]">
+                  <td className="px-4 py-3 text-right font-medium text-ink">
                     {invoice.total_cents != null
                       ? formatCurrency(
                           invoice.total_cents,
@@ -177,8 +177,8 @@ export default async function InvoicesPage({ params, searchParams }: InvoicesPag
           </table>
 
           {/* Row count */}
-          <div className="border-t border-[#1e1e1e] px-4 py-2.5">
-            <p className="text-xs text-[#555]">
+          <div className="border-t border-elevated-2 px-4 py-2.5">
+            <p className="text-xs text-faint">
               {t('rowCount', { count: invoices.length })}
             </p>
           </div>

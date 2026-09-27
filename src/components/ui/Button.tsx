@@ -31,13 +31,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           'inline-flex items-center justify-center gap-2 rounded-md font-medium',
           'transition-colors duration-150',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500',
-          'focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]',
+          'focus-visible:ring-offset-2 focus-visible:ring-offset-canvas',
           'disabled:pointer-events-none disabled:opacity-50',
           // Variants
           variant === 'primary' &&
             'bg-violet-700 text-white hover:bg-violet-600',
           variant === 'ghost' &&
-            'border border-[#2a2a2a] bg-transparent text-[#888] hover:bg-[#1a1a1a] hover:text-[#ededed]',
+            'border border-line bg-transparent text-muted hover:bg-elevated hover:text-ink',
           variant === 'destructive' &&
             'bg-red-600 text-white hover:bg-red-500',
           // Sizes

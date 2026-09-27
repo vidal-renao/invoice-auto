@@ -80,46 +80,46 @@ export function ClientContactPanel({
   const phoneUrl = clientPhone ? `tel:${clientPhone}` : null
 
   return (
-    <div className="overflow-hidden rounded-xl border border-[#2a2a2a] bg-[#111]">
-      <div className="border-b border-[#2a2a2a] px-4 py-3">
-        <p className="text-xs font-medium text-[#888]">{t('client.title')}</p>
+    <div className="overflow-hidden rounded-xl border border-line bg-surface">
+      <div className="border-b border-line px-4 py-3">
+        <p className="text-xs font-medium text-muted">{t('client.title')}</p>
       </div>
 
       <div className="px-4 py-3 space-y-2">
         {clientName && (
           <div className="flex items-center justify-between text-sm">
-            <span className="text-[#888]">{t('client.name')}</span>
-            <span className="font-medium text-[#ededed]">{clientName}</span>
+            <span className="text-muted">{t('client.name')}</span>
+            <span className="font-medium text-ink">{clientName}</span>
           </div>
         )}
         {clientTaxId && (
           <div className="flex items-center justify-between text-sm">
-            <span className="text-[#888]">{t('client.taxId')}</span>
-            <span className="font-mono text-xs text-[#aaa]">{clientTaxId}</span>
+            <span className="text-muted">{t('client.taxId')}</span>
+            <span className="font-mono text-xs text-ink-soft">{clientTaxId}</span>
           </div>
         )}
         {clientEmail && (
           <div className="flex items-center justify-between text-sm">
-            <span className="text-[#888]">{t('client.email')}</span>
-            <span className="text-[#aaa] text-xs">{clientEmail}</span>
+            <span className="text-muted">{t('client.email')}</span>
+            <span className="text-ink-soft text-xs">{clientEmail}</span>
           </div>
         )}
         {clientPhone && (
           <div className="flex items-center justify-between text-sm">
-            <span className="text-[#888]">{t('client.phone')}</span>
-            <span className="text-[#aaa] text-xs">{clientPhone}</span>
+            <span className="text-muted">{t('client.phone')}</span>
+            <span className="text-ink-soft text-xs">{clientPhone}</span>
           </div>
         )}
       </div>
 
       {/* Contact action buttons */}
       {(emailUrl || whatsappUrl || phoneUrl) && (
-        <div className="border-t border-[#2a2a2a] px-4 py-3">
-          <p className="mb-2.5 text-xs text-[#555]">
+        <div className="border-t border-line px-4 py-3">
+          <p className="mb-2.5 text-xs text-faint">
             {totalCents != null && (
               <span>
-                {t('fiscal.total')}: <span className="font-semibold text-violet-300">{amountLabel}</span>
-                {dueDate && <> · {t('details.dueDate')}: <span className="text-[#888]">{dueDateLabel}</span></>}
+                {t('fiscal.total')}: <span className="font-semibold text-accent-text">{amountLabel}</span>
+                {dueDate && <> · {t('details.dueDate')}: <span className="text-muted">{dueDateLabel}</span></>}
               </span>
             )}
           </p>
@@ -127,7 +127,7 @@ export function ClientContactPanel({
             {emailUrl && (
               <a
                 href={emailUrl}
-                className="inline-flex items-center gap-1.5 rounded-md border border-[#2a2a2a] px-3 py-1.5 text-xs font-medium text-[#888] transition-colors hover:border-violet-500/40 hover:text-violet-300"
+                className="inline-flex items-center gap-1.5 rounded-md border border-line px-3 py-1.5 text-xs font-medium text-muted transition-colors hover:border-violet-500/40 hover:text-accent-text"
               >
                 <MailIcon className="h-3.5 w-3.5" />
                 {t('client.sendEmail')}
@@ -138,7 +138,7 @@ export function ClientContactPanel({
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-md border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-400 transition-colors hover:bg-emerald-500/20"
+                className="inline-flex items-center gap-1.5 rounded-md border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-success-text transition-colors hover:bg-emerald-500/20"
               >
                 <WhatsAppIcon className="h-3.5 w-3.5" />
                 {t('client.sendWhatsApp')}
@@ -147,7 +147,7 @@ export function ClientContactPanel({
             {phoneUrl && (
               <a
                 href={phoneUrl}
-                className="inline-flex items-center gap-1.5 rounded-md border border-[#2a2a2a] px-3 py-1.5 text-xs font-medium text-[#888] transition-colors hover:border-blue-500/40 hover:text-blue-300"
+                className="inline-flex items-center gap-1.5 rounded-md border border-line px-3 py-1.5 text-xs font-medium text-muted transition-colors hover:border-blue-500/40 hover:text-accent-text"
               >
                 <PhoneIcon className="h-3.5 w-3.5" />
                 {t('client.callPhone')}

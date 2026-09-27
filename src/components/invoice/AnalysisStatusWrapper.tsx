@@ -113,7 +113,7 @@ export function AnalysisStatusWrapper({
     >
       {/* Spinner — lives in client state, animates continuously without resets */}
       <svg
-        className="mt-0.5 h-5 w-5 shrink-0 animate-spin text-violet-400"
+        className="mt-0.5 h-5 w-5 shrink-0 animate-spin text-accent-text"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -135,8 +135,8 @@ export function AnalysisStatusWrapper({
       </svg>
 
       <div>
-        <p className="text-sm font-medium text-violet-300">{t('processingTitle')}</p>
-        <p className="mt-0.5 text-xs text-[#888]">{t('processingDesc')}</p>
+        <p className="text-sm font-medium text-accent-text">{t('processingTitle')}</p>
+        <p className="mt-0.5 text-xs text-muted">{t('processingDesc')}</p>
       </div>
     </div>
   )

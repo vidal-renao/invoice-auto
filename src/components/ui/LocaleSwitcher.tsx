@@ -9,10 +9,9 @@ import { cn } from '@/lib/utils'
 const LABELS: Record<string, string> = { es: 'ES', de: 'DE', en: 'EN' }
 
 /**
- * The site speaks three languages and had no way to switch between them: a
- * visitor whose browser asked for French landed on Spanish with no control in
- * sight. Plain links, so they work without JavaScript and search engines see
- * the translations.
+ * The app speaks three languages and had no way to switch between them — not on
+ * the landing, not behind the login. Plain links, so they work without
+ * JavaScript and search engines see the translations.
  */
 export function LocaleSwitcher({ className }: { className?: string }) {
   const active = useLocale()
@@ -35,10 +34,10 @@ export function LocaleSwitcher({ className }: { className?: string }) {
             aria-current={isActive ? 'true' : undefined}
             className={cn(
               'flex min-h-11 min-w-11 items-center justify-center rounded-md px-2 text-xs font-medium transition-colors',
-              'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500',
+              'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
               isActive
-                ? 'bg-[#1a1a1a] text-[#ededed]'
-                : 'text-[#8a8a8a] hover:bg-[#111] hover:text-[#ededed]'
+                ? 'bg-elevated text-ink'
+                : 'text-muted hover:bg-surface hover:text-ink'
             )}
           >
             {LABELS[locale] ?? locale.toUpperCase()}

@@ -57,13 +57,13 @@ export function ForgotPasswordForm() {
             ✉️
           </div>
         </div>
-        <h2 className="mb-2 text-base font-semibold text-[#ededed]">{t('successTitle')}</h2>
-        <p className="mb-6 text-sm text-[#888]">
+        <h2 className="mb-2 text-base font-semibold text-ink">{t('successTitle')}</h2>
+        <p className="mb-6 text-sm text-muted">
           {t('successDesc', { email: sentTo })}
         </p>
         <Link
           href={`/${locale}/login`}
-          className="text-sm text-violet-400 underline underline-offset-2 transition-colors hover:text-violet-300"
+          className="text-sm text-accent-text underline underline-offset-2 transition-colors hover:text-accent-text"
         >
           ← {t('backToLogin')}
         </Link>
@@ -82,7 +82,7 @@ export function ForgotPasswordForm() {
       />
 
       {serverError && (
-        <p role="alert" className="text-sm text-red-400">
+        <p role="alert" className="text-sm text-danger-text">
           {serverError}
         </p>
       )}
@@ -91,10 +91,10 @@ export function ForgotPasswordForm() {
         {isSubmitting ? t('loading') : t('submit')}
       </Button>
 
-      <p className="text-center text-sm text-[#888]">
+      <p className="text-center text-sm text-muted">
         <Link
           href={`/${locale}/login`}
-          className="text-violet-400 underline underline-offset-2 transition-colors hover:text-violet-300"
+          className="text-accent-text underline underline-offset-2 transition-colors hover:text-accent-text"
         >
           ← {t('backToLogin')}
         </Link>

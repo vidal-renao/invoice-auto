@@ -9,17 +9,17 @@ interface StatCardProps {
 
 export function StatCard({ label, value, trend, description }: StatCardProps) {
   return (
-    <div className="rounded-lg border border-[#2a2a2a] bg-[#111] p-5">
+    <div className="rounded-lg border border-line bg-surface p-5">
       <div className="mb-3 flex items-center justify-between">
-        <span className="text-xs font-medium uppercase tracking-widest text-[#888]">
+        <span className="text-xs font-medium uppercase tracking-widest text-muted">
           {label}
         </span>
         {trend && trend !== 'neutral' && (
           <span
             className={cn(
               'text-xs font-semibold',
-              trend === 'up' && 'text-emerald-400',
-              trend === 'down' && 'text-red-400'
+              trend === 'up' && 'text-success-text',
+              trend === 'down' && 'text-danger-text'
             )}
             aria-label={trend === 'up' ? 'Incremento' : 'Decremento'}
           >
@@ -28,12 +28,12 @@ export function StatCard({ label, value, trend, description }: StatCardProps) {
         )}
       </div>
 
-      <p className="font-mono text-2xl font-semibold tabular-nums text-[#ededed]">
+      <p className="font-mono text-2xl font-semibold tabular-nums text-ink">
         {value}
       </p>
 
       {description && (
-        <p className="mt-1 text-xs text-[#888]">{description}</p>
+        <p className="mt-1 text-xs text-muted">{description}</p>
       )}
     </div>
   )

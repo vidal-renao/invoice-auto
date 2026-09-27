@@ -17,11 +17,11 @@ import { Card, CardHeader, CardContent } from '@/components/ui/Card'
 import { formatCurrency, formatDate } from '@/lib/utils'
 
 const STATUS_STYLES: Record<InvoiceStatus, string> = {
-  pending:       'bg-violet-500/15 text-violet-300 border-violet-500/30',
-  processing:    'bg-blue-500/15 text-blue-300 border-blue-500/30',
-  review_needed: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
-  approved:      'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-  rejected:      'bg-red-500/15 text-red-400 border-red-500/30',
+  pending:       'bg-violet-500/15 text-accent-text border-violet-500/30',
+  processing:    'bg-blue-500/15 text-accent-text border-blue-500/30',
+  review_needed: 'bg-amber-500/15 text-warning-text border-amber-500/30',
+  approved:      'bg-emerald-500/15 text-success-text border-emerald-500/30',
+  rejected:      'bg-red-500/15 text-danger-text border-red-500/30',
 }
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -68,11 +68,11 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
       {/* ── Header ─────────────────────────────────────────────── */}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-[#ededed]">
+          <h1 className="text-2xl font-semibold text-ink">
             {t('welcome', { name: displayName })}
           </h1>
           {profile?.company_name && (
-            <p className="mt-0.5 text-sm text-[#888]">{profile.company_name}</p>
+            <p className="mt-0.5 text-sm text-muted">{profile.company_name}</p>
           )}
         </div>
 
@@ -111,7 +111,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
       {/* ── Recent invoices / Empty state ──────────────────────── */}
       <Card>
         <CardHeader>
-          <h2 className="text-sm font-medium text-[#ededed]">
+          <h2 className="text-sm font-medium text-ink">
             {t('recentInvoices')}
           </h2>
         </CardHeader>
@@ -121,7 +121,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
             /* ── Hero empty state with prominent Scan CTA ─────── */
             <div className="flex flex-col items-center justify-center py-16 text-center">
               <div
-                className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-[#2a2a2a] bg-[#1a1a1a]"
+                className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-line bg-elevated"
                 aria-hidden="true"
               >
                 <svg
@@ -140,10 +140,10 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
                 </svg>
               </div>
 
-              <p className="text-base font-semibold text-[#ededed]">
+              <p className="text-base font-semibold text-ink">
                 {t('empty.title')}
               </p>
-              <p className="mt-1 max-w-xs text-sm text-[#888]">
+              <p className="mt-1 max-w-xs text-sm text-muted">
                 {t('empty.description')}
               </p>
 
@@ -155,16 +155,16 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
             /* ── Recent invoices table (5 most recent) ─────────── */
             <div className="-mx-4 -mb-4">
               <table className="w-full text-sm">
-                <tbody className="divide-y divide-[#1e1e1e]">
+                <tbody className="divide-y divide-elevated-2">
                   {recentInvoices.slice(0, 5).map((invoice) => (
                     <tr
                       key={invoice.id}
-                      className="group transition-colors hover:bg-[#161616]"
+                      className="group transition-colors hover:bg-surface-2"
                     >
                       <td className="px-4 py-3">
                         <Link
                           href={`/${locale}/invoices/${invoice.id}`}
-                          className="block font-medium text-[#ededed] group-hover:text-white"
+                          className="block font-medium text-ink group-hover:text-white"
                         >
                           {/* Country flag if available */}
                           {invoice.country_code && (
@@ -173,12 +173,12 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
                             </span>
                           )}
                           {invoice.vendor_name ?? (
-                            <span className="font-mono text-[#555]">
+                            <span className="font-mono text-faint">
                               {invoice.id.slice(0, 8)}…
                             </span>
                           )}
                         </Link>
-                        <p className="mt-0.5 text-xs text-[#555]">
+                        <p className="mt-0.5 text-xs text-faint">
                           {invoice.invoice_date
                             ? formatDate(invoice.invoice_date, locale)
                             : invoice.created_at
@@ -187,7 +187,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
                         </p>
                       </td>
                       <td className="px-4 py-3 text-right">
-                        <p className="font-medium text-[#ededed]">
+                        <p className="font-medium text-ink">
                           {invoice.total_cents != null
                             ? formatCurrency(
                                 invoice.total_cents,
@@ -199,14 +199,14 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
                         <div className="mt-0.5 flex items-center justify-end gap-1.5">
                           {/* Reverse charge badge */}
                           {invoice.is_reverse_charge && (
-                            <span className="rounded-full border border-blue-500/30 bg-blue-500/10 px-1.5 py-0.5 text-[10px] font-medium text-blue-400">
+                            <span className="rounded-full border border-blue-500/30 bg-blue-500/10 px-1.5 py-0.5 text-[10px] font-medium text-accent-text">
                               RC
                             </span>
                           )}
                           {/* VAT discrepancy badge */}
                           {invoice.tax_validation_status === 'discrepancy' && (
                             <span
-                              className="rounded-full border border-amber-500/30 bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-medium text-amber-400"
+                              className="rounded-full border border-amber-500/30 bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-medium text-warning-text"
                               title={t('stats.vatDiscrepancy')}
                             >
                               ⚠
@@ -230,10 +230,10 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
               </table>
 
               {recentInvoices.length > 5 && (
-                <div className="border-t border-[#1e1e1e] px-4 py-3">
+                <div className="border-t border-elevated-2 px-4 py-3">
                   <Link
                     href={`/${locale}/invoices`}
-                    className="text-xs text-[#888] transition-colors hover:text-violet-400"
+                    className="text-xs text-muted transition-colors hover:text-accent-text"
                   >
                     {t('viewAllInvoices')} →
                   </Link>

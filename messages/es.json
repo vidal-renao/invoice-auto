@@ -171,7 +171,8 @@
       "image_unclear": "La imagen es borrosa o ilegible",
       "timeout_8s": "Tiempo de espera agotado (8 s)",
       "parsing_failed": "No se pudo interpretar la respuesta de la IA",
-      "handwritten_only": "Documento manuscrito — extracción automática no disponible"
+      "handwritten_only": "Documento manuscrito — extracción automática no disponible",
+      "unexpected_error": "No pudimos analizar este documento por un error técnico. Vuelve a subirlo; si se repite, escríbenos."
     },
     "details": {
       "vendor": "Proveedor",
@@ -387,7 +388,10 @@
     "back": "Volver",
     "notes": "Notas",
     "appName": "Invoice Auto",
-    "backHome": "Volver al inicio"
+    "backHome": "Volver al inicio",
+    "theme": "Tema",
+    "themeToDark": "Cambiar a modo oscuro",
+    "themeToLight": "Cambiar a modo claro"
   },
   "payments": {
     "title": "Pagos",

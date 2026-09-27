@@ -13,8 +13,8 @@ export async function LegalPage({ doc, locale }: LegalPageProps) {
   const tc = await getTranslations({ locale, namespace: 'common' })
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#ededed]">
-      <header className="border-b border-[#2a2a2a]">
+    <div className="min-h-screen bg-canvas text-ink">
+      <header className="border-b border-line">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-4">
           <Link
             href={`/${locale}`}
@@ -30,7 +30,7 @@ export async function LegalPage({ doc, locale }: LegalPageProps) {
           </Link>
           <Link
             href={`/${locale}`}
-            className="flex min-h-11 items-center rounded-md px-2 text-sm text-[#a3a3a3] underline underline-offset-2 transition-colors hover:text-[#ededed] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+            className="flex min-h-11 items-center rounded-md px-2 text-sm text-muted underline underline-offset-2 transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
           >
             {tc('backHome')}
           </Link>
@@ -39,17 +39,17 @@ export async function LegalPage({ doc, locale }: LegalPageProps) {
 
       <main className="mx-auto max-w-3xl px-6 py-12">
         <h1 className="mb-2 text-3xl font-bold tracking-tight">{doc.title}</h1>
-        <p className="mb-8 text-xs text-[#8a8a8a]">
+        <p className="mb-8 text-xs text-muted">
           <time dateTime={doc.updated}>{doc.updated}</time>
         </p>
-        <p className="mb-10 text-base leading-relaxed text-[#a3a3a3]">{doc.intro}</p>
+        <p className="mb-10 text-base leading-relaxed text-muted">{doc.intro}</p>
 
         <div className="space-y-10">
           {doc.sections.map((section) => (
             <section key={section.heading}>
               <h2 className="mb-3 text-lg font-semibold tracking-tight">{section.heading}</h2>
               {section.paragraphs.map((paragraph) => (
-                <p key={paragraph} className="mb-3 text-sm leading-relaxed text-[#a3a3a3]">
+                <p key={paragraph} className="mb-3 text-sm leading-relaxed text-muted">
                   {paragraph}
                 </p>
               ))}
@@ -58,7 +58,7 @@ export async function LegalPage({ doc, locale }: LegalPageProps) {
                   {section.bullets.map((bullet) => (
                     <li
                       key={bullet}
-                      className="border-l-2 border-[#2a2a2a] pl-4 text-sm leading-relaxed text-[#a3a3a3]"
+                      className="border-l-2 border-line pl-4 text-sm leading-relaxed text-muted"
                     >
                       {bullet}
                     </li>
@@ -70,10 +70,10 @@ export async function LegalPage({ doc, locale }: LegalPageProps) {
         </div>
       </main>
 
-      <footer className="border-t border-[#2a2a2a] px-6 py-10">
+      <footer className="border-t border-line px-6 py-10">
         <nav
           aria-label={t('legal')}
-          className="mx-auto flex max-w-3xl flex-wrap items-center gap-x-2 gap-y-1 text-xs text-[#8a8a8a]"
+          className="mx-auto flex max-w-3xl flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted"
         >
           {[
             { href: `/${locale}/privacy`, label: t('privacy') },
@@ -83,7 +83,7 @@ export async function LegalPage({ doc, locale }: LegalPageProps) {
             <Link
               key={item.href}
               href={item.href}
-              className="flex min-h-11 items-center rounded-md px-2 underline underline-offset-2 transition-colors hover:text-[#ededed] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+              className="flex min-h-11 items-center rounded-md px-2 underline underline-offset-2 transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
             >
               {item.label}
             </Link>

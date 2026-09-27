@@ -13,10 +13,10 @@ export default async function RegisterPage() {
   return (
     <>
       <div className="mb-6 text-center">
-        <h1 className="text-xl font-semibold text-[#ededed]">
+        <h1 className="text-xl font-semibold text-ink">
           {t('title')}
         </h1>
-        <p className="mt-1 text-sm text-[#888]">{t('subtitle')}</p>
+        <p className="mt-1 text-sm text-muted">{t('subtitle')}</p>
       </div>
       <RegisterForm />
     </>

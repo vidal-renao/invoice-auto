@@ -9,7 +9,7 @@ export function Card({ className, children }: CardSectionProps) {
   return (
     <div
       className={cn(
-        'rounded-lg border border-[#2a2a2a] bg-[#111]',
+        'rounded-lg border border-line bg-surface',
         className
       )}
     >
@@ -21,7 +21,7 @@ export function Card({ className, children }: CardSectionProps) {
 export function CardHeader({ className, children }: CardSectionProps) {
   return (
     <div
-      className={cn('border-b border-[#2a2a2a] px-6 py-4', className)}
+      className={cn('border-b border-line px-6 py-4', className)}
     >
       {children}
     </div>
@@ -40,7 +40,7 @@ export function CardFooter({ className, children }: CardSectionProps) {
   return (
     <div
       className={cn(
-        'border-t border-[#2a2a2a] px-6 py-4',
+        'border-t border-line px-6 py-4',
         className
       )}
     >

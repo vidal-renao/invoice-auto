@@ -171,7 +171,8 @@
       "image_unclear": "Das Bild ist unscharf oder unleserlich",
       "timeout_8s": "Zeitüberschreitung (8 Sek.)",
       "parsing_failed": "KI-Antwort konnte nicht verarbeitet werden",
-      "handwritten_only": "Handgeschriebenes Dokument — automatische Extraktion nicht verfügbar"
+      "handwritten_only": "Handgeschriebenes Dokument — automatische Extraktion nicht verfügbar",
+      "unexpected_error": "Dieses Dokument konnte wegen eines technischen Fehlers nicht analysiert werden. Lade es erneut hoch; wenn es erneut passiert, schreib uns."
     },
     "details": {
       "vendor": "Anbieter",
@@ -387,7 +388,10 @@
     "back": "Zurück",
     "notes": "Notizen",
     "appName": "Invoice Auto",
-    "backHome": "Zurück zur Startseite"
+    "backHome": "Zurück zur Startseite",
+    "theme": "Design",
+    "themeToDark": "Zu dunklem Modus wechseln",
+    "themeToLight": "Zu hellem Modus wechseln"
   },
   "payments": {
     "title": "Zahlungen",

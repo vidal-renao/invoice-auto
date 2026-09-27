@@ -31,14 +31,14 @@ export interface AccountView {
 const CHANNELS: VerificationChannel[] = ['phone_callback', 'in_person', 'signed_letter', 'bank_confirmation']
 
 const STATUS_STYLE: Record<AccountStatus, string> = {
-  pending_verification: 'border-amber-500/30 bg-amber-500/10 text-amber-300',
-  verified: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300',
-  rejected: 'border-red-500/30 bg-red-500/10 text-red-300',
-  superseded: 'border-[#333] bg-[#161616] text-[#888]',
+  pending_verification: 'border-amber-500/30 bg-amber-500/10 text-warning-text',
+  verified: 'border-emerald-500/30 bg-emerald-500/10 text-success-text',
+  rejected: 'border-red-500/30 bg-red-500/10 text-danger-text',
+  superseded: 'border-line-strong bg-surface-2 text-muted',
 }
 
 const inputClass =
-  'w-full rounded-md border border-[#2a2a2a] bg-[#0a0a0a] px-3 py-2 text-sm text-[#ededed] placeholder:text-[#808080] focus:border-violet-500 focus:outline-none'
+  'w-full rounded-md border border-line bg-canvas px-3 py-2 text-sm text-ink placeholder:text-muted focus:border-violet-500 focus:outline-none'
 
 function useDateTime() {
   const locale = useLocale()
@@ -70,7 +70,7 @@ function VerifyForm({ account }: { account: AccountView }) {
   }
 
   return (
-    <div className="mt-4 grid gap-4 border-t border-[#1e1e1e] pt-4 lg:grid-cols-[2fr_1fr]">
+    <div className="mt-4 grid gap-4 border-t border-elevated-2 pt-4 lg:grid-cols-[2fr_1fr]">
       <form
         className="space-y-3"
         onSubmit={(e) => {
@@ -78,10 +78,10 @@ function VerifyForm({ account }: { account: AccountView }) {
           run(() => verifySupplierAccount({ account_id: account.id, channel, contact, note }))
         }}
       >
-        <p className="text-sm font-medium text-[#ededed]">{t('suppliers.verifyTitle')}</p>
+        <p className="text-sm font-medium text-ink">{t('suppliers.verifyTitle')}</p>
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="space-y-1">
-            <label htmlFor={ids.channel} className="block text-xs text-[#aaa]">{t('suppliers.channelLabel')}</label>
+            <label htmlFor={ids.channel} className="block text-xs text-ink-soft">{t('suppliers.channelLabel')}</label>
             <select id={ids.channel} value={channel} onChange={(e) => setChannel(e.target.value as VerificationChannel)} className={inputClass}>
               {CHANNELS.map((c) => (
                 <option key={c} value={c}>{t(`suppliers.channel.${c}`)}</option>
@@ -89,13 +89,13 @@ function VerifyForm({ account }: { account: AccountView }) {
             </select>
           </div>
           <div className="space-y-1">
-            <label htmlFor={ids.contact} className="block text-xs text-[#aaa]">{t('suppliers.contactLabel')}</label>
+            <label htmlFor={ids.contact} className="block text-xs text-ink-soft">{t('suppliers.contactLabel')}</label>
             <input id={ids.contact} value={contact} onChange={(e) => setContact(e.target.value)} required minLength={3} maxLength={200} aria-describedby={`${ids.contact}-hint`} className={inputClass} />
-            <p id={`${ids.contact}-hint`} className="text-[11px] leading-snug text-[#888]">{t('suppliers.contactHint')}</p>
+            <p id={`${ids.contact}-hint`} className="text-[11px] leading-snug text-muted">{t('suppliers.contactHint')}</p>
           </div>
         </div>
         <div className="space-y-1">
-          <label htmlFor={ids.note} className="block text-xs text-[#aaa]">{t('suppliers.noteLabel')}</label>
+          <label htmlFor={ids.note} className="block text-xs text-ink-soft">{t('suppliers.noteLabel')}</label>
           <input id={ids.note} value={note} onChange={(e) => setNote(e.target.value)} maxLength={500} className={inputClass} />
         </div>
         <Button type="submit" size="sm" loading={pending} disabled={pending || contact.trim().length < 3}>
@@ -104,14 +104,14 @@ function VerifyForm({ account }: { account: AccountView }) {
       </form>
 
       <form
-        className="space-y-3 lg:border-l lg:border-[#1e1e1e] lg:pl-4"
+        className="space-y-3 lg:border-l lg:border-elevated-2 lg:pl-4"
         onSubmit={(e) => {
           e.preventDefault()
           run(() => rejectSupplierAccount({ account_id: account.id, reason }))
         }}
       >
         <div className="space-y-1">
-          <label htmlFor={ids.reason} className="block text-xs text-[#aaa]">{t('suppliers.rejectLabel')}</label>
+          <label htmlFor={ids.reason} className="block text-xs text-ink-soft">{t('suppliers.rejectLabel')}</label>
           <input id={ids.reason} value={reason} onChange={(e) => setReason(e.target.value)} required minLength={3} maxLength={500} className={inputClass} />
         </div>
         <Button type="submit" size="sm" variant="destructive" loading={pending} disabled={pending || reason.trim().length < 3}>
@@ -120,7 +120,7 @@ function VerifyForm({ account }: { account: AccountView }) {
       </form>
 
       {error && (
-        <p role="alert" className="text-xs text-red-300 lg:col-span-2">
+        <p role="alert" className="text-xs text-danger-text lg:col-span-2">
           {error}
         </p>
       )}
@@ -134,7 +134,7 @@ export function SupplierAccounts({ accounts, readOnly, now }: { accounts: Accoun
   const dateTime = useDateTime()
 
   if (accounts.length === 0) {
-    return <p className="rounded-lg border border-dashed border-[#2a2a2a] px-4 py-8 text-center text-sm text-[#8a8a8a]">{t('suppliers.empty')}</p>
+    return <p className="rounded-lg border border-dashed border-line px-4 py-8 text-center text-sm text-muted">{t('suppliers.empty')}</p>
   }
 
   const bySupplier = new Map<string, AccountView[]>()
@@ -151,17 +151,17 @@ export function SupplierAccounts({ accounts, readOnly, now }: { accounts: Accoun
         if (!current) return null
         const cooling = current.cooling_off_until && current.cooling_off_until > now
         return (
-          <li key={current.supplier_key} id={`account-${current.id}`} className="scroll-mt-6 rounded-xl border border-[#2a2a2a] bg-[#111] p-4">
+          <li key={current.supplier_key} id={`account-${current.id}`} className="scroll-mt-6 rounded-xl border border-line bg-surface p-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <p className="font-medium text-[#ededed]">{current.supplier_name}</p>
-                <p className="mt-1 font-mono text-sm tracking-wide text-[#ccc]">{formatIban(current.iban)}</p>
-                <p className="mt-1 text-xs text-[#888]">
+                <p className="font-medium text-ink">{current.supplier_name}</p>
+                <p className="mt-1 font-mono text-sm tracking-wide text-ink-soft">{formatIban(current.iban)}</p>
+                <p className="mt-1 text-xs text-muted">
                   {t('suppliers.registered', { date: dateTime(current.registered_at) })} ·{' '}
                   {t(current.source === 'invoice' ? 'suppliers.fromInvoice' : 'suppliers.manual')}
                 </p>
                 {current.status === 'verified' && current.verified_at && current.verification_channel && (
-                  <p className="mt-1 text-xs text-[#888]">
+                  <p className="mt-1 text-xs text-muted">
                     {t('suppliers.verifiedBy', {
                       date: dateTime(current.verified_at),
                       channel: t(`suppliers.channel.${current.verification_channel}`),
@@ -170,15 +170,15 @@ export function SupplierAccounts({ accounts, readOnly, now }: { accounts: Accoun
                   </p>
                 )}
                 {current.status === 'rejected' && current.rejection_reason && (
-                  <p className="mt-1 text-xs text-red-300">{t('suppliers.rejectedBecause', { reason: current.rejection_reason })}</p>
+                  <p className="mt-1 text-xs text-danger-text">{t('suppliers.rejectedBecause', { reason: current.rejection_reason })}</p>
                 )}
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 {current.is_change && (
-                  <span className="rounded-full border border-violet-500/30 bg-violet-500/10 px-2.5 py-0.5 text-xs text-violet-300">{t('suppliers.change')}</span>
+                  <span className="rounded-full border border-violet-500/30 bg-violet-500/10 px-2.5 py-0.5 text-xs text-accent-text">{t('suppliers.change')}</span>
                 )}
                 {cooling && current.cooling_off_until && (
-                  <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 text-xs text-amber-300">
+                  <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 text-xs text-warning-text">
                     {t('suppliers.coolingUntil', { until: dateTime(current.cooling_off_until) })}
                   </span>
                 )}
@@ -191,13 +191,13 @@ export function SupplierAccounts({ accounts, readOnly, now }: { accounts: Accoun
             {!readOnly && current.status === 'pending_verification' && <VerifyForm account={current} />}
 
             {history.length > 0 && (
-              <details className="mt-3 border-t border-[#1e1e1e] pt-3">
-                <summary className="cursor-pointer text-xs text-[#888] hover:text-[#ededed]">{t('suppliers.history')}</summary>
+              <details className="mt-3 border-t border-elevated-2 pt-3">
+                <summary className="cursor-pointer text-xs text-muted hover:text-ink">{t('suppliers.history')}</summary>
                 <ul className="mt-2 space-y-1">
                   {history.map((h) => (
                     <li key={h.id} className="flex flex-wrap items-center justify-between gap-2 text-xs">
-                      <span className="font-mono text-[#aaa]">{formatIban(h.iban)}</span>
-                      <span className="text-[#888]">
+                      <span className="font-mono text-ink-soft">{formatIban(h.iban)}</span>
+                      <span className="text-muted">
                         {t(`suppliers.status.${h.status}`)} · {dateTime(h.closed_at ?? h.registered_at)}
                       </span>
                     </li>

@@ -77,7 +77,7 @@ export function FiscalValidationButton() {
       <button
         type="button"
         onClick={handleOpen}
-        className="flex items-center gap-2 rounded-lg border border-[#2a2a2a] bg-[#1a1a1a] px-3 py-2 text-sm text-[#888] transition-colors hover:border-violet-500/50 hover:text-[#ededed]"
+        className="flex items-center gap-2 rounded-lg border border-line bg-elevated px-3 py-2 text-sm text-muted transition-colors hover:border-violet-500/50 hover:text-ink"
         aria-label={t('fiscalValidation.title')}
       >
         <svg
@@ -112,9 +112,9 @@ export function FiscalValidationButton() {
           />
 
           {/* Panel */}
-          <div className="relative w-full max-w-md rounded-xl border border-[#2a2a2a] bg-[#111] shadow-2xl">
+          <div className="relative w-full max-w-md rounded-xl border border-line bg-surface shadow-2xl">
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-[#2a2a2a] px-6 py-4">
+            <div className="flex items-center justify-between border-b border-line px-6 py-4">
               <div className="flex items-center gap-3">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-violet-500/30 bg-violet-500/10">
                   <svg
@@ -133,7 +133,7 @@ export function FiscalValidationButton() {
                 </div>
                 <h2
                   id="fiscal-modal-title"
-                  className="text-sm font-semibold text-[#ededed]"
+                  className="text-sm font-semibold text-ink"
                 >
                   {t('fiscalValidation.title')}
                 </h2>
@@ -141,7 +141,7 @@ export function FiscalValidationButton() {
               <button
                 type="button"
                 onClick={handleClose}
-                className="rounded-md p-1 text-[#555] transition-colors hover:text-[#888]"
+                className="rounded-md p-1 text-faint transition-colors hover:text-muted"
                 aria-label={t('fiscalValidation.close')}
               >
                 <svg
@@ -162,7 +162,7 @@ export function FiscalValidationButton() {
 
             {/* Body */}
             <div className="px-6 py-5 space-y-4">
-              <p className="text-sm text-[#888]">
+              <p className="text-sm text-muted">
                 {t('fiscalValidation.description')}
               </p>
 
@@ -179,7 +179,7 @@ export function FiscalValidationButton() {
                   }}
                   onKeyDown={handleKeyDown}
                   placeholder={t('fiscalValidation.placeholder')}
-                  className="flex-1 rounded-lg border border-[#2a2a2a] bg-[#0a0a0a] px-3 py-2 text-sm text-[#ededed] placeholder-[#444] outline-none transition-colors focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30"
+                  className="flex-1 rounded-lg border border-line bg-canvas px-3 py-2 text-sm text-ink placeholder-faint outline-none transition-colors focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30"
                   aria-label={t('fiscalValidation.inputLabel')}
                 />
                 <button
@@ -194,14 +194,14 @@ export function FiscalValidationButton() {
 
               {/* Error */}
               {error && (
-                <p className="rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm text-red-400">
+                <p className="rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm text-danger-text">
                   {error}
                 </p>
               )}
 
               {/* Result */}
               {result && (
-                <div className="rounded-lg border border-[#2a2a2a] bg-[#0a0a0a] p-4 space-y-3">
+                <div className="rounded-lg border border-line bg-canvas p-4 space-y-3">
                   {/* Country + format validity */}
                   <div className="flex items-center justify-between">
                     {result.countryCode ? (
@@ -210,13 +210,13 @@ export function FiscalValidationButton() {
                           {result.flag}
                         </span>
                         <div>
-                          <p className="text-sm font-medium text-[#ededed]">
+                          <p className="text-sm font-medium text-ink">
                             {result.countryName}
                           </p>
-                          <p className="text-xs text-[#555]">
+                          <p className="text-xs text-faint">
                             {result.taxIdLabel}
                             {result.euMember && (
-                              <span className="ml-2 rounded-full bg-blue-500/15 px-1.5 py-0.5 text-[10px] font-medium text-blue-400 border border-blue-500/25">
+                              <span className="ml-2 rounded-full bg-blue-500/15 px-1.5 py-0.5 text-[10px] font-medium text-accent-text border border-blue-500/25">
                                 UE
                               </span>
                             )}
@@ -224,7 +224,7 @@ export function FiscalValidationButton() {
                         </div>
                       </div>
                     ) : (
-                      <p className="text-sm text-[#555]">
+                      <p className="text-sm text-faint">
                         {t('fiscalValidation.unknownCountry')}
                       </p>
                     )}
@@ -234,8 +234,8 @@ export function FiscalValidationButton() {
                       <span
                         className={
                           result.formatValid
-                            ? 'flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400'
-                            : 'flex items-center gap-1.5 rounded-full border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs font-semibold text-red-400'
+                            ? 'flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-success-text'
+                            : 'flex items-center gap-1.5 rounded-full border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs font-semibold text-danger-text'
                         }
                       >
                         {result.formatValid ? '✓' : '✗'}{' '}
@@ -249,14 +249,14 @@ export function FiscalValidationButton() {
                   {/* VAT rates */}
                   {result.vatRates && result.vatRates.length > 0 && (
                     <div>
-                      <p className="mb-1.5 text-xs text-[#555]">
+                      <p className="mb-1.5 text-xs text-faint">
                         {t('fiscalValidation.legalRates')}
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {result.vatRates.map((rate) => (
                           <span
                             key={rate}
-                            className="rounded-full border border-violet-500/25 bg-violet-500/10 px-2.5 py-0.5 font-mono text-xs text-violet-300"
+                            className="rounded-full border border-violet-500/25 bg-violet-500/10 px-2.5 py-0.5 font-mono text-xs text-accent-text"
                           >
                             {rate} %
                           </span>

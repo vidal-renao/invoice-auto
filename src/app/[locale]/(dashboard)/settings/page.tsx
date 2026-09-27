@@ -32,7 +32,7 @@ export default async function SettingsPage({ params }: SettingsPageProps) {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold text-[#ededed]">{t('title')}</h1>
+      <h1 className="text-2xl font-semibold text-ink">{t('title')}</h1>
 
       <div className="max-w-2xl">
         <ProfileForm profile={profile} />

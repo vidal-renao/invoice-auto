@@ -10,7 +10,7 @@ import { acceptPaymentReview, registerSupplierAccount, type PaymentErrorCode } f
 type CommandResult = { ok: true } | { ok: false; error: PaymentErrorCode; detail?: string }
 
 const inputClass =
-  'w-full rounded-md border border-[#2a2a2a] bg-[#0a0a0a] px-3 py-2 text-sm text-[#ededed] placeholder:text-[#808080] focus:border-violet-500 focus:outline-none'
+  'w-full rounded-md border border-line bg-canvas px-3 py-2 text-sm text-ink placeholder:text-muted focus:border-violet-500 focus:outline-none'
 
 function useCommand() {
   const t = useTranslations('payments')
@@ -37,7 +37,7 @@ function useCommand() {
 function ErrorLine({ error }: { error: string | null }) {
   if (!error) return null
   return (
-    <p role="alert" className="text-xs text-red-300">
+    <p role="alert" className="text-xs text-danger-text">
       {error}
     </p>
   )
@@ -52,13 +52,13 @@ export function AcceptReviewForm({ invoiceId }: { invoiceId: string }) {
 
   return (
     <form
-      className="mt-3 space-y-2 border-t border-[#1e1e1e] pt-3"
+      className="mt-3 space-y-2 border-t border-elevated-2 pt-3"
       onSubmit={(event) => {
         event.preventDefault()
         run(() => acceptPaymentReview({ invoice_id: invoiceId, note }))
       }}
     >
-      <label htmlFor={id} className="block text-xs font-medium text-[#aaa]">
+      <label htmlFor={id} className="block text-xs font-medium text-ink-soft">
         {t('acceptNote')}
       </label>
       <div className="flex flex-col gap-2 sm:flex-row">
@@ -94,7 +94,7 @@ export function RegisterAccountForm({ invoiceId, printedIban }: { invoiceId: str
 
   return (
     <form
-      className="mt-3 space-y-2 border-t border-[#1e1e1e] pt-3"
+      className="mt-3 space-y-2 border-t border-elevated-2 pt-3"
       onSubmit={(event) => {
         event.preventDefault()
         run(() => registerSupplierAccount(manual ? { invoice_id: invoiceId, iban } : { invoice_id: invoiceId }))
@@ -102,7 +102,7 @@ export function RegisterAccountForm({ invoiceId, printedIban }: { invoiceId: str
     >
       {manual ? (
         <>
-          <label htmlFor={id} className="block text-xs font-medium text-[#aaa]">
+          <label htmlFor={id} className="block text-xs font-medium text-ink-soft">
             IBAN
           </label>
           <div className="flex flex-col gap-2 sm:flex-row">
@@ -126,7 +126,7 @@ export function RegisterAccountForm({ invoiceId, printedIban }: { invoiceId: str
           <Button type="submit" size="sm" variant="ghost" loading={pending} disabled={pending}>
             {t('registerIban')}
           </Button>
-          <button type="button" onClick={() => setManual(true)} className="text-xs text-[#888] underline hover:text-[#ededed]">
+          <button type="button" onClick={() => setManual(true)} className="text-xs text-muted underline hover:text-ink">
             {t('enterOtherIban')}
           </button>
         </div>

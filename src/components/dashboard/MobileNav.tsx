@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
+import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { BrandMark, LogOutIcon, useDashboardNav } from './nav-items'
 
 interface MobileNavProps {
@@ -46,7 +48,7 @@ export function MobileNav({ locale }: MobileNavProps) {
 
   return (
     <>
-      <header className="flex h-14 shrink-0 items-center justify-between border-b border-[#2a2a2a] bg-[#0a0a0a] px-4 md:hidden">
+      <header className="flex h-14 shrink-0 items-center justify-between border-b border-line bg-canvas px-4 md:hidden">
         <BrandMark />
         <button
           type="button"
@@ -55,7 +57,7 @@ export function MobileNav({ locale }: MobileNavProps) {
           aria-expanded={open}
           aria-controls={DRAWER_ID}
           className={cn(
-            '-mr-2 flex h-11 w-11 items-center justify-center rounded-md text-[#ededed] hover:bg-[#1a1a1a]',
+            '-mr-2 flex h-11 w-11 items-center justify-center rounded-md text-ink hover:bg-elevated',
             FOCUS_RING
           )}
         >
@@ -74,17 +76,17 @@ export function MobileNav({ locale }: MobileNavProps) {
         onClick={(e) => {
           if (e.target === e.currentTarget) closeDrawer()
         }}
-        className="m-0 h-dvh max-h-none w-72 max-w-[85vw] border-r border-[#2a2a2a] bg-[#0a0a0a] p-0 text-[#ededed] backdrop:bg-black/70 md:hidden"
+        className="m-0 h-dvh max-h-none w-72 max-w-[85vw] border-r border-line bg-canvas p-0 text-ink backdrop:bg-black/70 md:hidden"
       >
         <div className="flex h-full flex-col">
-          <div className="flex h-14 shrink-0 items-center justify-between border-b border-[#2a2a2a] px-4">
+          <div className="flex h-14 shrink-0 items-center justify-between border-b border-line px-4">
             <BrandMark />
             <button
               type="button"
               onClick={closeDrawer}
               aria-label={t('closeMenu')}
               className={cn(
-                '-mr-2 flex h-11 w-11 items-center justify-center rounded-md text-[#ededed] hover:bg-[#1a1a1a]',
+                '-mr-2 flex h-11 w-11 items-center justify-center rounded-md text-ink hover:bg-elevated',
                 FOCUS_RING
               )}
             >
@@ -105,8 +107,8 @@ export function MobileNav({ locale }: MobileNavProps) {
                   'flex min-h-11 items-center gap-3 rounded-md px-3 text-sm transition-colors duration-150',
                   FOCUS_RING,
                   isActive
-                    ? 'bg-[#1a1a1a] text-[#ededed]'
-                    : 'text-[#a3a3a3] hover:bg-[#111] hover:text-[#ededed]'
+                    ? 'bg-elevated text-ink'
+                    : 'text-muted hover:bg-surface hover:text-ink'
                 )}
               >
                 <Icon className="h-4 w-4 shrink-0" />
@@ -115,7 +117,11 @@ export function MobileNav({ locale }: MobileNavProps) {
             ))}
           </nav>
 
-          <div className="shrink-0 border-t border-[#2a2a2a] px-2 py-4">
+          <div className="shrink-0 border-t border-line px-2 py-4">
+            <div className="mb-2 flex items-center justify-between gap-1 px-1">
+              <LocaleSwitcher />
+              <ThemeToggle />
+            </div>
             <button
               type="button"
               onClick={() => {
@@ -123,7 +129,7 @@ export function MobileNav({ locale }: MobileNavProps) {
                 void logout()
               }}
               className={cn(
-                'flex min-h-11 w-full items-center gap-3 rounded-md px-3 text-sm text-[#a3a3a3] transition-colors duration-150 hover:bg-[#111] hover:text-[#ededed]',
+                'flex min-h-11 w-full items-center gap-3 rounded-md px-3 text-sm text-muted transition-colors duration-150 hover:bg-surface hover:text-ink',
                 FOCUS_RING
               )}
             >
