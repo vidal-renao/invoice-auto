@@ -293,7 +293,7 @@ export function ScanTicketButton({ variant = 'hero' }: ScanTicketButtonProps) {
           className={cn(
             'inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium',
             'bg-violet-700 text-white transition-colors hover:bg-violet-600',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
             'focus-visible:ring-offset-2 focus-visible:ring-offset-canvas',
             'disabled:pointer-events-none disabled:opacity-50'
           )}

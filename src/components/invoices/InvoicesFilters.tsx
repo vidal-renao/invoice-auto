@@ -34,7 +34,7 @@ export function InvoicesFilters() {
 
   const inputClass = cn(
     'h-8 rounded-md border border-line bg-surface-2 px-3 text-sm text-ink',
-    'placeholder:text-faint focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-violet-500/30',
+    'placeholder:text-faint focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-accent/30',
     'transition-colors'
   )
 

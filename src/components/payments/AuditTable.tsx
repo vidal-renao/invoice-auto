@@ -29,7 +29,7 @@ export function AuditTable({ rows }: { rows: AuditRow[] }) {
 
   return (
     <div
-      className="overflow-x-auto rounded-xl border border-line bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+      className="overflow-x-auto rounded-xl border border-line bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
       tabIndex={0}
       role="region"
       aria-label={t('title')}

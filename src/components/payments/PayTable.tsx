@@ -125,7 +125,7 @@ export function PayTable({ rows, readOnly, canGenerate, batchesHref, invoiceBase
 
       {/* Wide screens: the table. Focusable so it can be scrolled by keyboard if it ever overflows (WCAG 2.1.1). */}
       <div
-        className="hidden overflow-x-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 lg:block"
+        className="hidden overflow-x-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent lg:block"
         tabIndex={0}
         role="region"
         aria-label={t('outcome.pay')}

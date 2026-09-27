@@ -179,7 +179,7 @@ export function FiscalValidationButton() {
                   }}
                   onKeyDown={handleKeyDown}
                   placeholder={t('fiscalValidation.placeholder')}
-                  className="flex-1 rounded-lg border border-line bg-canvas px-3 py-2 text-sm text-ink placeholder-faint outline-none transition-colors focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30"
+                  className="flex-1 rounded-lg border border-line bg-canvas px-3 py-2 text-sm text-ink placeholder-faint outline-none transition-colors focus:border-violet-500/50 focus:ring-1 focus:ring-accent/30"
                   aria-label={t('fiscalValidation.inputLabel')}
                 />
                 <button

@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useLocale, useTranslations } from 'next-intl'
 import { routing } from '@/i18n/routing'
@@ -10,8 +9,14 @@ const LABELS: Record<string, string> = { es: 'ES', de: 'DE', en: 'EN' }
 
 /**
  * The app speaks three languages and had no way to switch between them — not on
- * the landing, not behind the login. Plain links, so they work without
- * JavaScript and search engines see the translations.
+ * the landing, not behind the login.
+ *
+ * Deliberately a plain <a>, not next/link: `<html lang>` is set by the root
+ * layout, which a client-side navigation does not re-render, so switching with
+ * Link left German content announced as Spanish to a screen reader and tagged
+ * as Spanish for crawlers. A full navigation also lets the middleware store the
+ * choice in the locale cookie. This control is used once in a session; the cost
+ * is a page load nobody will notice.
  */
 export function LocaleSwitcher({ className }: { className?: string }) {
   const active = useLocale()
@@ -26,7 +31,7 @@ export function LocaleSwitcher({ className }: { className?: string }) {
       {routing.locales.map((locale) => {
         const isActive = locale === active
         return (
-          <Link
+          <a
             key={locale}
             href={`/${locale}${rest}`}
             hrefLang={locale}
@@ -41,7 +46,7 @@ export function LocaleSwitcher({ className }: { className?: string }) {
             )}
           >
             {LABELS[locale] ?? locale.toUpperCase()}
-          </Link>
+          </a>
         )
       })}
     </nav>

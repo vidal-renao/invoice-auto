@@ -49,19 +49,19 @@ export default function LandingPage() {
           <div className="flex items-center gap-3">
             <Link
               href={`/${locale}/demo/payments`}
-              className="whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium text-muted transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 sm:px-4"
+              className="whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium text-muted transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:px-4"
             >
               {t('nav.demo')}
             </Link>
             <Link
               href={`/${locale}/login`}
-              className="hidden rounded-md px-4 py-2 text-sm font-medium text-muted transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 sm:inline-block"
+              className="hidden rounded-md px-4 py-2 text-sm font-medium text-muted transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:inline-block"
             >
               {t('nav.signin')}
             </Link>
             <Link
               href={`/${locale}/register`}
-              className="whitespace-nowrap rounded-md bg-violet-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+              className="whitespace-nowrap rounded-md bg-violet-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               {t('nav.getStarted')}
             </Link>
@@ -87,13 +87,13 @@ export default function LandingPage() {
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
               href={`/${locale}/register`}
-              className="rounded-md bg-violet-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+              className="rounded-md bg-violet-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               {t('hero.cta')}
             </Link>
             <Link
               href={`/${locale}/login`}
-              className="rounded-md border border-line px-6 py-3 text-sm font-semibold text-muted transition-colors hover:border-faint hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+              className="rounded-md border border-line px-6 py-3 text-sm font-semibold text-muted transition-colors hover:border-faint hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               {t('hero.signin')}
             </Link>
@@ -187,7 +187,7 @@ export default function LandingPage() {
             <div className="mt-8">
               <Link
                 href={`/${locale}/demo/payments`}
-                className="inline-flex min-h-11 items-center gap-2 rounded-md border border-violet-500/40 bg-violet-500/10 px-5 text-sm font-semibold text-accent-text transition-colors hover:border-violet-400 hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+                className="inline-flex min-h-11 items-center gap-2 rounded-md border border-violet-500/40 bg-violet-500/10 px-5 text-sm font-semibold text-accent-text transition-colors hover:border-violet-400 hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
                 {t('payments.cta')} →
               </Link>
@@ -202,7 +202,7 @@ export default function LandingPage() {
             <p className="mb-8 text-base text-muted">{t('cta.subtitle')}</p>
             <Link
               href={`/${locale}/register`}
-              className="inline-flex items-center gap-2 rounded-md bg-violet-600 px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+              className="inline-flex items-center gap-2 rounded-md bg-violet-600 px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               {t('cta.button')}
             </Link>
@@ -222,14 +222,14 @@ export default function LandingPage() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex min-h-11 items-center rounded-md px-2 underline underline-offset-2 transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+                className="flex min-h-11 items-center rounded-md px-2 underline underline-offset-2 transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
                 {item.label}
               </Link>
             ))}
             <a
               href="mailto:vidalrenao.lab@outlook.com"
-              className="flex min-h-11 items-center rounded-md px-2 underline underline-offset-2 transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+              className="flex min-h-11 items-center rounded-md px-2 underline underline-offset-2 transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               vidalrenao.lab@outlook.com
             </a>

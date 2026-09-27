@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import type { LegalDocument } from '@/content/legal'
 
 interface LegalPageProps {
@@ -18,7 +20,7 @@ export async function LegalPage({ doc, locale }: LegalPageProps) {
         <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-4">
           <Link
             href={`/${locale}`}
-            className="flex min-h-11 items-center gap-2 rounded-md text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+            className="flex min-h-11 items-center gap-2 rounded-md text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           >
             <span
               className="flex h-7 w-7 items-center justify-center rounded-md bg-violet-600 text-xs font-bold text-white"
@@ -28,12 +30,16 @@ export async function LegalPage({ doc, locale }: LegalPageProps) {
             </span>
             Invoice Auto
           </Link>
-          <Link
-            href={`/${locale}`}
-            className="flex min-h-11 items-center rounded-md px-2 text-sm text-muted underline underline-offset-2 transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
-          >
-            {tc('backHome')}
-          </Link>
+          <div className="flex items-center gap-2">
+            <LocaleSwitcher />
+            <ThemeToggle />
+            <Link
+              href={`/${locale}`}
+              className="flex min-h-11 items-center rounded-md px-2 text-sm text-muted underline underline-offset-2 transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            >
+              {tc('backHome')}
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -83,7 +89,7 @@ export async function LegalPage({ doc, locale }: LegalPageProps) {
             <Link
               key={item.href}
               href={item.href}
-              className="flex min-h-11 items-center rounded-md px-2 underline underline-offset-2 transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+              className="flex min-h-11 items-center rounded-md px-2 underline underline-offset-2 transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               {item.label}
             </Link>

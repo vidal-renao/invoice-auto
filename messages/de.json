@@ -607,5 +607,11 @@
       "cta": "Mit eigenen Rechnungen testen",
       "backHome": "Start"
     }
+  },
+  "notFound": {
+    "title": "Diese Seite gibt es nicht",
+    "desc": "Der Link könnte falsch geschrieben sein, oder die Seite wurde verschoben.",
+    "cta": "Zurück zur Startseite",
+    "demo": "Zahlungs-Demo ansehen"
   }
 }

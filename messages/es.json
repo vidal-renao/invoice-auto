@@ -607,5 +607,11 @@
       "cta": "Probar con tus facturas",
       "backHome": "Inicio"
     }
+  },
+  "notFound": {
+    "title": "Esta página no existe",
+    "desc": "El enlace puede estar mal escrito o la página se movió.",
+    "cta": "Volver al inicio",
+    "demo": "Ver la demo de pagos"
   }
 }

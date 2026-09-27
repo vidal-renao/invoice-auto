@@ -14,7 +14,7 @@ interface MobileNavProps {
 
 const DRAWER_ID = 'mobile-nav-drawer'
 const FOCUS_RING =
-  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500'
+  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent'
 
 /**
  * Top bar + slide-in drawer for < md viewports.

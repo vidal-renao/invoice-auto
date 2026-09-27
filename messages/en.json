@@ -607,5 +607,11 @@
       "cta": "Try it with your invoices",
       "backHome": "Home"
     }
+  },
+  "notFound": {
+    "title": "This page does not exist",
+    "desc": "The link may be mistyped, or the page has moved.",
+    "cta": "Back to home",
+    "demo": "See the payments demo"
   }
 }
