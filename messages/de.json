@@ -127,7 +127,8 @@
     "mainNavigation": "Hauptnavigation",
     "menu": "Menü",
     "openMenu": "Menü öffnen",
-    "closeMenu": "Menü schließen"
+    "closeMenu": "Menü schließen",
+    "signedInAs": "Angemeldet als"
   },
   "scan": {
     "cta": "Beleg scannen",
@@ -169,10 +170,10 @@
       "title": "Ursache des Analysefehlers",
       "not_invoice": "Das Dokument scheint keine Rechnung oder Quittung zu sein",
       "image_unclear": "Das Bild ist unscharf oder unleserlich",
-      "timeout_8s": "Zeitüberschreitung (8 Sek.)",
       "parsing_failed": "KI-Antwort konnte nicht verarbeitet werden",
       "handwritten_only": "Handgeschriebenes Dokument — automatische Extraktion nicht verfügbar",
-      "unexpected_error": "Dieses Dokument konnte wegen eines technischen Fehlers nicht analysiert werden. Lade es erneut hoch; wenn es erneut passiert, schreib uns."
+      "unexpected_error": "Dieses Dokument konnte wegen eines technischen Fehlers nicht analysiert werden. Lade es erneut hoch; wenn es erneut passiert, schreib uns.",
+      "timeout": "Die Erfassung hat zu lange gedauert und wurde abgebrochen. Versuch es erneut; bei sehr grossen Dokumenten hilft ein kleineres Bild."
     },
     "details": {
       "vendor": "Anbieter",
@@ -186,7 +187,9 @@
       "confidence": "KI-Konfidenz",
       "taxRate": "Steuersatz",
       "reverseCharge": "Umkehrung der Steuerschuld",
-      "vatStatus": "MwSt.-Validierung"
+      "vatStatus": "MwSt.-Validierung",
+      "uploaded": "Hochgeladen",
+      "fileName": "Datei"
     },
     "client": {
       "title": "Kunde",

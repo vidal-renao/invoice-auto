@@ -126,6 +126,7 @@ export interface Database {
           id: string
           user_id: string
           receipt_path: string | null
+          original_filename: string | null
           vendor_name: string | null
           vendor_tax_id: string | null
           invoice_number: string | null
@@ -158,6 +159,7 @@ export interface Database {
           id?: string
           user_id: string
           receipt_path?: string | null
+          original_filename?: string | null
           vendor_name?: string | null
           vendor_tax_id?: string | null
           invoice_number?: string | null
@@ -187,6 +189,7 @@ export interface Database {
         }
         Update: {
           receipt_path?: string | null
+          original_filename?: string | null
           vendor_name?: string | null
           vendor_tax_id?: string | null
           invoice_number?: string | null

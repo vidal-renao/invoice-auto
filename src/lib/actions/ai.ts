@@ -92,10 +92,14 @@ const AUTO_APPROVE_CONFIDENCE = 0.85
 
 /**
  * Hard timeout for the Anthropic API call.
- * Must be comfortably below Vercel's serverless function limit (10s Hobby / 60s Pro).
- * Set conservatively so the catch block always runs before Vercel kills the process.
+ *
+ * It used to be 8s, and that is simply not enough: Claude Vision reading a
+ * full-page PDF takes 10-30s, so real invoices were aborted mid-extraction and
+ * landed as "Tiempo de espera agotado (8 s)". The routes that host this action
+ * declare `maxDuration = 60`, so 45s leaves 15s of headroom for the catch block
+ * to record the failure before Vercel kills the process.
  */
-const AI_TIMEOUT_MS = 8_000
+const AI_TIMEOUT_MS = 45_000
 
 /**
  * Analyse a receipt with Claude Vision, extract all fiscal fields, and run the
@@ -376,7 +380,7 @@ export async function analyzeReceipt(invoiceId: string): Promise<void> {
         supabase,
         'invoices'
       )
-        .update({ status: 'review_needed', failure_reason: 'timeout_8s', updated_at: new Date().toISOString() })
+        .update({ status: 'review_needed', failure_reason: 'timeout', updated_at: new Date().toISOString() })
         .eq('id', invoiceId)
         .eq('user_id', user.id)
 

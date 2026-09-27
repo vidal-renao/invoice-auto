@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { typedFrom } from '@/lib/supabase/builder'
 import type { Invoice, InvoiceInsert, InvoiceStatus } from '@/types/database'
+import { applyInvoiceFilters, type InvoiceFilters } from '@/lib/invoices/filters'
 import { COUNTRY_TAX_CONFIG } from '@/lib/tax/config'
 
 // ── Delete ────────────────────────────────────────────────────────────────────
@@ -120,13 +121,6 @@ export async function getInvoiceStatus(id: string): Promise<InvoiceStatus | null
 
 // ── Filter types ──────────────────────────────────────────────────────────────
 
-export interface InvoiceFilters {
-  vendor?: string
-  status?: string
-  currency?: string
-  dateFrom?: string
-  dateTo?: string
-}
 
 /**
  * Create an invoice record after a receipt has been uploaded to Storage.
@@ -137,7 +131,8 @@ export interface InvoiceFilters {
  * Returns the new invoice ID, or null on auth/DB failure.
  */
 export async function createInvoiceRecord(
-  receiptPath: string
+  receiptPath: string,
+  originalFilename?: string
 ): Promise<string | null> {
   const supabase = await createClient()
 
@@ -149,7 +144,12 @@ export async function createInvoiceRecord(
 
   const qb = typedFrom<Pick<Invoice, 'id'>, InvoiceInsert>(supabase, 'invoices')
   const { data, error } = await qb
-    .insert({ user_id: user.id, receipt_path: receiptPath, status: 'pending' })
+    .insert({
+      user_id: user.id,
+      receipt_path: receiptPath,
+      original_filename: originalFilename ?? null,
+      status: 'pending',
+    })
     .select('id')
     .single()
 
@@ -216,12 +216,7 @@ export async function listInvoices(filters?: InvoiceFilters): Promise<Invoice[]>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let q: any = supabase.from('invoices').select('*').eq('user_id', user.id)
 
-  if (filters?.status) q = q.eq('status', filters.status)
-  if (filters?.currency) q = q.eq('currency', filters.currency)
-  if (filters?.vendor) q = q.ilike('vendor_name', `%${filters.vendor}%`)
-  if (filters?.dateFrom) q = q.gte('invoice_date', filters.dateFrom)
-  if (filters?.dateTo) q = q.lte('invoice_date', filters.dateTo)
-
+  q = applyInvoiceFilters(q, filters)
   q = q.order('created_at', { ascending: false })
 
   const { data, error } = await q

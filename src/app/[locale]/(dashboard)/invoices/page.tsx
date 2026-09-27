@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 import { getTranslations } from 'next-intl/server'
 import { listInvoices } from '@/lib/actions/invoices'
-import type { InvoiceFilters } from '@/lib/actions/invoices'
+import type { InvoiceFilters } from '@/lib/invoices/filters'
 import { ScanTicketButton } from '@/components/dashboard/ScanTicketButton'
 import { InvoicesFilters } from '@/components/invoices/InvoicesFilters'
 import { ExportMenu } from '@/components/invoices/ExportMenu'
@@ -120,6 +120,9 @@ export default async function InvoicesPage({ params, searchParams }: InvoicesPag
                 <th className="hidden px-4 py-3 text-left text-xs font-medium text-muted md:table-cell">
                   {tInvoice('details.date')}
                 </th>
+                <th className="hidden px-4 py-3 text-left text-xs font-medium text-muted lg:table-cell">
+                  {tInvoice('details.uploaded')}
+                </th>
                 <th className="px-4 py-3 text-right text-xs font-medium text-muted">
                   {tInvoice('details.total')}
                 </th>
@@ -143,8 +146,8 @@ export default async function InvoicesPage({ params, searchParams }: InvoicesPag
                         <span className="text-faint">{t('unknownVendor')}</span>
                       )}
                     </Link>
-                    <p className="mt-0.5 font-mono text-[10px] text-faint">
-                      {invoice.id.slice(0, 8)}…
+                    <p className="mt-0.5 truncate text-[11px] text-faint" title={invoice.original_filename ?? undefined}>
+                      {invoice.original_filename ?? `${invoice.id.slice(0, 8)}…`}
                     </p>
                   </td>
                   <td className="hidden px-4 py-3 text-muted sm:table-cell">
@@ -154,6 +157,9 @@ export default async function InvoicesPage({ params, searchParams }: InvoicesPag
                     {invoice.invoice_date
                       ? formatDate(invoice.invoice_date, locale)
                       : '—'}
+                  </td>
+                  <td className="hidden px-4 py-3 text-muted lg:table-cell">
+                    {formatDate(invoice.created_at, locale)}
                   </td>
                   <td className="px-4 py-3 text-right font-medium text-ink">
                     {invoice.total_cents != null

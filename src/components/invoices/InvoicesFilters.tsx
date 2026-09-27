@@ -54,7 +54,7 @@ export function InvoicesFilters() {
       <select
         value={status}
         onChange={(e) => updateFilter('status', e.target.value)}
-        className={cn(inputClass, 'w-36 pr-7')}
+        className={cn(inputClass, 'w-auto min-w-[10.5rem] pr-8')}
         aria-label={t('allStatuses')}
       >
         <option value="">{t('allStatuses')}</option>
@@ -69,7 +69,7 @@ export function InvoicesFilters() {
       <select
         value={currency}
         onChange={(e) => updateFilter('currency', e.target.value)}
-        className={cn(inputClass, 'w-28 pr-7')}
+        className={cn(inputClass, 'w-auto min-w-[9.5rem] pr-8')}
         aria-label={t('allCurrencies')}
       >
         <option value="">{t('allCurrencies')}</option>
@@ -80,30 +80,33 @@ export function InvoicesFilters() {
         ))}
       </select>
 
-      {/* Date range */}
-      <input
-        type="date"
-        value={dateFrom}
-        onChange={(e) => updateFilter('dateFrom', e.target.value)}
-        className={cn(inputClass, 'w-36')}
-        aria-label={t('dateFrom')}
-        title={t('dateFrom')}
-      />
-      <span className="text-xs text-faint">–</span>
-      <input
-        type="date"
-        value={dateTo}
-        onChange={(e) => updateFilter('dateTo', e.target.value)}
-        className={cn(inputClass, 'w-36')}
-        aria-label={t('dateTo')}
-        title={t('dateTo')}
-      />
+      {/* Date range. The filter matches the invoice date when it is known and
+          the upload date when it is not, so a failed extraction is still
+          findable by when it arrived. */}
+      <label className="flex items-center gap-1.5 text-xs text-muted">
+        {t('dateFrom')}
+        <input
+          type="date"
+          value={dateFrom}
+          onChange={(e) => updateFilter('dateFrom', e.target.value)}
+          className={cn(inputClass, 'w-[9.5rem]')}
+        />
+      </label>
+      <label className="flex items-center gap-1.5 text-xs text-muted">
+        {t('dateTo')}
+        <input
+          type="date"
+          value={dateTo}
+          onChange={(e) => updateFilter('dateTo', e.target.value)}
+          className={cn(inputClass, 'w-[9.5rem]')}
+        />
+      </label>
 
       {/* Clear filters */}
       {hasFilters && (
         <button
           onClick={() => router.push(pathname)}
-          className="inline-flex h-8 items-center gap-1.5 rounded-md border border-line px-3 text-xs text-muted transition-colors hover:border-faint hover:text-ink"
+          className="inline-flex h-8 items-center gap-1.5 rounded-md border border-line px-3 text-xs text-muted transition-colors hover:border-line-strong hover:text-ink"
         >
           <svg
             viewBox="0 0 24 24"

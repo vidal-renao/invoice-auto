@@ -244,7 +244,9 @@ export function ScanTicketButton({ variant = 'hero' }: ScanTicketButtonProps) {
 
     // ── Create DB record (step 2) ──────────────────────────────────────────
     setStatus('creating')
-    const invoiceId = await createInvoiceRecord(path)
+    // `file` is the original the user picked; `fileToUpload` may be a JPEG we
+    // re-encoded, whose name is generated. The list shows the user's name.
+    const invoiceId = await createInvoiceRecord(path, file.name)
     if (!invoiceId) {
       setStatus('error')
       if (inputRef.current) inputRef.current.value = ''

@@ -90,7 +90,9 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
   const FAILURE_REASON_LABELS: Record<string, string> = {
     not_invoice:      t('failureReason.not_invoice'),
     image_unclear:    t('failureReason.image_unclear'),
-    timeout_8s:       t('failureReason.timeout_8s'),
+    timeout:          t('failureReason.timeout'),
+    // Rows written before the timeout was raised from 8s still carry this code.
+    timeout_8s:       t('failureReason.timeout'),
     parsing_failed:   t('failureReason.parsing_failed'),
     handwritten_only: t('failureReason.handwritten_only'),
   }
@@ -198,6 +200,30 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
 
         {/* ── Right column ────────────────────── (3/5) */}
         <div className="space-y-4 lg:col-span-3">
+
+          {/* What we know regardless of whether extraction worked. When it
+              fails, this is the only thing that identifies the document. */}
+          <div className="overflow-hidden rounded-xl border border-line bg-surface">
+            <div className="border-b border-line px-4 py-3">
+              <p className="text-xs font-medium text-muted">{t('details.uploaded')}</p>
+            </div>
+            <dl className="divide-y divide-elevated-2">
+              <div className="flex items-center justify-between gap-4 px-4 py-2.5 text-sm">
+                <dt className="text-muted">{t('details.uploaded')}</dt>
+                <dd className="font-medium text-ink">
+                  <time dateTime={invoice.created_at}>{formatDate(invoice.created_at, locale)}</time>
+                </dd>
+              </div>
+              {invoice.original_filename && (
+                <div className="flex items-center justify-between gap-4 px-4 py-2.5 text-sm">
+                  <dt className="shrink-0 text-muted">{t('details.fileName')}</dt>
+                  <dd className="truncate font-medium text-ink" title={invoice.original_filename}>
+                    {invoice.original_filename}
+                  </dd>
+                </div>
+              )}
+            </dl>
+          </div>
 
           {/* ── Fiscal breakdown ────────────────────── */}
           {invoice.total_cents != null && !isAnalyzingOnLoad && (

@@ -6,10 +6,11 @@ import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
-import { BrandMark, LogOutIcon, useDashboardNav } from './nav-items'
+import { BrandMark, LogOutIcon, useDashboardNav, type Account } from './nav-items'
 
 interface MobileNavProps {
   locale: string
+  account: Account
 }
 
 const DRAWER_ID = 'mobile-nav-drawer'
@@ -23,7 +24,7 @@ const FOCUS_RING =
  * document inert (focus trap), Escape closes it via the `cancel` event, and
  * the browser restores focus to the menu button on close.
  */
-export function MobileNav({ locale }: MobileNavProps) {
+export function MobileNav({ locale, account }: MobileNavProps) {
   const t = useTranslations('nav')
   const { items, logoutLabel, logout } = useDashboardNav(locale)
   const dialogRef = useRef<HTMLDialogElement>(null)
@@ -117,7 +118,21 @@ export function MobileNav({ locale }: MobileNavProps) {
             ))}
           </nav>
 
-          <div className="shrink-0 border-t border-line px-2 py-4">
+          <div className="shrink-0 border-t border-line px-2 py-3">
+            <div className="mb-1 flex items-center gap-2.5 px-3 py-2">
+              <span
+                className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-semibold text-white"
+                aria-hidden="true"
+              >
+                {(account.name ?? account.email).trim().charAt(0).toUpperCase()}
+              </span>
+              <span className="min-w-0">
+                <span className="block truncate text-sm font-medium text-ink">
+                  {account.name ?? account.email}
+                </span>
+                <span className="block truncate text-[11px] text-faint">{account.email}</span>
+              </span>
+            </div>
             <div className="mb-2 flex items-center justify-between gap-1 px-1">
               <LocaleSwitcher />
               <ThemeToggle />

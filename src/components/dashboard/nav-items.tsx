@@ -84,6 +84,12 @@ export function BrandMark() {
 
 // ── Shared navigation model (Sidebar + MobileNav) ───────────────────────────
 
+/** The signed-in account, shown in the sidebar and in the mobile drawer. */
+export interface Account {
+  name: string | null
+  email: string
+}
+
 export interface NavItem {
   href: string
   label: string

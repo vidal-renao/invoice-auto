@@ -127,7 +127,8 @@
     "mainNavigation": "Navegación principal",
     "menu": "Menú",
     "openMenu": "Abrir menú",
-    "closeMenu": "Cerrar menú"
+    "closeMenu": "Cerrar menú",
+    "signedInAs": "Sesión iniciada como"
   },
   "scan": {
     "cta": "Escanear Ticket",
@@ -169,10 +170,10 @@
       "title": "Motivo del fallo de análisis",
       "not_invoice": "El documento no parece ser una factura o recibo",
       "image_unclear": "La imagen es borrosa o ilegible",
-      "timeout_8s": "Tiempo de espera agotado (8 s)",
       "parsing_failed": "No se pudo interpretar la respuesta de la IA",
       "handwritten_only": "Documento manuscrito — extracción automática no disponible",
-      "unexpected_error": "No pudimos analizar este documento por un error técnico. Vuelve a subirlo; si se repite, escríbenos."
+      "unexpected_error": "No pudimos analizar este documento por un error técnico. Vuelve a subirlo; si se repite, escríbenos.",
+      "timeout": "La lectura tardó demasiado y se canceló. Vuelve a intentarlo; si el documento es muy grande, sube una foto más ligera."
     },
     "details": {
       "vendor": "Proveedor",
@@ -186,7 +187,9 @@
       "confidence": "Confianza IA",
       "taxRate": "Tipo impositivo",
       "reverseCharge": "Inversión sujeto pasivo",
-      "vatStatus": "Validación IVA"
+      "vatStatus": "Validación IVA",
+      "uploaded": "Subida",
+      "fileName": "Archivo"
     },
     "client": {
       "title": "Cliente",

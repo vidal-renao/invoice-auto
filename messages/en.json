@@ -127,7 +127,8 @@
     "mainNavigation": "Main navigation",
     "menu": "Menu",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "signedInAs": "Signed in as"
   },
   "scan": {
     "cta": "Scan Receipt",
@@ -169,10 +170,10 @@
       "title": "Analysis failure reason",
       "not_invoice": "The document does not appear to be an invoice or receipt",
       "image_unclear": "The image is blurry or unreadable",
-      "timeout_8s": "Request timed out (8 s)",
       "parsing_failed": "Could not parse the AI response",
       "handwritten_only": "Handwritten document — automatic extraction not available",
-      "unexpected_error": "We could not analyse this document because of a technical error. Upload it again; if it keeps happening, write to us."
+      "unexpected_error": "We could not analyse this document because of a technical error. Upload it again; if it keeps happening, write to us.",
+      "timeout": "Reading the document took too long and was cancelled. Try again; for very large documents a lighter image helps."
     },
     "details": {
       "vendor": "Vendor",
@@ -186,7 +187,9 @@
       "confidence": "AI confidence",
       "taxRate": "Tax rate",
       "reverseCharge": "Reverse charge",
-      "vatStatus": "VAT validation"
+      "vatStatus": "VAT validation",
+      "uploaded": "Uploaded",
+      "fileName": "File"
     },
     "client": {
       "title": "Client",

@@ -5,13 +5,38 @@ import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
-import { BrandMark, LogOutIcon, useDashboardNav } from './nav-items'
+import { BrandMark, LogOutIcon, useDashboardNav, type Account } from './nav-items'
 
 interface SidebarProps {
   locale: string
+  account: Account
 }
 
-export function Sidebar({ locale }: SidebarProps) {
+/** Who is signed in, with the initial as a cheap avatar. */
+function AccountCard({ account, label }: { account: Account; label: string }) {
+  const inicial = (account.name ?? account.email).trim().charAt(0).toUpperCase()
+  return (
+    <div className="flex items-center gap-2.5 px-3 py-2">
+      <span
+        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-semibold text-white"
+        aria-hidden="true"
+      >
+        {inicial}
+      </span>
+      <span className="min-w-0">
+        <span className="block truncate text-sm font-medium text-ink">
+          {account.name ?? account.email}
+        </span>
+        <span className="block truncate text-[11px] text-faint" title={`${label}: ${account.email}`}>
+          {account.email}
+        </span>
+      </span>
+    </div>
+  )
+}
+
+
+export function Sidebar({ locale, account }: SidebarProps) {
   const t = useTranslations('nav')
   const { items, logoutLabel, logout } = useDashboardNav(locale)
 
@@ -42,8 +67,9 @@ export function Sidebar({ locale }: SidebarProps) {
         ))}
       </nav>
 
-      {/* Language, theme and sign out */}
-      <div className="border-t border-line px-2 py-4">
+      {/* Account, language, theme and sign out */}
+      <div className="border-t border-line px-2 py-3">
+        <AccountCard account={account} label={t('signedInAs')} />
         <div className="mb-2 flex items-center justify-between gap-1 px-1">
           <LocaleSwitcher />
           <ThemeToggle />
