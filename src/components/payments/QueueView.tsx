@@ -105,7 +105,7 @@ function ItemCard({
         <p className="mt-3 text-xs">
           <Link
             href={readOnly ? `#account-${account.id}` : `${basePath}/suppliers#account-${account.id}`}
-            className="text-violet-300 underline hover:text-violet-200"
+            className="inline-flex min-h-11 items-center text-violet-300 underline underline-offset-2 hover:text-violet-200"
           >
             {t('queue.goVerify')}
           </Link>

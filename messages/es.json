@@ -317,11 +317,11 @@
       "cta": "Empezar gratis",
       "signin": "Iniciar sesión",
       "stat1Value": "< 10s",
-      "stat1Label": "Tiempo medio de extracción",
+      "stat1Label": "Extracción típica en nuestras pruebas internas",
       "stat2Value": "16",
       "stat2Label": "Jurisdicciones fiscales cubiertas",
-      "stat3Value": "100%",
-      "stat3Label": "Datos extraídos por IA"
+      "stat3Value": "0",
+      "stat3Label": "Campos introducidos a mano"
     },
     "how": {
       "label": "Cómo funciona",
@@ -349,6 +349,31 @@
       "title": "Deja de introducir facturas a mano",
       "subtitle": "Únete a Invoice Auto y deja que la IA gestione el papeleo mientras tú te centras en tu negocio.",
       "button": "Crear cuenta gratis"
+    },
+    "seo": {
+      "title": "Escanea tickets y facturas con IA · IVA de 16 países",
+      "description": "Sube una foto o un PDF y Claude Vision extrae proveedor, base imponible e IVA. Motor fiscal para España, Suiza, Alemania y 13 países más, con decisión de pagos SEPA y QR suiza.",
+      "ogAlt": "Invoice Auto — del ticket a la factura con el IVA resuelto",
+      "ogFooter": "16 jurisdicciones fiscales"
+    },
+    "payments": {
+      "label": "Pagos",
+      "title": "Aprobar una factura no es pagarla",
+      "desc": "El motor decide factura a factura: paga lo que no tiene incidencias, aparta lo que necesita otra mirada y detiene lo que no cuadra. Genera el fichero SEPA pain.001 listo para el banco.",
+      "b1": "IBAN impreso verificado",
+      "b1d": "Compara el IBAN del documento con la cuenta verificada del proveedor. Si no coinciden, se detiene.",
+      "b2": "QR-IBAN y referencia QR suizas",
+      "b2d": "Valida la referencia QR de 27 dígitos contra la QR-IBAN. Una sin la otra no se paga.",
+      "b3": "Umbral de doble revisión",
+      "b3d": "Por encima del importe que fijes, la factura espera a una segunda aprobación.",
+      "cta": "Ver la demo con datos reales"
+    },
+    "footer": {
+      "language": "Idioma",
+      "privacy": "Privacidad",
+      "terms": "Términos",
+      "imprint": "Aviso legal",
+      "legal": "Legal"
     }
   },
   "common": {

@@ -26,7 +26,7 @@ export function InvoicePaymentPanel({ invoiceId, queue, paymentsHref }: { invoic
         )}
         {item?.decision.overridden && <p className="text-xs text-violet-300">{t('queue.overridden')}</p>}
         {(item || settled) && (
-          <Link href={paymentsHref} className="inline-block text-xs text-violet-300 underline hover:text-violet-200">
+          <Link href={paymentsHref} className="inline-flex min-h-11 items-center text-xs text-violet-300 underline underline-offset-2 hover:text-violet-200">
             {t('invoicePanel.openQueue')}
           </Link>
         )}

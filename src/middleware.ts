@@ -1,13 +1,43 @@
 import createMiddleware from 'next-intl/middleware'
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
-import { type NextRequest } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import { routing } from './i18n/routing'
 
 const intlMiddleware = createMiddleware(routing)
 
+const LOCALE_PREFIX = new RegExp(`^/(${routing.locales.join('|')})(/|$)`)
+
+/**
+ * Spanish is the default locale, which also made it the landing place for every
+ * visitor whose language we do not speak: a French-speaking Swiss browser asked
+ * for fr-CH and got Spanish. English is the better fallback for an unknown
+ * language; es, de and en visitors are unaffected and keep their own language.
+ */
+function fallsBackToEnglish(request: NextRequest): boolean {
+  if (LOCALE_PREFIX.test(request.nextUrl.pathname)) return false
+  if (request.cookies.has('NEXT_LOCALE')) return false
+
+  const accepted = request.headers.get('accept-language')
+  if (!accepted) return false
+
+  const languages = accepted
+    .split(',')
+    .map((part) => part.split(';')[0]?.trim().toLowerCase().split('-')[0])
+    .filter(Boolean)
+
+  return languages.length > 0 && !languages.some((lang) => (routing.locales as readonly string[]).includes(lang!))
+}
+
 // Cambiamos el nombre a 'middleware' para que el build de Vercel no falle
 export async function middleware(request: NextRequest) {
-  const response = intlMiddleware(request)
+  const response = fallsBackToEnglish(request)
+    ? NextResponse.redirect(
+        new URL(
+          `/en${request.nextUrl.pathname === '/' ? '' : request.nextUrl.pathname}${request.nextUrl.search}`,
+          request.url
+        )
+      )
+    : intlMiddleware(request)
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

@@ -317,11 +317,11 @@
       "cta": "Start for free",
       "signin": "Sign in",
       "stat1Value": "< 10s",
-      "stat1Label": "Average extraction time",
+      "stat1Label": "Typical extraction in our own internal tests",
       "stat2Value": "16",
       "stat2Label": "Tax jurisdictions supported",
-      "stat3Value": "100%",
-      "stat3Label": "AI-extracted data"
+      "stat3Value": "0",
+      "stat3Label": "Fields typed by hand"
     },
     "how": {
       "label": "How it works",
@@ -349,6 +349,31 @@
       "title": "Stop entering invoices by hand",
       "subtitle": "Join Invoice Auto and let AI handle the paperwork while you focus on your business.",
       "button": "Create your free account"
+    },
+    "seo": {
+      "title": "Scan receipts and invoices with AI · VAT for 16 countries",
+      "description": "Upload a photo or a PDF and Claude Vision extracts supplier, net amount and VAT. Tax engine for Switzerland, Germany, Spain and 13 more countries, with SEPA and Swiss QR payment decisions.",
+      "ogAlt": "Invoice Auto — receipt in, invoice out, VAT handled",
+      "ogFooter": "16 tax jurisdictions"
+    },
+    "payments": {
+      "label": "Payments",
+      "title": "Approved is not the same as paid",
+      "desc": "The engine decides invoice by invoice: pay what is clean, hold what needs a second look, stop what does not add up. Out comes the SEPA pain.001 file for the bank.",
+      "b1": "Printed IBAN verified",
+      "b1d": "The IBAN on the document is checked against the supplier account you verified. If they differ, it stops.",
+      "b2": "Swiss QR-IBAN and QR reference",
+      "b2d": "The 27-digit QR reference is validated against the QR-IBAN. One without the other is never paid.",
+      "b3": "Second-approval threshold",
+      "b3d": "Above the amount you set, an invoice waits for a second approval.",
+      "cta": "See the demo with real data"
+    },
+    "footer": {
+      "language": "Language",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "imprint": "Legal notice",
+      "legal": "Legal"
     }
   },
   "common": {

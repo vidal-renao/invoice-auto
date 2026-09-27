@@ -2,10 +2,15 @@ import type { Metadata, Viewport } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import { getLocale } from 'next-intl/server'
+import { Analytics } from '@vercel/analytics/next'
 import { SwRegister } from '@/components/SwRegister'
+import { SITE_URL } from '@/lib/site'
 import './globals.css'
 
 export const metadata: Metadata = {
+  // Without it, Open Graph images resolve against the current host — a preview
+  // deployment would advertise preview URLs to whoever the link is shared with.
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'Invoice Auto',
     template: '%s · Invoice Auto',
@@ -46,6 +51,7 @@ export default async function RootLayout({
       >
         <SwRegister />
         {children}
+        <Analytics />
       </body>
     </html>
   )

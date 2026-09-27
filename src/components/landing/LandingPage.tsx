@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useTranslations, useLocale } from 'next-intl'
+import { LocaleSwitcher } from './LocaleSwitcher'
 
 export default function LandingPage() {
   const t = useTranslations('landing')
@@ -42,27 +43,28 @@ export default function LandingPage() {
             >
               IA
             </span>
-            <span className="text-sm font-semibold tracking-tight">Invoice Auto</span>
+            <span className="hidden text-sm font-semibold tracking-tight sm:inline">Invoice Auto</span>
           </div>
           <div className="flex items-center gap-3">
             <Link
               href={`/${locale}/demo/payments`}
-              className="hidden rounded-md px-4 py-2 text-sm font-medium text-[#888] transition-colors hover:text-[#ededed] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 sm:inline-block"
+              className="whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium text-[#a3a3a3] transition-colors hover:text-[#ededed] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 sm:px-4"
             >
               {t('nav.demo')}
             </Link>
             <Link
               href={`/${locale}/login`}
-              className="rounded-md px-4 py-2 text-sm font-medium text-[#888] transition-colors hover:text-[#ededed] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+              className="hidden rounded-md px-4 py-2 text-sm font-medium text-[#a3a3a3] transition-colors hover:text-[#ededed] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 sm:inline-block"
             >
               {t('nav.signin')}
             </Link>
             <Link
               href={`/${locale}/register`}
-              className="rounded-md bg-violet-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+              className="whitespace-nowrap rounded-md bg-violet-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
             >
               {t('nav.getStarted')}
             </Link>
+            <LocaleSwitcher className="hidden md:flex" />
           </div>
         </nav>
       </header>
@@ -158,6 +160,39 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* ── Payments engine — the Swiss/SEPA differentiator ── */}
+        <section className="border-t border-[#2a2a2a] bg-[#0d0d0d] py-20">
+          <div className="mx-auto max-w-6xl px-6">
+            <div className="mb-12 max-w-2xl">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-violet-400">
+                {t('payments.label')}
+              </p>
+              <h2 className="mb-4 text-3xl font-bold tracking-tight">{t('payments.title')}</h2>
+              <p className="text-base leading-relaxed text-[#a3a3a3]">{t('payments.desc')}</p>
+            </div>
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+              {[
+                { title: t('payments.b1'), desc: t('payments.b1d') },
+                { title: t('payments.b2'), desc: t('payments.b2d') },
+                { title: t('payments.b3'), desc: t('payments.b3d') },
+              ].map((item) => (
+                <div key={item.title} className="rounded-xl border border-[#2a2a2a] bg-[#111] p-5">
+                  <h3 className="mb-2 text-sm font-semibold">{item.title}</h3>
+                  <p className="text-xs leading-relaxed text-[#888]">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-8">
+              <Link
+                href={`/${locale}/demo/payments`}
+                className="inline-flex min-h-11 items-center gap-2 rounded-md border border-violet-500/40 bg-violet-500/10 px-5 text-sm font-semibold text-violet-300 transition-colors hover:border-violet-400 hover:text-violet-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+              >
+                {t('payments.cta')} →
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* ── Final CTA ──────────────────────────────────────── */}
         <section className="border-t border-[#2a2a2a] bg-[#0d0d0d] py-24">
           <div className="mx-auto max-w-2xl px-6 text-center">
@@ -174,16 +209,34 @@ export default function LandingPage() {
       </main>
 
       {/* ── Footer ─────────────────────────────────────────── */}
-      <footer className="border-t border-[#2a2a2a] px-6 py-8 text-center text-xs text-[#8a8a8a]">
-        <p>
-          © {new Date().getFullYear()} Invoice Auto ·{' '}
-          <a
-            href="mailto:vidalrenao.lab@outlook.com"
-            className="transition-colors hover:text-[#888]"
-          >
-            vidalrenao.lab@outlook.com
-          </a>
-        </p>
+      <footer className="border-t border-[#2a2a2a] px-6 py-10 text-xs text-[#8a8a8a]">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 md:flex-row md:items-center md:justify-between">
+          <nav aria-label={t('footer.legal')} className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+            {[
+              { href: `/${locale}/privacy`, label: t('footer.privacy') },
+              { href: `/${locale}/terms`, label: t('footer.terms') },
+              { href: `/${locale}/imprint`, label: t('footer.imprint') },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="flex min-h-11 items-center rounded-md px-2 underline underline-offset-2 transition-colors hover:text-[#ededed] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+              >
+                {item.label}
+              </Link>
+            ))}
+            <a
+              href="mailto:vidalrenao.lab@outlook.com"
+              className="flex min-h-11 items-center rounded-md px-2 underline underline-offset-2 transition-colors hover:text-[#ededed] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+            >
+              vidalrenao.lab@outlook.com
+            </a>
+          </nav>
+          <div className="flex items-center gap-4">
+            <LocaleSwitcher />
+            <p>© {new Date().getFullYear()} Invoice Auto</p>
+          </div>
+        </div>
       </footer>
     </div>
   )

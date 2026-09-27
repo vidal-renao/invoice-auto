@@ -317,11 +317,11 @@
       "cta": "Kostenlos starten",
       "signin": "Anmelden",
       "stat1Value": "< 10s",
-      "stat1Label": "Durchschn. Extraktionszeit",
+      "stat1Label": "Typische Erfassung in unseren internen Tests",
       "stat2Value": "16",
       "stat2Label": "Steuerregionen abgedeckt",
-      "stat3Value": "100%",
-      "stat3Label": "KI-extrahierte Daten"
+      "stat3Value": "0",
+      "stat3Label": "Manuell eingetippte Felder"
     },
     "how": {
       "label": "So funktioniert es",
@@ -349,6 +349,31 @@
       "title": "Schluss mit manueller Rechnungseingabe",
       "subtitle": "Nutze Invoice Auto und lass die KI den Papierkram erledigen, während du dich auf dein Business konzentrierst.",
       "button": "Kostenloses Konto erstellen"
+    },
+    "seo": {
+      "title": "Belege und Rechnungen mit KI erfassen · MWST für 16 Länder",
+      "description": "Foto oder PDF hochladen — Claude Vision liest Lieferant, Nettobetrag und MWST aus. Steuer-Engine für die Schweiz, Deutschland, Spanien und 13 weitere Länder, mit QR-Rechnung, QR-IBAN und pain.001.",
+      "ogAlt": "Invoice Auto — vom Beleg zur Rechnung, MWST inklusive",
+      "ogFooter": "16 Steuerjurisdiktionen"
+    },
+    "payments": {
+      "label": "Zahlungen",
+      "title": "Freigegeben heisst nicht bezahlt",
+      "desc": "Die Engine entscheidet pro Rechnung: bezahlen, prüfen oder stoppen. Daraus entsteht die pain.001-Datei für die Bank.",
+      "b1": "Gedruckte IBAN geprüft",
+      "b1d": "Die IBAN auf dem Beleg wird mit dem verifizierten Konto des Lieferanten verglichen. Weicht sie ab, wird gestoppt.",
+      "b2": "QR-IBAN und QR-Referenz",
+      "b2d": "Die 27-stellige QR-Referenz wird gegen die QR-IBAN geprüft. Eines ohne das andere wird nicht bezahlt.",
+      "b3": "Schwelle für Zweitfreigabe",
+      "b3d": "Über dem von dir gesetzten Betrag wartet die Rechnung auf eine zweite Freigabe.",
+      "cta": "Demo mit echten Daten ansehen"
+    },
+    "footer": {
+      "language": "Sprache",
+      "privacy": "Datenschutz",
+      "terms": "AGB",
+      "imprint": "Impressum",
+      "legal": "Rechtliches"
     }
   },
   "common": {

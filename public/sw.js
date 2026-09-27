@@ -7,7 +7,7 @@
  *  - Supabase API / Storage calls:           Network-only (never cache auth data)
  */
 
-const CACHE_VERSION = 'v1'
+const CACHE_VERSION = 'v2'
 const STATIC_CACHE = `invoice-auto-static-${CACHE_VERSION}`
 
 // Assets to pre-cache on install.
@@ -22,12 +22,24 @@ const PRECACHE_ASSETS = [
 
 // ── Install ───────────────────────────────────────────────────────────────────
 
+// cache.addAll() rejects as a whole if ANY request fails, and a rejected
+// install means the worker never activates: no offline, no cached assets, and
+// the "works offline" promise on the landing page becomes false. A missing
+// asset must degrade, not abort — so each one is cached on its own.
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
       .open(STATIC_CACHE)
-      .then((cache) => cache.addAll(PRECACHE_ASSETS))
-      .then(() => self.skipWaiting())
+      .then((cache) =>
+        Promise.allSettled(PRECACHE_ASSETS.map((asset) => cache.add(asset)))
+      )
+      .then((results) => {
+        const failed = results
+          .map((r, i) => (r.status === 'rejected' ? PRECACHE_ASSETS[i] : null))
+          .filter(Boolean)
+        if (failed.length) console.warn('[SW] not pre-cached:', failed.join(', '))
+        return self.skipWaiting()
+      })
   )
 })
 
