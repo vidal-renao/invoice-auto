@@ -242,7 +242,8 @@
       "allCurrencies": "All currencies",
       "dateFrom": "From",
       "dateTo": "To",
-      "clear": "Clear filters"
+      "clear": "Clear filters",
+      "apply": "Apply"
     },
     "loadError": "The invoice list could not be loaded.",
     "loadErrorHint": "The filter that was applied could not be queried. Clear the filters and try again.",

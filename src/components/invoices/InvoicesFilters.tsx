@@ -1,19 +1,33 @@
 'use client'
 
-import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { useCallback } from 'react'
+import { useRef } from 'react'
 import { cn } from '@/lib/utils'
 
 const STATUSES = ['pending', 'processing', 'review_needed', 'approved', 'rejected'] as const
 const CURRENCIES = ['EUR', 'CHF'] as const
 
+/**
+ * Filters as a plain GET form.
+ *
+ * This used to push the new query string with the client router. Every layer of
+ * that was verified to work in isolation — the select wrote the parameter, the
+ * server received it, the query was valid — and yet filtering did not work for
+ * the user, which means the failure lived somewhere between the client cache
+ * and the render that no log could see.
+ *
+ * A form removes the question instead of answering it: changing a filter is a
+ * real navigation, the server always re-renders, and the whole thing still
+ * works with JavaScript disabled or still loading. The script below only makes
+ * it feel instant; it is not what makes it work.
+ */
 export function InvoicesFilters() {
   const t = useTranslations('invoices.filters')
   const tInvoice = useTranslations('invoice')
-  const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const formRef = useRef<HTMLFormElement>(null)
 
   const vendor = searchParams.get('vendor') ?? ''
   const status = searchParams.get('status') ?? ''
@@ -22,38 +36,48 @@ export function InvoicesFilters() {
   const dateTo = searchParams.get('dateTo') ?? ''
   const hasFilters = vendor || status || currency || dateFrom || dateTo
 
-  const updateFilter = useCallback(
-    (key: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString())
-      if (value) params.set(key, value)
-      else params.delete(key)
-      router.push(`${pathname}?${params.toString()}`)
-    },
-    [pathname, router, searchParams]
-  )
+  /** Selects and dates apply immediately; the text box waits for Enter or blur. */
+  const enviar = () => formRef.current?.requestSubmit()
 
   const inputClass = cn(
-    'h-8 rounded-md border border-line bg-surface-2 px-3 text-sm text-ink',
-    'placeholder:text-faint focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-accent/30',
+    'h-9 rounded-md border border-line bg-surface-2 px-3 text-sm text-ink',
+    'placeholder:text-faint focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent/30',
     'transition-colors'
   )
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      {/* Vendor search */}
+    <form
+      ref={formRef}
+      method="get"
+      action={pathname}
+      className="flex flex-wrap items-center gap-2"
+      // An empty field would otherwise travel as `?status=` and look like a
+      // filter that is set to nothing.
+      onSubmit={(e) => {
+        const form = e.currentTarget
+        for (const campo of Array.from(form.elements)) {
+          const el = campo as HTMLInputElement | HTMLSelectElement
+          if (el.name && !el.value) el.disabled = true
+        }
+      }}
+    >
+      {/* Vendor or file name */}
       <input
         type="text"
+        name="vendor"
+        defaultValue={vendor}
         placeholder={t('vendorPlaceholder')}
-        value={vendor}
-        onChange={(e) => updateFilter('vendor', e.target.value)}
+        onBlur={(e) => {
+          if (e.currentTarget.value !== vendor) enviar()
+        }}
         className={cn(inputClass, 'w-44')}
         aria-label={t('vendorPlaceholder')}
       />
 
-      {/* Status filter */}
       <select
-        value={status}
-        onChange={(e) => updateFilter('status', e.target.value)}
+        name="status"
+        defaultValue={status}
+        onChange={enviar}
         className={cn(inputClass, 'w-auto min-w-[10.5rem] pr-8')}
         aria-label={t('allStatuses')}
       >
@@ -65,10 +89,10 @@ export function InvoicesFilters() {
         ))}
       </select>
 
-      {/* Currency filter */}
       <select
-        value={currency}
-        onChange={(e) => updateFilter('currency', e.target.value)}
+        name="currency"
+        defaultValue={currency}
+        onChange={enviar}
         className={cn(inputClass, 'w-auto min-w-[9.5rem] pr-8')}
         aria-label={t('allCurrencies')}
       >
@@ -80,15 +104,15 @@ export function InvoicesFilters() {
         ))}
       </select>
 
-      {/* Date range. The filter matches the invoice date when it is known and
-          the upload date when it is not, so a failed extraction is still
-          findable by when it arrived. */}
+      {/* The date matches the invoice date when known and the upload date when
+          not, so an invoice whose extraction failed is still findable. */}
       <label className="flex items-center gap-1.5 text-xs text-muted">
         {t('dateFrom')}
         <input
           type="date"
-          value={dateFrom}
-          onChange={(e) => updateFilter('dateFrom', e.target.value)}
+          name="dateFrom"
+          defaultValue={dateFrom}
+          onChange={enviar}
           className={cn(inputClass, 'w-[9.5rem]')}
         />
       </label>
@@ -96,17 +120,34 @@ export function InvoicesFilters() {
         {t('dateTo')}
         <input
           type="date"
-          value={dateTo}
-          onChange={(e) => updateFilter('dateTo', e.target.value)}
+          name="dateTo"
+          defaultValue={dateTo}
+          onChange={enviar}
           className={cn(inputClass, 'w-[9.5rem]')}
         />
       </label>
 
-      {/* Clear filters */}
+      {/* Without JavaScript this is how the form is submitted; with it, the
+          fields submit themselves and this is just a second way. */}
+      <button
+        type="submit"
+        className={cn(
+          'flex h-9 items-center rounded-md border border-line px-3 text-xs font-medium text-muted transition-colors',
+          'hover:border-line-strong hover:text-ink',
+          'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent'
+        )}
+      >
+        {t('apply')}
+      </button>
+
       {hasFilters && (
-        <button
-          onClick={() => router.push(pathname)}
-          className="inline-flex h-8 items-center gap-1.5 rounded-md border border-line px-3 text-xs text-muted transition-colors hover:border-line-strong hover:text-ink"
+        <a
+          href={pathname}
+          className={cn(
+            'flex h-9 items-center gap-1.5 rounded-md border border-line px-3 text-xs text-muted transition-colors',
+            'hover:border-line-strong hover:text-ink',
+            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent'
+          )}
         >
           <svg
             viewBox="0 0 24 24"
@@ -121,8 +162,8 @@ export function InvoicesFilters() {
             <path d="M18 6 6 18M6 6l12 12" />
           </svg>
           {t('clear')}
-        </button>
+        </a>
       )}
-    </div>
+    </form>
   )
 }

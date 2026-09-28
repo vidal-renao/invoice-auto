@@ -242,7 +242,8 @@
       "allCurrencies": "Todas las monedas",
       "dateFrom": "Desde",
       "dateTo": "Hasta",
-      "clear": "Limpiar filtros"
+      "clear": "Limpiar filtros",
+      "apply": "Filtrar"
     },
     "loadError": "No se pudo cargar la lista de facturas.",
     "loadErrorHint": "El filtro aplicado no se pudo consultar. Prueba a limpiar los filtros y volver a intentarlo.",

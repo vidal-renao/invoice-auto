@@ -242,7 +242,8 @@
       "allCurrencies": "Alle Währungen",
       "dateFrom": "Von",
       "dateTo": "Bis",
-      "clear": "Filter zurücksetzen"
+      "clear": "Filter zurücksetzen",
+      "apply": "Filtern"
     },
     "loadError": "Die Rechnungsliste konnte nicht geladen werden.",
     "loadErrorHint": "Der gesetzte Filter liess sich nicht abfragen. Setz die Filter zurück und versuch es erneut.",
