@@ -243,7 +243,10 @@
       "dateFrom": "From",
       "dateTo": "To",
       "clear": "Clear filters"
-    }
+    },
+    "loadError": "The invoice list could not be loaded.",
+    "loadErrorHint": "The filter that was applied could not be queried. Clear the filters and try again.",
+    "activeFilters": "Active filters"
   },
   "clients": {
     "title": "Vendors",

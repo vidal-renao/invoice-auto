@@ -77,6 +77,25 @@ export default async function InvoicesPage({ params, searchParams }: InvoicesPag
         <InvoicesFilters />
       </Suspense>
 
+      {/* What is actually being filtered, in words. Without it, a filter that
+          returns nothing is indistinguishable from an empty account, and one
+          that is still set from an earlier click is invisible. */}
+      {hasFilters && (
+        <p className="text-xs text-muted">
+          {t('activeFilters')}:{' '}
+          {[
+            filters.status && `${t('status')}: ${tInvoice(`status.${filters.status}`)}`,
+            filters.currency && filters.currency,
+            filters.vendor && `"${filters.vendor}"`,
+            filters.dateFrom && `${t('filters.dateFrom')} ${filters.dateFrom}`,
+            filters.dateTo && `${t('filters.dateTo')} ${filters.dateTo}`,
+          ]
+            .filter(Boolean)
+            .join(' · ')}{' '}
+          — {t('rowCount', { count: invoices.length })}
+        </p>
+      )}
+
       {/* ── List ─────────────────────────────────────────────────── */}
       {invoices.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-xl border border-line bg-surface py-20 text-center">

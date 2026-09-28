@@ -30,14 +30,26 @@ describe('applyInvoiceFilters', () => {
     expect(llamadas).toEqual([])
   })
 
-  it('matches status and currency exactly, and the vendor by substring', () => {
+  it('matches status and currency exactly', () => {
     const { q, llamadas } = consultaFalsa()
-    applyInvoiceFilters(q, { status: 'approved', currency: 'CHF', vendor: 'alpen' })
+    applyInvoiceFilters(q, { status: 'approved', currency: 'CHF' })
     expect(llamadas).toEqual([
       { metodo: 'eq', argumentos: ['status', 'approved'] },
       { metodo: 'eq', argumentos: ['currency', 'CHF'] },
-      { metodo: 'ilike', argumentos: ['vendor_name', '%alpen%'] },
     ])
+  })
+
+  it('searches the vendor and the file name, so failed extractions are findable', () => {
+    const { q, llamadas } = consultaFalsa()
+    applyInvoiceFilters(q, { vendor: 'alpen' })
+
+    // vendor_name is null on every failed extraction: matching it alone hid
+    // exactly the invoices that need a human.
+    expect(llamadas).toHaveLength(1)
+    expect(llamadas[0]!.metodo).toBe('or')
+    const expresion = String(llamadas[0]!.argumentos[0])
+    expect(expresion).toContain('vendor_name.ilike.%alpen%')
+    expect(expresion).toContain('original_filename.ilike.%alpen%')
   })
 
   it('falls back to the upload date when the invoice date is unknown', () => {
@@ -72,6 +84,6 @@ describe('applyInvoiceFilters', () => {
       dateFrom: '2026-01-01',
       dateTo: '2026-12-31',
     })
-    expect(llamadas.map((l) => l.metodo)).toEqual(['eq', 'eq', 'ilike', 'or', 'or'])
+    expect(llamadas.map((l) => l.metodo)).toEqual(['eq', 'eq', 'or', 'or', 'or'])
   })
 })

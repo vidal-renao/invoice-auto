@@ -26,7 +26,13 @@ export interface InvoiceFilters {
 export function applyInvoiceFilters(q: any, filters?: InvoiceFilters): any {
   if (filters?.status) q = q.eq('status', filters.status)
   if (filters?.currency) q = q.eq('currency', filters.currency)
-  if (filters?.vendor) q = q.ilike('vendor_name', `%${filters.vendor}%`)
+  if (filters?.vendor) {
+    // Searching the vendor used to drop every invoice whose extraction failed:
+    // their vendor_name is null, so ilike never matched. The file name is the
+    // only thing the user can recognise those by, so it is searched too.
+    const patron = `%${filters.vendor}%`
+    q = q.or(`vendor_name.ilike.${patron},original_filename.ilike.${patron}`)
+  }
 
   if (filters?.dateFrom) {
     q = q.or(

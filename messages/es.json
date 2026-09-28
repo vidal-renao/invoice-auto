@@ -243,7 +243,10 @@
       "dateFrom": "Desde",
       "dateTo": "Hasta",
       "clear": "Limpiar filtros"
-    }
+    },
+    "loadError": "No se pudo cargar la lista de facturas.",
+    "loadErrorHint": "El filtro aplicado no se pudo consultar. Prueba a limpiar los filtros y volver a intentarlo.",
+    "activeFilters": "Filtros activos"
   },
   "clients": {
     "title": "Proveedores",

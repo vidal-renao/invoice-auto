@@ -220,8 +220,23 @@ export async function listInvoices(filters?: InvoiceFilters): Promise<Invoice[]>
   q = q.order('created_at', { ascending: false })
 
   const { data, error } = await q
-  if (error || !data) return []
-  return data as Invoice[]
+
+  if (error) {
+    // Returning [] on error made a broken query look exactly like "no invoices
+    // match": the user saw an empty list and concluded the filter was broken,
+    // with nothing anywhere to say what actually happened.
+    console.error(
+      '[listInvoices] query failed',
+      JSON.stringify({ filters: filters ?? {}, code: error.code, message: error.message })
+    )
+    throw new Error(`listInvoices: ${error.message}`)
+  }
+
+  console.log(
+    '[listInvoices]',
+    JSON.stringify({ filters: filters ?? {}, rows: data?.length ?? 0 })
+  )
+  return (data ?? []) as Invoice[]
 }
 
 /**
