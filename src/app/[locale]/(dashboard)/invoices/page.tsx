@@ -154,7 +154,12 @@ export default async function InvoicesPage({ params, searchParams }: InvoicesPag
               {invoices.map((invoice) => (
                 <tr
                   key={invoice.id}
-                  className="group transition-colors hover:bg-surface-2"
+                  // `relative` is what scopes the row link's full-surface
+                  // overlay to this row. Without it the overlay resolves
+                  // against the page and covers everything above the table —
+                  // the filters included, so every click on them opened the
+                  // last invoice instead of filtering.
+                  className="group relative transition-colors hover:bg-surface-2"
                 >
                   <td className="px-4 py-3">
                     <Link

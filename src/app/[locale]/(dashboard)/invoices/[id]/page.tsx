@@ -190,6 +190,14 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
                   {t('viewPDF')}
                 </a>
               </div>
+            ) : invoice.receipt_path ? (
+              // There is a stored path but no signed URL: the object is gone
+              // from the bucket. "Sin archivo adjunto" would blame the user for
+              // something that happened on our side.
+              <div className="flex flex-col items-center gap-2 px-6 py-12 text-center">
+                <p className="text-sm font-medium text-warning-text">{t('missingReceipt')}</p>
+                <p className="max-w-xs text-xs leading-relaxed text-muted">{t('missingReceiptHint')}</p>
+              </div>
             ) : (
               <div className="flex items-center justify-center px-6 py-12">
                 <p className="text-sm text-faint">{t('noReceipt')}</p>
@@ -205,7 +213,7 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
               fails, this is the only thing that identifies the document. */}
           <div className="overflow-hidden rounded-xl border border-line bg-surface">
             <div className="border-b border-line px-4 py-3">
-              <p className="text-xs font-medium text-muted">{t('details.uploaded')}</p>
+              <p className="text-xs font-medium text-muted">{t('details.document')}</p>
             </div>
             <dl className="divide-y divide-elevated-2">
               <div className="flex items-center justify-between gap-4 px-4 py-2.5 text-sm">

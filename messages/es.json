@@ -189,7 +189,8 @@
       "reverseCharge": "Inversión sujeto pasivo",
       "vatStatus": "Validación IVA",
       "uploaded": "Subida",
-      "fileName": "Archivo"
+      "fileName": "Archivo",
+      "document": "Documento"
     },
     "client": {
       "title": "Cliente",
@@ -219,7 +220,9 @@
       "review_needed": "Requiere revisión",
       "approved": "Aprobada",
       "rejected": "Rechazada"
-    }
+    },
+    "missingReceipt": "El archivo ya no está disponible",
+    "missingReceiptHint": "La factura se subió, pero su archivo no está en el almacenamiento. Vuelve a subirlo para poder analizarlo."
   },
   "invoices": {
     "title": "Facturas",
