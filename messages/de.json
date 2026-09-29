@@ -128,7 +128,8 @@
     "menu": "Menü",
     "openMenu": "Menü öffnen",
     "closeMenu": "Menü schließen",
-    "signedInAs": "Angemeldet als"
+    "signedInAs": "Angemeldet als",
+    "billing": "Ausstellen"
   },
   "scan": {
     "cta": "Beleg scannen",
@@ -623,5 +624,105 @@
     "desc": "Der Link könnte falsch geschrieben sein, oder die Seite wurde verschoben.",
     "cta": "Zurück zur Startseite",
     "demo": "Zahlungs-Demo ansehen"
+  },
+  "billing": {
+    "title": "Ausgestellte Rechnungen",
+    "newInvoice": "Neue Rechnung",
+    "customers": "Kunden",
+    "back": "Zurück",
+    "reference": "Nummer",
+    "customer": "Kunde",
+    "issueDate": "Datum",
+    "dueDate": "Fällig",
+    "total": "Total",
+    "status": "Status",
+    "net": "Nettobetrag",
+    "vat": "MWST ({rate} %)",
+    "equivalence": "Ausgleichszuschlag",
+    "retention": "IRPF-Einbehalt ({rate} %)",
+    "amount": "Betrag",
+    "lines": "Positionen",
+    "description": "Position",
+    "descriptionPlaceholder": "Gestaltung der Firmenwebsite",
+    "quantity": "Menge",
+    "unitPrice": "Preis",
+    "addLine": "Position hinzufügen",
+    "removeLine": "Position entfernen",
+    "moreOptions": "Serie, Datum und Notizen",
+    "series": "Serie",
+    "notes": "Notizen",
+    "summary": "Was ausgestellt wird",
+    "fillToSee": "Kunde wählen und eine Position mit Betrag eingeben: Steuern und Einbehalte werden berechnet.",
+    "legalMentions": "Pflichtangaben",
+    "dueIn": "Zahlbar {days} Tage nach Ausstellung",
+    "issue": "Rechnung ausstellen",
+    "issuing": "Wird ausgestellt…",
+    "issueWarning": "Einmal ausgestellt lässt sie sich weder ändern noch löschen: Korrektur nur per Storno-Rechnung.",
+    "markPaid": "Als bezahlt markieren",
+    "printHint": "Im Browser drucken oder als PDF speichern",
+    "billTo": "Rechnung an",
+    "pendingTotal": "{amount} offen",
+    "noCustomers": "Noch keine Kunden",
+    "statuses": {
+      "issued": "Ausgestellt",
+      "paid": "Bezahlt",
+      "cancelled": "Storniert"
+    },
+    "empty": {
+      "title": "Noch keine Rechnung ausgestellt",
+      "description": "Kunde, Position und Betrag genügen: den Rest rechnet die Steuer-Engine."
+    },
+    "needCustomer": {
+      "title": "Zuerst ein Kunde",
+      "description": "Von Land und Kundentyp hängen MWST, Reverse Charge und Einbehalt ab.",
+      "cta": "Kunde anlegen"
+    },
+    "reasons": {
+      "domesticVatApplied": "Inlandsgeschäft: MWST des Ausstellers.",
+      "clientInOtherEuCountry": "Der Kunde ist ein Unternehmen aus einem anderen EU-Land.",
+      "vatNumberValidated": "Seine USt-IdNr. ist validiert.",
+      "noVatCharged": "Keine MWST ausgewiesen.",
+      "vatNumberNotValidated": "Die USt-IdNr. ist nicht in VIES validiert.",
+      "chargingDomesticVat": "Ohne diese Validierung muss die inländische MWST berechnet werden.",
+      "clientOutsideEu": "Der Kunde ist ausserhalb der EU.",
+      "serviceAbroad": "Leistung ausserhalb des Landes des Ausstellers.",
+      "euConsumerPaysIssuerVat": "Privatperson in der EU: zahlt die MWST des Ausstellers.",
+      "retentionProfessional": "Freiberufliche Tätigkeit an ein spanisches Unternehmen: 15 % Einbehalt.",
+      "retentionReducedNewActivity": "Erste drei Jahre: reduzierter Einbehalt von 7 %.",
+      "equivalenceSurcharge": "Der Kunde unterliegt dem Ausgleichszuschlag.",
+      "overrideNotLegalRate": "Der angegebene Satz existiert in diesem Land nicht; es gilt der Normalsatz."
+    },
+    "mentions": {
+      "reverseCharge": "Steuerfrei, Übergang der Steuerschuldnerschaft (Art. 196 der Richtlinie 2006/112/EG).",
+      "exportExempt": "Nicht steuerbar bzw. steuerfrei: Ausfuhr oder Leistung ausserhalb des Steuergebiets.",
+      "irpfWithholding": "IRPF-Einbehalt durch den Leistungsempfänger gemäss Art. 101 Ley 35/2006."
+    },
+    "errors": {
+      "validation": "Prüfe die Eingaben: etwas fehlt oder ein Betrag ist ungültig.",
+      "db": "Die Rechnung konnte nicht ausgestellt werden. Versuch es erneut.",
+      "not_found": "Kunde nicht gefunden.",
+      "auth": "Deine Sitzung ist abgelaufen. Melde dich erneut an."
+    },
+    "customerForm": {
+      "name": "Name oder Firma",
+      "taxId": "USt-IdNr. / UID",
+      "taxIdPlaceholder": "CHE-123.456.789, DE123456789…",
+      "country": "Land",
+      "kind": "Typ",
+      "business": "Unternehmen oder Selbstständige",
+      "individual": "Privatperson",
+      "email": "E-Mail",
+      "paymentTerms": "Zahlungsfrist in Tagen",
+      "paymentTermsHint": "Daraus ergibt sich das Fälligkeitsdatum",
+      "equivalence": "Ausgleichszuschlag",
+      "equivalenceHint": "Nur spanische Einzelhändler in diesem Regime",
+      "submit": "Kunde speichern",
+      "saved": "Kunde gespeichert",
+      "errors": {
+        "validation": "Prüfe die Kundendaten.",
+        "db": "Speichern fehlgeschlagen. Versuch es erneut.",
+        "auth": "Deine Sitzung ist abgelaufen."
+      }
+    }
   }
 }

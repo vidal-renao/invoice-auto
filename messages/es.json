@@ -128,7 +128,8 @@
     "menu": "Menú",
     "openMenu": "Abrir menú",
     "closeMenu": "Cerrar menú",
-    "signedInAs": "Sesión iniciada como"
+    "signedInAs": "Sesión iniciada como",
+    "billing": "Emitir"
   },
   "scan": {
     "cta": "Escanear Ticket",
@@ -623,5 +624,105 @@
     "desc": "El enlace puede estar mal escrito o la página se movió.",
     "cta": "Volver al inicio",
     "demo": "Ver la demo de pagos"
+  },
+  "billing": {
+    "title": "Facturas emitidas",
+    "newInvoice": "Nueva factura",
+    "customers": "Clientes",
+    "back": "Volver",
+    "reference": "Número",
+    "customer": "Cliente",
+    "issueDate": "Fecha",
+    "dueDate": "Vencimiento",
+    "total": "Total",
+    "status": "Estado",
+    "net": "Base imponible",
+    "vat": "IVA ({rate} %)",
+    "equivalence": "Recargo de equivalencia",
+    "retention": "Retención IRPF ({rate} %)",
+    "amount": "Importe",
+    "lines": "Conceptos",
+    "description": "Concepto",
+    "descriptionPlaceholder": "Diseño de la web corporativa",
+    "quantity": "Cant.",
+    "unitPrice": "Precio",
+    "addLine": "Añadir concepto",
+    "removeLine": "Quitar concepto",
+    "moreOptions": "Serie, fecha y notas",
+    "series": "Serie",
+    "notes": "Notas",
+    "summary": "Lo que se emitirá",
+    "fillToSee": "Elige un cliente y escribe un concepto con su importe: el IVA y las retenciones se calculan solos.",
+    "legalMentions": "Menciones obligatorias",
+    "dueIn": "Vence a {days} días de la emisión",
+    "issue": "Emitir factura",
+    "issuing": "Emitiendo…",
+    "issueWarning": "Una vez emitida no se puede editar ni borrar: se rectifica con otra factura.",
+    "markPaid": "Marcar cobrada",
+    "printHint": "Imprime o guarda como PDF desde el navegador",
+    "billTo": "Facturar a",
+    "pendingTotal": "{amount} pendientes de cobro",
+    "noCustomers": "Todavía no hay clientes",
+    "statuses": {
+      "issued": "Emitida",
+      "paid": "Cobrada",
+      "cancelled": "Anulada"
+    },
+    "empty": {
+      "title": "Aún no has emitido ninguna factura",
+      "description": "Con el cliente, el concepto y el importe basta: el resto lo calcula el motor fiscal."
+    },
+    "needCustomer": {
+      "title": "Primero, un cliente",
+      "description": "De su país y de si es empresa o particular depende el IVA, la inversión del sujeto pasivo y la retención.",
+      "cta": "Añadir cliente"
+    },
+    "reasons": {
+      "domesticVatApplied": "Operación nacional: se aplica el IVA del emisor.",
+      "clientInOtherEuCountry": "El cliente es una empresa de otro país de la UE.",
+      "vatNumberValidated": "Su NIF-IVA está validado.",
+      "noVatCharged": "No se repercute IVA.",
+      "vatNumberNotValidated": "Su NIF-IVA no está validado en VIES.",
+      "chargingDomesticVat": "Sin esa validación hay que repercutir el IVA nacional: emitir sin él dejaría la deuda en ti.",
+      "clientOutsideEu": "El cliente está fuera de la UE.",
+      "serviceAbroad": "Servicio prestado fuera del país del emisor.",
+      "euConsumerPaysIssuerVat": "Es un particular de la UE: paga el IVA del emisor.",
+      "retentionProfessional": "Actividad profesional facturando a empresa española: retención del 15 %.",
+      "retentionReducedNewActivity": "Primeros tres años de actividad: retención reducida del 7 %.",
+      "equivalenceSurcharge": "El cliente está en recargo de equivalencia.",
+      "overrideNotLegalRate": "El tipo indicado no existe en este país; se usa el general."
+    },
+    "mentions": {
+      "reverseCharge": "Operación exenta de IVA por inversión del sujeto pasivo (art. 84.Uno.2º LIVA / art. 196 Directiva 2006/112/CE).",
+      "exportExempt": "Operación no sujeta o exenta de IVA por tratarse de una exportación o servicio prestado fuera del territorio de aplicación del impuesto.",
+      "irpfWithholding": "Retención de IRPF practicada por el destinatario conforme al art. 101 de la Ley 35/2006."
+    },
+    "errors": {
+      "validation": "Revisa los datos: falta algo o hay un importe mal escrito.",
+      "db": "No se pudo emitir la factura. Inténtalo de nuevo.",
+      "not_found": "No se encontró el cliente.",
+      "auth": "Tu sesión ha caducado. Vuelve a entrar."
+    },
+    "customerForm": {
+      "name": "Nombre o razón social",
+      "taxId": "NIF / VAT",
+      "taxIdPlaceholder": "B12345678, DE123456789…",
+      "country": "País",
+      "kind": "Tipo",
+      "business": "Empresa o profesional",
+      "individual": "Particular",
+      "email": "Correo",
+      "paymentTerms": "Días de pago",
+      "paymentTermsHint": "Se usa para calcular el vencimiento",
+      "equivalence": "En recargo de equivalencia",
+      "equivalenceHint": "Solo minoristas españoles en ese régimen",
+      "submit": "Guardar cliente",
+      "saved": "Cliente guardado",
+      "errors": {
+        "validation": "Revisa los datos del cliente.",
+        "db": "No se pudo guardar. Inténtalo de nuevo.",
+        "auth": "Tu sesión ha caducado."
+      }
+    }
   }
 }

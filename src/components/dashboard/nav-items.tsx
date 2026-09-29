@@ -60,6 +60,15 @@ function SettingsIcon({ className }: IconProps) {
   )
 }
 
+function IssueIcon({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
+      <path d="M2.5 2.5h11v11l-2-1.2-2 1.2-2-1.2-2 1.2-2-1.2-1 .6Z" strokeLinejoin="round" />
+      <path d="M5 6h6M5 9h4" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 export function LogOutIcon({ className }: IconProps) {
   return (
     <svg className={className} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
@@ -111,6 +120,7 @@ export function useDashboardNav(locale: string): DashboardNav {
   const items = [
     { href: `/${locale}/dashboard`, label: t('dashboard'), Icon: GridIcon },
     { href: `/${locale}/invoices`, label: t('invoices'), Icon: FileIcon },
+    { href: `/${locale}/billing`, label: t('billing'), Icon: IssueIcon },
     { href: `/${locale}/payments`, label: t('payments'), Icon: PaymentIcon },
     { href: `/${locale}/clients`, label: t('clients'), Icon: UsersIcon },
     { href: `/${locale}/settings`, label: t('settings'), Icon: SettingsIcon },

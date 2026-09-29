@@ -128,7 +128,8 @@
     "menu": "Menu",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "signedInAs": "Signed in as"
+    "signedInAs": "Signed in as",
+    "billing": "Invoicing"
   },
   "scan": {
     "cta": "Scan Receipt",
@@ -623,5 +624,105 @@
     "desc": "The link may be mistyped, or the page has moved.",
     "cta": "Back to home",
     "demo": "See the payments demo"
+  },
+  "billing": {
+    "title": "Issued invoices",
+    "newInvoice": "New invoice",
+    "customers": "Customers",
+    "back": "Back",
+    "reference": "Number",
+    "customer": "Customer",
+    "issueDate": "Date",
+    "dueDate": "Due",
+    "total": "Total",
+    "status": "Status",
+    "net": "Net amount",
+    "vat": "VAT ({rate} %)",
+    "equivalence": "Equivalence surcharge",
+    "retention": "Income tax withholding ({rate} %)",
+    "amount": "Amount",
+    "lines": "Items",
+    "description": "Item",
+    "descriptionPlaceholder": "Corporate website design",
+    "quantity": "Qty",
+    "unitPrice": "Price",
+    "addLine": "Add item",
+    "removeLine": "Remove item",
+    "moreOptions": "Series, date and notes",
+    "series": "Series",
+    "notes": "Notes",
+    "summary": "What will be issued",
+    "fillToSee": "Pick a customer and write an item with its amount: tax and withholding are worked out for you.",
+    "legalMentions": "Required wording",
+    "dueIn": "Due {days} days after issue",
+    "issue": "Issue invoice",
+    "issuing": "Issuing…",
+    "issueWarning": "Once issued it cannot be edited or deleted: it is corrected with a credit note.",
+    "markPaid": "Mark as paid",
+    "printHint": "Print or save as PDF from your browser",
+    "billTo": "Bill to",
+    "pendingTotal": "{amount} outstanding",
+    "noCustomers": "No customers yet",
+    "statuses": {
+      "issued": "Issued",
+      "paid": "Paid",
+      "cancelled": "Cancelled"
+    },
+    "empty": {
+      "title": "You have not issued any invoice yet",
+      "description": "Customer, item and amount are enough: the tax engine does the rest."
+    },
+    "needCustomer": {
+      "title": "A customer first",
+      "description": "Their country and whether they are a business decide VAT, reverse charge and withholding.",
+      "cta": "Add customer"
+    },
+    "reasons": {
+      "domesticVatApplied": "Domestic supply: the issuer's VAT applies.",
+      "clientInOtherEuCountry": "The customer is a business in another EU country.",
+      "vatNumberValidated": "Their VAT number is validated.",
+      "noVatCharged": "No VAT is charged.",
+      "vatNumberNotValidated": "Their VAT number is not validated in VIES.",
+      "chargingDomesticVat": "Without that validation domestic VAT must be charged: issuing without it would leave the liability with you.",
+      "clientOutsideEu": "The customer is outside the EU.",
+      "serviceAbroad": "Service supplied outside the issuer's country.",
+      "euConsumerPaysIssuerVat": "An EU consumer pays the issuer's VAT.",
+      "retentionProfessional": "Professional activity billing a Spanish business: 15 % withholding.",
+      "retentionReducedNewActivity": "First three years of activity: reduced 7 % withholding.",
+      "equivalenceSurcharge": "The customer is under the equivalence surcharge regime.",
+      "overrideNotLegalRate": "That rate does not exist in this country; the standard one is used."
+    },
+    "mentions": {
+      "reverseCharge": "VAT exempt under the reverse charge mechanism (art. 196 of Directive 2006/112/EC).",
+      "exportExempt": "Outside the scope of, or exempt from, VAT: export or service supplied outside the tax territory.",
+      "irpfWithholding": "Income tax withheld by the recipient under art. 101 of Spanish Law 35/2006."
+    },
+    "errors": {
+      "validation": "Check the details: something is missing or an amount is malformed.",
+      "db": "The invoice could not be issued. Try again.",
+      "not_found": "Customer not found.",
+      "auth": "Your session expired. Sign in again."
+    },
+    "customerForm": {
+      "name": "Name or company",
+      "taxId": "Tax ID / VAT",
+      "taxIdPlaceholder": "B12345678, DE123456789…",
+      "country": "Country",
+      "kind": "Type",
+      "business": "Business or professional",
+      "individual": "Individual",
+      "email": "Email",
+      "paymentTerms": "Payment days",
+      "paymentTermsHint": "Used to work out the due date",
+      "equivalence": "Equivalence surcharge",
+      "equivalenceHint": "Spanish retailers under that regime only",
+      "submit": "Save customer",
+      "saved": "Customer saved",
+      "errors": {
+        "validation": "Check the customer details.",
+        "db": "Could not save. Try again.",
+        "auth": "Your session expired."
+      }
+    }
   }
 }
