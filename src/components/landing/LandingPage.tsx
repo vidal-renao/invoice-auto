@@ -130,6 +130,7 @@ export default function LandingPage() {
                     alt={t('showcase.issueAlt')}
                     width={2000}
                     height={856}
+                    sizes="(min-width: 1024px) 45vw, 92vw"
                     className="w-full dark:hidden"
                   />
                   <Image
@@ -137,6 +138,7 @@ export default function LandingPage() {
                     alt={t('showcase.issueAlt')}
                     width={2000}
                     height={856}
+                    sizes="(min-width: 1024px) 45vw, 92vw"
                     className="hidden w-full dark:block"
                   />
                 </div>
@@ -152,6 +154,7 @@ export default function LandingPage() {
                     alt={t('showcase.payAlt')}
                     width={2200}
                     height={1520}
+                    sizes="(min-width: 1024px) 45vw, 92vw"
                     className="w-full dark:hidden"
                   />
                   <Image
@@ -159,6 +162,7 @@ export default function LandingPage() {
                     alt={t('showcase.payAlt')}
                     width={2200}
                     height={1520}
+                    sizes="(min-width: 1024px) 45vw, 92vw"
                     className="hidden w-full dark:block"
                   />
                 </div>
