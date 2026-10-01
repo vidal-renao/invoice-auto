@@ -324,8 +324,8 @@
     },
     "hero": {
       "badge": "Impulsado por Claude Vision AI",
-      "headline": "Ticket dentro. Factura fuera. IVA resuelto.",
-      "subline": "Sube cualquier ticket o factura — Claude Vision extrae proveedor, importes e IVA automáticamente. Tu contabilidad, en piloto automático.",
+      "headline": "Emite, captura y paga facturas sin pelearte con el IVA",
+      "subline": "Escribe cliente, concepto e importe: el IVA, la retención y las menciones legales salen solos. Sube los gastos con una foto. Y antes de pagar, comprobamos a quién pagas.",
       "cta": "Empezar gratis",
       "signin": "Iniciar sesión",
       "stat1Value": "< 10s",
@@ -354,8 +354,8 @@
       "feat2Desc": "Cubre 16 países — España, Suiza, Alemania y más. Validación de IVA e inversión del sujeto pasivo integradas.",
       "feat3Title": "Multidivisa",
       "feat3Desc": "EUR, CHF, USD y más. Importes en céntimos enteros — sin errores de redondeo, nunca.",
-      "feat4Title": "PWA — funciona sin conexión",
-      "feat4Desc": "Instálala como una app nativa en cualquier dispositivo. Escanea tickets desde el móvil, revisa en escritorio."
+      "feat4Title": "Emite en tres campos",
+      "feat4Desc": "Cliente, concepto e importe. El resto —IVA, inversión del sujeto pasivo, retención, vencimiento— lo deriva el motor fiscal."
     },
     "cta": {
       "title": "Deja de introducir facturas a mano",
@@ -386,6 +386,22 @@
       "terms": "Términos",
       "imprint": "Aviso legal",
       "legal": "Legal"
+    },
+    "showcase": {
+      "label": "El producto",
+      "title": "Esto no es una maqueta",
+      "subtitle": "Las dos capturas salen de la aplicación en funcionamiento, con los números que calcula su propio motor fiscal.",
+      "issueCaption": "Emitir: tres campos. El IVA del 21 %, la retención del 15 % y la mención legal del art. 101 las pone el sistema, y explica por qué.",
+      "payCaption": "Pagar: cada factura se decide una a una —pagar, revisar o detener— con el motivo escrito al lado.",
+      "issueAlt": "Pantalla de emisión de factura con base imponible, IVA, retención de IRPF y menciones legales calculadas",
+      "payAlt": "Cola de decisión de pagos con facturas clasificadas en pagar, revisar y detener"
+    },
+    "qr": {
+      "label": "Acceso rápido",
+      "title": "Apunta con la cámara",
+      "description": "Para que nadie tenga que teclear la dirección: enséñalo desde el móvil, imprímelo en una tarjeta o ponlo en tus facturas.",
+      "alt": "Código QR que abre invoice-auto-xi.vercel.app",
+      "download": "Descargar el código"
     }
   },
   "common": {

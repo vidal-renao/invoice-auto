@@ -61,7 +61,7 @@ export default async function AuthLayout({
 
           {/* Footer hint */}
           <p className="mt-6 text-center text-xs text-muted">
-            Invoice Auto · Powered by Claude Vision AI
+            © {new Date().getFullYear()} Vidal Ecosystem · Invoice Auto
           </p>
         </div>
       </main>

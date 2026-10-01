@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+/* La variante `dark:` por defecto sigue la media query del sistema, pero aquí
+   manda `<html data-theme>`: si alguien elige claro con el sistema en oscuro,
+   `dark:` acertaría con los colores (que son variables CSS) y fallaría con
+   todo lo demás — por ejemplo al elegir qué captura mostrar. Esto la ata al
+   mismo criterio que los tokens. */
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+}
+
 /* ============================================================
    Design Tokens — Invoice Auto
    Vercel/Linear aesthetic, dark and light.

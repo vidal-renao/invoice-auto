@@ -324,8 +324,8 @@
     },
     "hero": {
       "badge": "Powered by Claude Vision AI",
-      "headline": "Beleg rein. Rechnung raus. Steuern erledigt.",
-      "subline": "Lade beliebige Belege oder Rechnungen hoch — Claude Vision extrahiert Lieferant, Beträge und Mehrwertsteuer automatisch. Deine Buchhaltung auf Autopilot.",
+      "headline": "Rechnungen stellen, erfassen und bezahlen — ohne MWST-Kopfzerbrechen",
+      "subline": "Kunde, Position und Betrag eingeben: MWST, Einbehalt und Pflichtangaben ergeben sich von selbst. Belege per Foto erfassen. Und vor der Zahlung prüfen wir, an wen sie geht.",
       "cta": "Kostenlos starten",
       "signin": "Anmelden",
       "stat1Value": "< 10s",
@@ -354,8 +354,8 @@
       "feat2Desc": "Deckt 16 Länder ab — Spanien, Schweiz, Deutschland und mehr. MwSt.-Validierung und Reverse-Charge integriert.",
       "feat3Title": "Mehrwährung",
       "feat3Desc": "EUR, CHF, USD und mehr. Beträge in ganzzahligen Cents — null Rundungsfehler, garantiert.",
-      "feat4Title": "PWA — offline nutzbar",
-      "feat4Desc": "Wie eine native App auf jedem Gerät installierbar. Belege mit dem Handy scannen, am Desktop prüfen."
+      "feat4Title": "Drei Felder genügen",
+      "feat4Desc": "Kunde, Position, Betrag. Den Rest — MWST, Reverse Charge, Einbehalt, Fälligkeit — leitet die Steuer-Engine ab."
     },
     "cta": {
       "title": "Schluss mit manueller Rechnungseingabe",
@@ -386,6 +386,22 @@
       "terms": "AGB",
       "imprint": "Impressum",
       "legal": "Rechtliches"
+    },
+    "showcase": {
+      "label": "Das Produkt",
+      "title": "Kein Mockup",
+      "subtitle": "Beide Aufnahmen stammen aus der laufenden Anwendung, mit den Zahlen ihrer eigenen Steuer-Engine.",
+      "issueCaption": "Ausstellen: drei Felder. MWST, Einbehalt und Pflichtangaben setzt das System — und erklärt warum.",
+      "payCaption": "Bezahlen: jede Rechnung wird einzeln entschieden — zahlen, prüfen oder stoppen — mit dem Grund daneben.",
+      "issueAlt": "Bildschirm zur Rechnungsstellung mit Nettobetrag, MWST, Einbehalt und Pflichtangaben",
+      "payAlt": "Entscheidungsliste für Zahlungen mit Rechnungen in zahlen, prüfen und stoppen"
+    },
+    "qr": {
+      "label": "Schnellzugriff",
+      "title": "Mit der Kamera scannen",
+      "description": "Damit niemand die Adresse tippen muss: vom Handy zeigen, auf eine Karte drucken oder auf die Rechnungen setzen.",
+      "alt": "QR-Code, der invoice-auto-xi.vercel.app öffnet",
+      "download": "Code herunterladen"
     }
   },
   "common": {

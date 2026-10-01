@@ -94,6 +94,7 @@ export async function LegalPage({ doc, locale }: LegalPageProps) {
               {item.label}
             </Link>
           ))}
+          <span className="ml-auto py-2">© {new Date().getFullYear()} Vidal Ecosystem</span>
         </nav>
       </footer>
     </div>

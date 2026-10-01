@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useTranslations, useLocale } from 'next-intl'
 import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
@@ -110,6 +111,65 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* ── El producto, en capturas reales ────────────────── */}
+        <section className="border-t border-line bg-canvas-alt py-20">
+          <div className="mx-auto max-w-6xl px-6">
+            <div className="mb-12 max-w-2xl">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent-text">
+                {t('showcase.label')}
+              </p>
+              <h2 className="mb-4 text-3xl font-bold tracking-tight">{t('showcase.title')}</h2>
+              <p className="text-base leading-relaxed text-muted">{t('showcase.subtitle')}</p>
+            </div>
+
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+              <figure className="space-y-3">
+                <div className="overflow-hidden rounded-xl border border-line bg-surface">
+                  <Image
+                    src="/capturas/emitir-light.png"
+                    alt={t('showcase.issueAlt')}
+                    width={2000}
+                    height={856}
+                    className="w-full dark:hidden"
+                  />
+                  <Image
+                    src="/capturas/emitir-dark.png"
+                    alt={t('showcase.issueAlt')}
+                    width={2000}
+                    height={856}
+                    className="hidden w-full dark:block"
+                  />
+                </div>
+                <figcaption className="text-sm leading-relaxed text-muted">
+                  {t('showcase.issueCaption')}
+                </figcaption>
+              </figure>
+
+              <figure className="space-y-3">
+                <div className="overflow-hidden rounded-xl border border-line bg-surface">
+                  <Image
+                    src="/capturas/pagos-light.png"
+                    alt={t('showcase.payAlt')}
+                    width={2200}
+                    height={1520}
+                    className="w-full dark:hidden"
+                  />
+                  <Image
+                    src="/capturas/pagos-dark.png"
+                    alt={t('showcase.payAlt')}
+                    width={2200}
+                    height={1520}
+                    className="hidden w-full dark:block"
+                  />
+                </div>
+                <figcaption className="text-sm leading-relaxed text-muted">
+                  {t('showcase.payCaption')}
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
         {/* ── How it Works ───────────────────────────────────── */}
         <section className="border-t border-line bg-canvas-alt py-20">
           <div className="mx-auto max-w-6xl px-6">
@@ -195,6 +255,36 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* ── Acceso por QR ──────────────────────────────────── */}
+        <section className="border-t border-line py-20">
+          <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-6 sm:grid-cols-[auto_1fr]">
+            <div className="mx-auto rounded-xl border border-line bg-white p-4 sm:mx-0">
+              <Image
+                src="/qr/invoice-auto.svg"
+                alt={t('qr.alt')}
+                width={200}
+                height={200}
+                className="h-44 w-44"
+                unoptimized
+              />
+            </div>
+            <div>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent-text">
+                {t('qr.label')}
+              </p>
+              <h2 className="mb-3 text-2xl font-bold tracking-tight">{t('qr.title')}</h2>
+              <p className="mb-5 max-w-lg text-base leading-relaxed text-muted">{t('qr.description')}</p>
+              <a
+                href="/qr/invoice-auto.png"
+                download
+                className="inline-flex min-h-11 items-center rounded-md border border-line px-4 text-sm font-medium text-muted transition-colors hover:border-line-strong hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                {t('qr.download')}
+              </a>
+            </div>
+          </div>
+        </section>
+
         {/* ── Final CTA ──────────────────────────────────────── */}
         <section className="border-t border-line bg-canvas-alt py-24">
           <div className="mx-auto max-w-2xl px-6 text-center">
@@ -237,7 +327,7 @@ export default function LandingPage() {
           <div className="flex items-center gap-2">
             <LocaleSwitcher />
             <ThemeToggle className="md:hidden" />
-            <p>© {new Date().getFullYear()} Invoice Auto</p>
+            <p>© {new Date().getFullYear()} Vidal Ecosystem</p>
           </div>
         </div>
       </footer>

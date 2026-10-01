@@ -324,8 +324,8 @@
     },
     "hero": {
       "badge": "Powered by Claude Vision AI",
-      "headline": "Receipt in. Invoice out. Taxes handled.",
-      "subline": "Upload any receipt or bill — Claude Vision extracts vendor, amounts and VAT automatically. Your bookkeeping, on autopilot.",
+      "headline": "Issue, capture and pay invoices without fighting VAT",
+      "subline": "Type customer, item and amount: VAT, withholding and the required legal wording follow on their own. Capture expenses with a photo. And before you pay, we check who you are paying.",
       "cta": "Start for free",
       "signin": "Sign in",
       "stat1Value": "< 10s",
@@ -354,8 +354,8 @@
       "feat2Desc": "Covers 16 countries — Spain, Switzerland, Germany and more. VAT validation and reverse-charge detection built in.",
       "feat3Title": "Multi-currency",
       "feat3Desc": "EUR, CHF, USD and more. Amounts stored in integer cents — zero rounding errors, ever.",
-      "feat4Title": "PWA — works offline",
-      "feat4Desc": "Install it like a native app on any device. Scan receipts from your phone, review on desktop."
+      "feat4Title": "Issue in three fields",
+      "feat4Desc": "Customer, item and amount. The rest — VAT, reverse charge, withholding, due date — is derived by the tax engine."
     },
     "cta": {
       "title": "Stop entering invoices by hand",
@@ -386,6 +386,22 @@
       "terms": "Terms",
       "imprint": "Legal notice",
       "legal": "Legal"
+    },
+    "showcase": {
+      "label": "The product",
+      "title": "This is not a mockup",
+      "subtitle": "Both screenshots come from the running application, with the numbers its own tax engine computes.",
+      "issueCaption": "Issuing: three fields. VAT, withholding and the required legal wording are set by the system, which explains why.",
+      "payCaption": "Paying: every invoice is decided one by one — pay, review or stop — with the reason next to it.",
+      "issueAlt": "Invoice issuing screen showing net amount, VAT, income tax withholding and legal wording",
+      "payAlt": "Payment decision queue with invoices sorted into pay, review and stop"
+    },
+    "qr": {
+      "label": "Quick access",
+      "title": "Point your camera",
+      "description": "So nobody has to type the address: show it from your phone, print it on a card or put it on your invoices.",
+      "alt": "QR code that opens invoice-auto-xi.vercel.app",
+      "download": "Download the code"
     }
   },
   "common": {
