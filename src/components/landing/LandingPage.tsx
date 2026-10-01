@@ -131,6 +131,7 @@ export default function LandingPage() {
                     width={2000}
                     height={856}
                     sizes="(min-width: 1024px) 45vw, 92vw"
+                    fetchPriority="low"
                     className="w-full dark:hidden"
                   />
                   <Image
@@ -139,6 +140,7 @@ export default function LandingPage() {
                     width={2000}
                     height={856}
                     sizes="(min-width: 1024px) 45vw, 92vw"
+                    fetchPriority="low"
                     className="hidden w-full dark:block"
                   />
                 </div>
@@ -155,6 +157,7 @@ export default function LandingPage() {
                     width={2200}
                     height={1520}
                     sizes="(min-width: 1024px) 45vw, 92vw"
+                    fetchPriority="low"
                     className="w-full dark:hidden"
                   />
                   <Image
@@ -163,6 +166,7 @@ export default function LandingPage() {
                     width={2200}
                     height={1520}
                     sizes="(min-width: 1024px) 45vw, 92vw"
+                    fetchPriority="low"
                     className="hidden w-full dark:block"
                   />
                 </div>
